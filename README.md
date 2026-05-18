@@ -22,22 +22,35 @@ Ce dépôt comble ce vide.
 
 ## Résultats
 
-**[AERODROMES.md](./AERODROMES.md)** — Liste complète des aérodromes français
-avec leur(s) carburant(s) essence aviation, auto-générée à chaque cycle AIRAC.
+- **Carte interactive** : <https://natim.github.io/french-ul91-superplus-aerodrome/>
+- **[AERODROMES.md](./AERODROMES.md)** — Liste lisible avec répartition par
+  carburant et cycle AIRAC.
 
-### Fichiers de données
+### Fichiers produits par le script
 
 | Fichier | Contenu |
 |---|---|
-| [`AERODROMES.md`](./AERODROMES.md) | Liste lisible (Markdown) des terrains UL91/Super Plus, avec répartition par carburant et cycle AIRAC. |
-| [`avgas_ul91.csv`](./avgas_ul91.csv) | Les terrains filtrés UL91-équivalent. |
+| [`docs/index.html`](./docs/index.html) | Carte Leaflet/OSM autonome, déployée sur GitHub Pages. |
+| [`AERODROMES.md`](./AERODROMES.md) | Liste Markdown des terrains UL91/Super Plus. |
+| [`avgas_ul91.csv`](./avgas_ul91.csv) | Terrains filtrés UL91-équivalent (avec coordonnées). |
 | [`avgas_full.csv`](./avgas_full.csv) | Les 420 terrains français avec leur section avitaillement brute. |
 
-Colonnes CSV : `icao`, `name`, `fuels` (pipe-séparé), `avt_excerpt` (texte brut
-de la section « 10 - AVT »).
+Colonnes CSV : `icao`, `name`, `fuels` (pipe-séparé), `lat`, `lon` (degrés
+décimaux), `avt_excerpt` (texte brut de la section « 10 - AVT »).
 
-Les trois fichiers sont régénérés à chaque exécution du script — voir la
+Tous ces fichiers sont régénérés à chaque exécution du script — voir la
 section [Régénérer les données](#régénérer-les-données).
+
+### Activer GitHub Pages
+
+1. Sur GitHub, ouvrir **Settings → Pages**.
+2. **Source** : `Deploy from a branch`.
+3. **Branch** : `main` · **Folder** : `/docs`.
+4. Sauvegarder. La carte sera servie à
+   `https://<owner>.github.io/french-ul91-superplus-aerodrome/`.
+
+La page est entièrement statique (HTML autonome, Leaflet via CDN, tuiles
+OpenStreetMap), aucun build step nécessaire.
 
 ## Méthodologie
 
@@ -76,12 +89,13 @@ section [Régénérer les données](#régénérer-les-données).
        --vac-dir ./extracted/Atlas-VAC/PDF_AIPparSSection/VAC/AD
    ```
 
-Le script produit trois fichiers à la racine du dépôt (chemins surchargeables
-via `--out`, `--ul91-out`, `--md-out`) :
+Le script produit quatre fichiers (chemins surchargeables via `--out`,
+`--ul91-out`, `--md-out`, `--map-out`) :
 
 - `avgas_full.csv` — données brutes complètes
 - `avgas_ul91.csv` — filtre UL91-équivalent
 - `AERODROMES.md` — version Markdown lisible
+- `docs/index.html` — carte Leaflet pour GitHub Pages
 
 Le cycle AIRAC est auto-détecté depuis l'arborescence du paquet eAIP
 (on peut le forcer avec `--airac YYYY-MM-DD`).

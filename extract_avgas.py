@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import re
 import subprocess
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -59,6 +60,13 @@ FUEL_LABELS = {
 }
 
 AIRAC_DIR_RE = re.compile(r"AIRAC-(\d{4}-\d{2}-\d{2})")
+
+LAT_RE = re.compile(
+    r"LAT\s*:\s*(\d{1,3})\s+(\d{1,2})\s+(\d{1,2})\s*([NS])", re.IGNORECASE
+)
+LON_RE = re.compile(
+    r"LONG\s*:\s*(\d{1,3})\s+(\d{1,2})\s+(\d{1,2})\s*([EW])", re.IGNORECASE
+)
 
 NAME_BLOCKLIST = {
     "APPROCHE A VUE",
@@ -120,6 +128,23 @@ def detect_fuels(section: str) -> list[str]:
     return sorted(name for name, pat in FUEL_PATTERNS.items() if pat.search(section))
 
 
+def _dms_to_decimal(deg: str, minutes: str, seconds: str, hemi: str) -> float:
+    value = int(deg) + int(minutes) / 60 + int(seconds) / 3600
+    return -value if hemi.upper() in ("S", "W") else round(value, 6)
+
+
+def extract_coordinates(text: str) -> tuple[float | None, float | None]:
+    """Extrait latitude/longitude depuis l'en-tête du VAC (DMS → décimal)."""
+    head = "\n".join(text.splitlines()[:20])
+    lat_match = LAT_RE.search(head)
+    lon_match = LON_RE.search(head)
+    if not (lat_match and lon_match):
+        return None, None
+    lat = _dms_to_decimal(*lat_match.groups())
+    lon = _dms_to_decimal(*lon_match.groups())
+    return round(lat, 6), round(lon, 6)
+
+
 def extract_aerodrome_name(text: str) -> str:
     """Cherche le nom du terrain dans l'en-tête du VAC.
 
@@ -150,11 +175,20 @@ def process_one(pdf_path: Path) -> dict[str, str] | None:
 
     text = extract_text(pdf_path)
     if not text:
-        return {"icao": icao, "name": "", "fuels": "", "avt_excerpt": "", "error": "no_text"}
+        return {
+            "icao": icao,
+            "name": "",
+            "fuels": "",
+            "lat": "",
+            "lon": "",
+            "avt_excerpt": "",
+            "error": "no_text",
+        }
 
     section = extract_avt_section(text)
     fuels = detect_fuels(section)
     name = extract_aerodrome_name(text)
+    lat, lon = extract_coordinates(text)
 
     excerpt = re.sub(r"\s+", " ", section).strip()[:300]
 
@@ -162,6 +196,8 @@ def process_one(pdf_path: Path) -> dict[str, str] | None:
         "icao": icao,
         "name": name,
         "fuels": "|".join(fuels),
+        "lat": f"{lat:.6f}" if lat is not None else "",
+        "lon": f"{lon:.6f}" if lon is not None else "",
         "avt_excerpt": excerpt,
         "error": "",
     }
@@ -242,6 +278,152 @@ def render_markdown(
     return "\n".join(lines)
 
 
+def _marker_category(fuels: set[str]) -> str:
+    has_unleaded = bool(fuels & {"UL91", "UL_AERO"})
+    has_super_plus = "SUPER_PLUS" in fuels
+    if has_unleaded and has_super_plus:
+        return "both"
+    if has_unleaded:
+        return "ul91"
+    if has_super_plus:
+        return "super_plus"
+    return "other"
+
+
+def render_map(ul91_rows: list[dict[str, str]], airac: str) -> str:
+    """Génère une page HTML Leaflet/OSM autonome avec un marqueur par terrain."""
+    points = []
+    for r in ul91_rows:
+        if not r.get("lat") or not r.get("lon"):
+            continue
+        fuels_set = {f for f in r["fuels"].split("|") if f}
+        fuels_human = ", ".join(
+            FUEL_LABELS.get(f, f) for f in sorted(fuels_set)
+        )
+        points.append(
+            {
+                "icao": r["icao"],
+                "name": r["name"],
+                "fuels": sorted(fuels_set),
+                "fuels_human": fuels_human,
+                "category": _marker_category(fuels_set),
+                "lat": float(r["lat"]),
+                "lon": float(r["lon"]),
+            }
+        )
+    data_json = json.dumps(points, ensure_ascii=False, indent=2)
+    updated = date.today().isoformat()
+    return f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aérodromes UL91 / Super Plus — France</title>
+<link rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin="" />
+<style>
+  html, body {{ margin: 0; padding: 0; height: 100%; font-family: system-ui, sans-serif; }}
+  #map {{ position: absolute; inset: 0; }}
+  .info-panel {{
+    position: absolute; top: 12px; right: 12px; z-index: 1000;
+    background: rgba(255,255,255,0.95); padding: 12px 16px;
+    border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    font-size: 13px; max-width: 280px;
+  }}
+  .info-panel h1 {{ margin: 0 0 6px; font-size: 15px; }}
+  .info-panel .meta {{ color: #666; font-size: 11px; margin-bottom: 8px; }}
+  .legend {{ margin-top: 8px; }}
+  .legend label {{
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer; user-select: none; line-height: 1.6;
+  }}
+  .legend .dot {{
+    display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid white; box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+  }}
+  .dot-ul91 {{ background: #2ecc71; }}
+  .dot-super_plus {{ background: #f39c12; }}
+  .dot-both {{ background: #3498db; }}
+  .popup-icao {{ font-weight: bold; font-size: 14px; }}
+  .popup-name {{ margin: 4px 0; }}
+  .popup-fuels {{ font-size: 12px; color: #444; }}
+  a {{ color: #3498db; }}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div class="info-panel">
+  <h1>Essence aviation en France</h1>
+  <div class="meta">
+    {len(points)} terrains · AIRAC {airac} · MAJ {updated}<br>
+    Source : <a href="https://www.sia.aviation-civile.gouv.fr/" target="_blank" rel="noopener">eAIP SIA</a> ·
+    <a href="https://github.com/Natim/french-ul91-superplus-aerodrome" target="_blank" rel="noopener">Code</a>
+  </div>
+  <div class="legend">
+    <label><input type="checkbox" data-cat="ul91" checked>
+      <span class="dot dot-ul91"></span>UL91 / UL AERO</label>
+    <label><input type="checkbox" data-cat="super_plus" checked>
+      <span class="dot dot-super_plus"></span>Super Plus uniquement</label>
+    <label><input type="checkbox" data-cat="both" checked>
+      <span class="dot dot-both"></span>UL91 + Super Plus</label>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+<script>
+const AERODROMES = {data_json};
+
+const COLORS = {{
+  ul91: "#2ecc71",
+  super_plus: "#f39c12",
+  both: "#3498db",
+}};
+
+const map = L.map("map").setView([46.7, 2.3], 6);
+
+L.tileLayer("https://tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png", {{
+  maxZoom: 18,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}}).addTo(map);
+
+const layers = {{ ul91: L.layerGroup(), super_plus: L.layerGroup(), both: L.layerGroup() }};
+
+for (const a of AERODROMES) {{
+  const color = COLORS[a.category] || "#888";
+  const marker = L.circleMarker([a.lat, a.lon], {{
+    radius: 7,
+    weight: 2,
+    color: "white",
+    fillColor: color,
+    fillOpacity: 0.95,
+  }});
+  marker.bindPopup(
+    `<div class="popup-icao">${{a.icao}}</div>` +
+    `<div class="popup-name">${{a.name}}</div>` +
+    `<div class="popup-fuels">${{a.fuels_human}}</div>`
+  );
+  marker.bindTooltip(`${{a.icao}} — ${{a.name}}`, {{ direction: "top" }});
+  (layers[a.category] || layers.ul91).addLayer(marker);
+}}
+Object.values(layers).forEach(g => g.addTo(map));
+
+document.querySelectorAll(".legend input[type=checkbox]").forEach(cb => {{
+  cb.addEventListener("change", () => {{
+    const layer = layers[cb.dataset.cat];
+    if (!layer) return;
+    if (cb.checked) layer.addTo(map); else map.removeLayer(layer);
+  }});
+}});
+</script>
+</body>
+</html>
+"""
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--vac-dir", type=Path, required=True)
@@ -257,6 +439,12 @@ def main() -> None:
         type=Path,
         default=Path("AERODROMES.md"),
         help="Markdown listant les aérodromes UL91-équivalents.",
+    )
+    parser.add_argument(
+        "--map-out",
+        type=Path,
+        default=Path("docs/index.html"),
+        help="Page HTML autonome (Leaflet/OSM) prête pour GitHub Pages.",
     )
     parser.add_argument(
         "--airac",
@@ -281,18 +469,17 @@ def main() -> None:
 
     rows.sort(key=lambda r: r["icao"])
 
+    full_fields = ["icao", "name", "fuels", "lat", "lon", "avt_excerpt", "error"]
+    ul91_fields = ["icao", "name", "fuels", "lat", "lon", "avt_excerpt"]
+
     with args.out.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(
-            f, fieldnames=["icao", "name", "fuels", "avt_excerpt", "error"]
-        )
+        writer = csv.DictWriter(f, fieldnames=full_fields)
         writer.writeheader()
         writer.writerows(rows)
 
     ul91_rows = [r for r in rows if set(r["fuels"].split("|")) & UL91_EQUIVALENT]
     with args.ul91_out.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(
-            f, fieldnames=["icao", "name", "fuels", "avt_excerpt"]
-        )
+        writer = csv.DictWriter(f, fieldnames=ul91_fields)
         writer.writeheader()
         for r in ul91_rows:
             writer.writerow({k: r[k] for k in writer.fieldnames})
@@ -300,9 +487,16 @@ def main() -> None:
     airac = args.airac or detect_airac(args.vac_dir)
     args.md_out.write_text(render_markdown(ul91_rows, airac), encoding="utf-8")
 
+    args.map_out.parent.mkdir(parents=True, exist_ok=True)
+    args.map_out.write_text(render_map(ul91_rows, airac), encoding="utf-8")
+    missing_coords = [r["icao"] for r in ul91_rows if not r["lat"]]
+
     print(f"\nFichier complet : {args.out} ({len(rows)} terrains)")
     print(f"Filtre UL91     : {args.ul91_out} ({len(ul91_rows)} terrains)")
     print(f"Markdown        : {args.md_out} (AIRAC {airac})")
+    print(f"Carte HTML      : {args.map_out}")
+    if missing_coords:
+        print(f"  ⚠ {len(missing_coords)} terrains sans coordonnées : {missing_coords}")
     print("\nAperçu UL91 (10 premiers) :")
     for r in ul91_rows[:10]:
         print(f"  {r['icao']:6} {r['fuels']:35} {r['name']}")
