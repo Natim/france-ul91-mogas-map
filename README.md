@@ -3,7 +3,7 @@
 Liste des aérodromes français disposant d'une pompe d'avitaillement en
 **UL91**, **UL AERO SUPER+** ou **Super Plus / SP95**, extraite automatiquement
 depuis l'[eAIP du SIA](https://www.sia.aviation-civile.gouv.fr/) (cartes VAC,
-Atlas-VAC AIRAC 2026-05-14).
+Atlas-VAC).
 
 ## Pourquoi
 
@@ -20,79 +20,24 @@ auto-régénérable à chaque cycle AIRAC.
 
 Ce dépôt comble ce vide.
 
-## Résultats — AIRAC 2026-05-14
+## Résultats
 
-**41 aérodromes** publient une pompe essence (UL91 / UL AERO / Super Plus) dans
-leur carte VAC officielle :
-
-| OACI | Nom | Carburants |
-|------|-----|-----------|
-| LFAE | EU MERS LE TREPORT | UL91 |
-| LFBY | DAX SEYRESSE | 100LL, UL91 |
-| LFCH | ARCACHON LA TESTE DE BUCH | 100LL, Jet A1, Super Plus, UL AERO |
-| LFCS | BORDEAUX LEOGNAN SAUCATS | 100LL, UL91 |
-| LFCU | USSEL THALAMY | 100LL, Super Plus |
-| LFCV | VILLEFRANCHE DE ROUERGUE | 100LL, Super Plus |
-| LFDA | AIRE SUR L'ADOUR | UL91 |
-| LFDC | MONTENDRE MARCILLAC | UL91 |
-| LFDE | EGLETONS | UL91 |
-| LFDP | SAINT PIERRE D'OLERON | 100LL, Super Plus |
-| LFDT | TARBES LALOUBERE | 100LL, UL91 |
-| LFDV | COUHE VERAC | 100LL, Super Plus |
-| LFFL | BAILLEAU ARMENONVILLE | 100LL, UL91 |
-| LFFZ | SEZANNE SAINT REMY | 100LL, UL91 |
-| LFGI | DIJON DAROIS | 100LL, Jet A1, Super Plus |
-| LFGM | MONTCEAU LES MINES POUILLOUX | 100LL, UL91 |
-| LFHC | PEROUGES MEXIMIEUX | UL91 |
-| LFHN | BELLEGARDE VOUVRAY | 100LL, UL91 |
-| LFHS | BOURG CEYZERIAT | 100LL, UL91 |
-| LFIT | TOULOUSE BOURG SAINT BERNARD | UL91 |
-| LFJY | CHAMBLEY | 100LL, Jet A1, UL91 |
-| LFLG | GRENOBLE LE VERSOUD | 100LL, Jet A1, UL91 |
-| LFLO | ROANNE | 100LL, Jet A1, UL91 |
-| LFLQ | MONTELIMAR ANCONE | UL91 |
-| LFLY | LYON BRON | 100LL, Jet A1, Super Plus, UL AERO |
-| LFMP | PERPIGNAN RIVESALTES | 100LL, Jet A1, Super Plus, UL AERO |
-| LFMV | AVIGNON CAUMONT | 100LL, Jet A1, Super Plus, UL AERO |
-| LFMW | CASTELNAUDARY VILLENEUVE | Super Plus, UL91 |
-| LFNA | GAP TALLARD | 100LL, Jet A1, UL91 |
-| LFNE | SALON EYGUIERES | 100LL, Super Plus |
-| LFNH | CARPENTRAS | 100LL, UL91 |
-| LFNJ | ASPRES SUR BUECH | UL91 |
-| LFOF | ALENCON VALFRAMBERT | UL91 |
-| LFOI | ABBEVILLE | 100LL, UL91 |
-| LFPE | MEAUX ESBLY | 100LL, UL91 |
-| LFPF | BEYNES THIVERVAL | UL91 |
-| LFPL | LOGNES EMERAINVILLE | 100LL, Jet A1, Super Plus, UL AERO |
-| LFQD | ARRAS ROCLINCOURT | 100LL, Super Plus |
-| LFSA | BESANCON THISE | Super Plus |
-| LFSH | HAGUENAU | 100LL, UL91 |
-| LFXU | LES MUREAUX | 100LL, UL91 |
-
-### Répartition par carburant
-
-| Carburant | Nb terrains |
-|-----------|-------------|
-| UL91 (explicite) | 28 |
-| Super Plus / SP95 | 14 |
-| UL AERO SUPER+ (TotalEnergies) | 5 |
-| dont aussi 100LL | 29 |
-| dont aussi Jet A1 | 10 |
-
-> **Note** : `UL91` et `UL AERO SUPER+` désignent en pratique le même
-> carburant. `UL AERO SUPER+` est la dénomination commerciale TotalEnergies
-> du UL91. En agrégeant, **33 terrains** ont du UL91 et **14** du Super Plus
-> (certains ont les deux, comme LFMW Castelnaudary).
+**[AERODROMES.md](./AERODROMES.md)** — Liste complète des aérodromes français
+avec leur(s) carburant(s) essence aviation, auto-générée à chaque cycle AIRAC.
 
 ### Fichiers de données
 
-- [`avgas_ul91.csv`](./avgas_ul91.csv) — Les 41 terrains filtrés.
-- [`avgas_full.csv`](./avgas_full.csv) — Les 420 terrains avec leur section
-  avitaillement complète (utile pour requêter d'autres carburants ou détecter
-  des changements entre cycles AIRAC).
+| Fichier | Contenu |
+|---|---|
+| [`AERODROMES.md`](./AERODROMES.md) | Liste lisible (Markdown) des terrains UL91/Super Plus, avec répartition par carburant et cycle AIRAC. |
+| [`avgas_ul91.csv`](./avgas_ul91.csv) | Les terrains filtrés UL91-équivalent. |
+| [`avgas_full.csv`](./avgas_full.csv) | Les 420 terrains français avec leur section avitaillement brute. |
 
-Colonnes : `icao`, `name`, `fuels` (pipe-séparé), `avt_excerpt` (le texte brut
+Colonnes CSV : `icao`, `name`, `fuels` (pipe-séparé), `avt_excerpt` (texte brut
 de la section « 10 - AVT »).
+
+Les trois fichiers sont régénérés à chaque exécution du script — voir la
+section [Régénérer les données](#régénérer-les-données).
 
 ## Méthodologie
 
@@ -128,10 +73,18 @@ de la section « 10 - AVT »).
 3. Lancer le script en pointant sur le dossier des VAC PDF :
    ```bash
    python3 extract_avgas.py \
-       --vac-dir ./extracted/Atlas-VAC/PDF_AIPparSSection/VAC/AD \
-       --out avgas_full.csv \
-       --ul91-out avgas_ul91.csv
+       --vac-dir ./extracted/Atlas-VAC/PDF_AIPparSSection/VAC/AD
    ```
+
+Le script produit trois fichiers à la racine du dépôt (chemins surchargeables
+via `--out`, `--ul91-out`, `--md-out`) :
+
+- `avgas_full.csv` — données brutes complètes
+- `avgas_ul91.csv` — filtre UL91-équivalent
+- `AERODROMES.md` — version Markdown lisible
+
+Le cycle AIRAC est auto-détecté depuis l'arborescence du paquet eAIP
+(on peut le forcer avec `--airac YYYY-MM-DD`).
 
 Temps d'exécution : ~2 s sur les 420 VAC (avec 8 workers).
 
@@ -152,7 +105,7 @@ Temps d'exécution : ~2 s sur les 420 VAC (avec 8 workers).
 
 ## Cycle AIRAC actuel
 
-Données extraites depuis l'eAIP **AIRAC 2026-05-14**.
+Indiqué en tête de [`AERODROMES.md`](./AERODROMES.md).
 
 ## Licence
 

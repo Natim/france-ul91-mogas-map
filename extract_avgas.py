@@ -21,6 +21,7 @@ import csv
 import re
 import subprocess
 from concurrent.futures import ProcessPoolExecutor, as_completed
+from datetime import date
 from pathlib import Path
 
 ICAO_RE = re.compile(r"AD-2\.(LF[A-Z0-9]{2,3})\.pdf$", re.IGNORECASE)
@@ -46,6 +47,18 @@ FUEL_PATTERNS: dict[str, re.Pattern[str]] = {
 
 # Carburants "essence" considérés équivalents UL91 pour le filtrage final.
 UL91_EQUIVALENT = {"UL91", "UL_AERO", "SUPER_PLUS", "MOGAS"}
+
+# Libellés humains pour les sorties Markdown.
+FUEL_LABELS = {
+    "UL91": "UL91",
+    "UL_AERO": "UL AERO",
+    "SUPER_PLUS": "Super Plus",
+    "MOGAS": "MOGAS",
+    "100LL": "100LL",
+    "JET_A1": "Jet A1",
+}
+
+AIRAC_DIR_RE = re.compile(r"AIRAC-(\d{4}-\d{2}-\d{2})")
 
 NAME_BLOCKLIST = {
     "APPROCHE A VUE",
@@ -154,6 +167,81 @@ def process_one(pdf_path: Path) -> dict[str, str] | None:
     }
 
 
+def detect_airac(vac_dir: Path) -> str:
+    """Cherche le dossier AIRAC le plus récent en remontant depuis vac_dir.
+
+    Le paquet eAIP du SIA contient plusieurs sous-AIRAC (FRANCE, PAC-N,
+    PAC-P, RUN, CAR-SAM-NAM) qui peuvent dater de cycles différents.
+    On prend toujours le plus récent (max sur le nom YYYY-MM-DD).
+    """
+    found: set[str] = set()
+    for ancestor in vac_dir.parents:
+        for candidate in ancestor.glob("**/AIRAC-*"):
+            m = AIRAC_DIR_RE.search(candidate.name)
+            if m:
+                found.add(m.group(1))
+        if found:
+            return max(found)
+    return "unknown"
+
+
+def render_markdown(
+    ul91_rows: list[dict[str, str]],
+    airac: str,
+) -> str:
+    """Génère le contenu d'un AERODROMES.md autonome."""
+    from collections import Counter
+
+    counts: Counter[str] = Counter()
+    for r in ul91_rows:
+        for f in r["fuels"].split("|"):
+            if f:
+                counts[f] += 1
+
+    lines: list[str] = []
+    lines.append("# Aérodromes français — UL91 / Super Plus")
+    lines.append("")
+    lines.append(
+        f"**{len(ul91_rows)} aérodromes** publient une pompe essence "
+        "(UL91, UL AERO SUPER+, Super Plus ou MOGAS) dans leur carte VAC "
+        "officielle."
+    )
+    lines.append("")
+    lines.append(f"- **Cycle AIRAC** : {airac}")
+    lines.append(f"- **Dernière mise à jour du fichier** : {date.today().isoformat()}")
+    lines.append("- **Source** : eAIP du SIA, Atlas-VAC")
+    lines.append("")
+    lines.append("## Répartition par carburant")
+    lines.append("")
+    lines.append("| Carburant | Nb terrains |")
+    lines.append("|-----------|-------------|")
+    for key in ("UL91", "UL_AERO", "SUPER_PLUS", "MOGAS", "100LL", "JET_A1"):
+        if counts.get(key):
+            lines.append(f"| {FUEL_LABELS[key]} | {counts[key]} |")
+    lines.append("")
+    lines.append(
+        "> `UL91` et `UL AERO SUPER+` désignent en pratique le même carburant : "
+        "`UL AERO SUPER+` est la dénomination commerciale TotalEnergies du UL91."
+    )
+    lines.append("")
+    lines.append("## Liste complète")
+    lines.append("")
+    lines.append("| OACI | Nom | Carburants |")
+    lines.append("|------|-----|-----------|")
+    for r in sorted(ul91_rows, key=lambda x: x["icao"]):
+        fuels = ", ".join(
+            FUEL_LABELS.get(f, f) for f in r["fuels"].split("|") if f
+        )
+        lines.append(f"| {r['icao']} | {r['name']} | {fuels} |")
+    lines.append("")
+    lines.append(
+        "_Fichier auto-généré par "
+        "[`extract_avgas.py`](./extract_avgas.py). Ne pas éditer à la main._"
+    )
+    lines.append("")
+    return "\n".join(lines)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--vac-dir", type=Path, required=True)
@@ -163,6 +251,17 @@ def main() -> None:
         type=Path,
         default=Path("avgas_ul91.csv"),
         help="Filtre sur carburants UL91-équivalents.",
+    )
+    parser.add_argument(
+        "--md-out",
+        type=Path,
+        default=Path("AERODROMES.md"),
+        help="Markdown listant les aérodromes UL91-équivalents.",
+    )
+    parser.add_argument(
+        "--airac",
+        default=None,
+        help="Cycle AIRAC (YYYY-MM-DD). Auto-détecté depuis --vac-dir si omis.",
     )
     parser.add_argument("--workers", type=int, default=8)
     args = parser.parse_args()
@@ -198,8 +297,12 @@ def main() -> None:
         for r in ul91_rows:
             writer.writerow({k: r[k] for k in writer.fieldnames})
 
+    airac = args.airac or detect_airac(args.vac_dir)
+    args.md_out.write_text(render_markdown(ul91_rows, airac), encoding="utf-8")
+
     print(f"\nFichier complet : {args.out} ({len(rows)} terrains)")
     print(f"Filtre UL91     : {args.ul91_out} ({len(ul91_rows)} terrains)")
+    print(f"Markdown        : {args.md_out} (AIRAC {airac})")
     print("\nAperçu UL91 (10 premiers) :")
     for r in ul91_rows[:10]:
         print(f"  {r['icao']:6} {r['fuels']:35} {r['name']}")
