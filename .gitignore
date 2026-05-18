@@ -1,0 +1,12 @@
+# eAIP extraction workspace (gros volumes, données SIA non redistribuables)
+extracted/
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Misc
+.DS_Store
