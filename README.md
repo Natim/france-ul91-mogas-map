@@ -150,7 +150,7 @@ Le code vit dans `src/fuelmap/` :
 | `model.py` | Taxonomie des carburants, familles, `Aerodrome` |
 | `parsing.py` | Regex et extraction pure depuis le texte des VAC |
 | `availability.py` | Déduction des conditions d'accès, clause par clause |
-| `overrides.py` | Corrections manuelles : conditions d'accès et carburants hors AIP |
+| `overrides.py` | Données manuelles : corrections d'accès et terrains hors AIP |
 | `vac.py` | Appel à `pdftotext`, détection du cycle AIRAC |
 | `pipeline.py` | Parcours parallèle du dossier VAC |
 | `render/` | Sorties CSV, Markdown et données de la carte |
@@ -173,10 +173,57 @@ Les tests tournent sur des extraits de texte VAC stockés dans
    carburant nommé dans la même phrase, avec repli sur les clauses générales.
 5. Lecture des coordonnées `LAT`/`LONG` de l'en-tête (sexagésimal → décimal).
 6. Normalisation des caractères Windows-1252 que Poppler laisse passer.
-7. Application des corrections manuelles d'`overrides.py` — conditions d'accès
-   et, le cas échéant, carburant absent de l'AIP — uniquement sur la liste
-   Markdown et la carte : les CSV gardent ce que dit la VAC, si bien qu'une
-   correction se retire en supprimant son entrée.
+7. Application des données manuelles d'`overrides.py` — corrections d'accès et
+   terrains hors AIP — uniquement sur la liste Markdown et la carte : les CSV
+   gardent ce que dit la VAC, si bien qu'une entrée se retire en la supprimant.
+
+## Ajouter une donnée manuelle
+
+Tout ce qui ne vient pas de l'AIP vit dans un seul fichier,
+[`src/fuelmap/overrides.py`](./src/fuelmap/overrides.py), pour rester auditable.
+Deux cas, selon que le terrain figure ou non à l'AIP.
+
+**Corriger un terrain existant** — sa VAC ne dit rien de ses conditions, ou il
+dispose d'un carburant que l'AIP ignore. Ajoutez une entrée à `OVERRIDES`,
+indexée par code OACI puis par carburant :
+
+```python
+"LFOF": Override(
+    availability={UL91: AVAILABILITY_RESTRICTED, SUPER_PLUS: AVAILABILITY_SELF_SERVICE},
+    reason="Pompe UL91 en HX. SP98 H24 à la station Total en face, nécessite un bidon.",
+),
+```
+
+**Ajouter un terrain absent de l'AIP** — typiquement une plateforme ULM privée,
+sans carte VAC. Ajoutez une entrée à `ADDITIONS` : tout est manuel, position
+comprise. Les fiches [BASULM](https://basulm.ffplum.fr/) de la FFPLUM sont une
+bonne source ; reproduisez la position en sexagésimal dans `details` pour
+qu'elle reste vérifiable.
+
+```python
+CuratedAerodrome(
+    code="LF4724",
+    name="MONTPEZAT D'AGENAIS",
+    latitude=44.364167,
+    longitude=0.491389,
+    availability={UL91: AVAILABILITY_RESTRICTED},
+    source="Fiche BASULM LF4724 (FFPLUM), mise à jour du 24/10/2024",
+    note="Aérodrome privé ouvert aux ULM : accord préalable du gestionnaire…",
+    details="BASULM LF4724 — LAT : N 44 21 51 - LONG : E 000 29 29…",
+),
+```
+
+Puis `fuelmap rebuild`. Trois règles :
+
+1. **Les CSV ne bougent pas.** Ils restent le reflet fidèle des cartes VAC. Une
+   donnée manuelle n'apparaît que dans la liste Markdown et sur la carte, si
+   bien qu'elle se retire en supprimant son entrée. C'est pourquoi
+   [`AERODROMES.md`](./AERODROMES.md) compte plus de terrains que
+   [`aerodromes-unleaded.csv`](./data/aerodromes-unleaded.csv).
+2. **`reason` et `note` sont obligatoires** et affichés au pilote. Un terrain
+   privé doit rappeler que l'accord du gestionnaire est requis.
+3. **Rien ne se rafraîchit tout seul.** Ces entrées n'ont pas d'amont : à
+   revérifier à chaque cycle AIRAC, et à garder peu nombreuses.
 
 ## Limites connues
 
@@ -196,13 +243,12 @@ Les tests tournent sur des extraits de texte VAC stockés dans
   analyse de texte libre, pas d'un champ structuré de l'AIP. Il est vérifié
   sur les 43 terrains du cycle courant, mais une tournure inédite peut le
   tromper. Le texte source est affiché dans la popup pour arbitrer.
-- **Corrections manuelles** : quelques terrains ne publient aucune condition
-  dans leur VAC, et un carburant peut exister sans figurer à l'AIP — une
-  station-service de bord de route, par exemple. Ces cas sont renseignés à la
-  main dans [`overrides.py`](./src/fuelmap/overrides.py), signalés « hors VAC »
-  dans la popup et par un † dans [`AERODROMES.md`](./AERODROMES.md), avec la
-  raison. **Lisez-la** : elle précise notamment quand le carburant n'est pas au
-  parking. Les CSV, eux, restent le reflet fidèle des cartes.
+- **Données manuelles** : voir [Ajouter une donnée manuelle](#ajouter-une-donnée-manuelle).
+  Ces terrains et conditions ne viennent pas de l'AIP ; ils sont signalés « hors
+  VAC » ou « hors AIP » dans la popup, et par un † ou un ‡ dans
+  [`AERODROMES.md`](./AERODROMES.md). **Lisez la raison affichée** : elle précise
+  notamment quand le carburant n'est pas au parking, ou quand l'atterrissage
+  exige un accord préalable.
 - **Données périssables** : l'eAIP change tous les 28 jours. Le cycle publié est
   indiqué en tête d'[`AERODROMES.md`](./AERODROMES.md) et sur la carte.
 - **Aucune valeur opérationnelle** : ces données sont indicatives. Consultez la

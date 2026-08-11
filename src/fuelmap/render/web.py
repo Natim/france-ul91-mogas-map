@@ -25,7 +25,8 @@ from ..model import (
 #: Bumped when the JSON shape changes, so the page can refuse stale data.
 #: 2 — markers are per fuel family and carry an availability level.
 #: 3 — markers carry ``note``, set when the level is curated rather than read.
-SCHEMA_VERSION = 3
+#: 4 — markers carry ``source``, set when the field is absent from the AIP.
+SCHEMA_VERSION = 4
 
 
 def _marker(aerodrome: Aerodrome, family: str) -> dict:
@@ -50,6 +51,8 @@ def _marker(aerodrome: Aerodrome, family: str) -> dict:
         # Non-empty when the level was curated: the chart below will not
         # corroborate it, and the popup says so.
         "note": aerodrome.availability_note,
+        # Non-empty when the field has no VAC chart at all.
+        "source": aerodrome.curated_source,
     }
 
 

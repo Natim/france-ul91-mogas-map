@@ -1,6 +1,6 @@
 # Aérodromes français — UL91 / Mogas
 
-**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle.
+**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle. S'y ajoute **1 terrain hors AIP** renseigné à la main, marqué ‡.
 
 - **Cycle AIRAC** : 2026-08-06
 - **Date d'extraction** : 2026-08-11
@@ -10,7 +10,7 @@
 
 | Carburant | Nb terrains |
 |-----------|-------------|
-| UL91 | 29 |
+| UL91 | 30 |
 | UL AERO SUPER+ | 7 |
 | Super Plus | 9 |
 | 100LL | 30 |
@@ -23,15 +23,16 @@
 | Accès | Nb terrains |
 |-------|-------------|
 | Automate / H24 | 15 |
-| HX, PPR, sur demande | 26 |
+| HX, PPR, sur demande | 27 |
 | Non précisé | 2 |
 
 > Déduit automatiquement du texte de la section « 10 - AVT », sauf mention †. `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
 
 ## Liste complète
 
-| OACI | Nom | Carburants | Accès |
+| Code | Nom | Carburants | Accès |
 |------|-----|-----------|-------|
+| LF4724 ‡ | MONTPEZAT D'AGENAIS | UL91 | HX, PPR, sur demande |
 | LFAE | EU MERS LE TREPORT | UL91 | HX, PPR, sur demande |
 | LFBY | DAX SEYRESSE | UL91, 100LL | HX, PPR, sur demande |
 | LFCH | ARCACHON LA TESTE DE BUCH | UL AERO SUPER+, 100LL, Jet A1 | Automate / H24 |
@@ -80,5 +81,9 @@
 
 - **LFOF** ALENCON VALFRAMBERT — Pompe UL91 en HX. SP98 H24 à la station Total en face, nécessite un bidon.
 - **LFRS** NANTES ATLANTIQUE — Automate accessible H24. La VAC ne donne aucune condition.
+
+‡ Terrain **absent de l'AIP**, donc absent des CSV et invérifiable sur une carte VAC. Position, carburant et conditions sont renseignés à la main :
+
+- **LF4724** MONTPEZAT D'AGENAIS — Aérodrome privé ouvert aux ULM : accord préalable du gestionnaire obligatoire (Philippe Boucherat, +33 5 53 95 08 81). Terrain absent de l'AIP, données non vérifiables sur une carte VAC. _(source : Fiche BASULM LF4724 (FFPLUM), mise à jour du 24/10/2024)_
 
 _Fichier auto-généré par `fuelmap extract`. Ne pas éditer à la main._

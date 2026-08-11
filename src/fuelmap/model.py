@@ -127,6 +127,17 @@ class Aerodrome:
     the VAC text below", which is what the map popup says.
     """
 
+    curated_source: str = ""
+    """Provenance when the whole record is hand-entered. Empty for the eAIP.
+
+    Non-empty means the field has no VAC chart at all — a private ULM strip,
+    typically — so nothing about it was checked against the AIP.
+    """
+
+    @property
+    def is_off_aip(self) -> bool:
+        return bool(self.curated_source)
+
     error: str = ""
     """Non-empty when the chart could not be read at all."""
 

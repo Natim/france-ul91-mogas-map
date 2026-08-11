@@ -42,6 +42,41 @@ class TestOverrideTable:
         assert UNKNOWN not in overrides.OVERRIDES[icao].availability.values()
 
 
+class TestAdditions:
+    @pytest.mark.parametrize("addition", overrides.ADDITIONS, ids=lambda a: a.code)
+    def test_entry_is_plottable_and_sells_something_unleaded(self, addition):
+        record = addition.to_aerodrome()
+        assert record.has_position
+        assert record.has_unleaded, "an entry with no unleaded fuel would vanish"
+        assert record.families()
+
+    @pytest.mark.parametrize("addition", overrides.ADDITIONS, ids=lambda a: a.code)
+    def test_entry_declares_its_provenance_and_conditions(self, addition):
+        """Nothing here was checked against a chart, so both are mandatory."""
+        record = addition.to_aerodrome()
+        assert record.is_off_aip
+        assert record.curated_source.strip()
+        assert record.availability_note.strip()
+
+    @pytest.mark.parametrize("addition", overrides.ADDITIONS, ids=lambda a: a.code)
+    def test_entry_sits_inside_france(self, addition):
+        assert 41.0 < addition.latitude < 51.5
+        assert -5.5 < addition.longitude < 9.6
+
+    def test_additions_do_not_collide_with_aip_codes(self):
+        aip = {"LFRS", "LFOF", "LFGI"}
+        assert not {a.code for a in overrides.ADDITIONS} & aip
+
+    def test_apply_all_merges_and_sorts(self):
+        aip = [_aerodrome("LFZZ", {model.UL91}), _aerodrome("LFAA", {model.UL91})]
+        merged = overrides.apply_all(aip)
+        assert [a.icao for a in merged] == sorted(a.icao for a in merged)
+        assert len(merged) == len(aip) + len(overrides.ADDITIONS)
+
+    def test_extracted_aerodromes_are_not_marked_off_aip(self):
+        assert not _aerodrome("LFZZ", {model.UL91}).is_off_aip
+
+
 class TestApply:
     def test_untouched_aerodrome_is_returned_as_is(self):
         original = _aerodrome("LFZZ", {model.UL91}, {model.UL91: UNKNOWN})

@@ -1,17 +1,25 @@
-"""Curated corrections to what the VAC charts say about fuel.
+"""Everything the eAIP does not tell us, in one auditable place.
 
-Section 10 of a VAC is free text, and some fields publish a bare fuel list with
-no access wording whatsoever, so the heuristic can only answer "unknown" even
-where the pump is a well-known automat. A few fields also have a fuel source
-that the AIP will never mention, such as a road service station next door.
+Two mechanisms, for two different gaps:
 
-An entry maps a fuel to its access level. Fuels absent from the chart are
-*added* to the field, which is a deliberate departure from the official source
-and the reason every entry carries a ``reason`` shown to the reader.
+``OVERRIDES``
+    Corrections to a field the AIP *does* describe. Section 10 of a VAC is free
+    text, and some charts publish a bare fuel list with no access wording, so
+    the heuristic can only answer "unknown" even where the pump is a known
+    automat. An entry maps a fuel to its access level; a fuel the chart omits
+    is added, which is how a road service station next door becomes visible.
+``ADDITIONS``
+    Whole records for fields the AIP does not describe at all, typically
+    private ULM strips with no VAC chart.
 
-These are applied to the Markdown listing and the map, never to the CSVs: those
-stay a faithful record of the charts, so an override is undone by deleting its
-entry and rebuilding. Each one should be re-checked at each AIRAC cycle.
+Both are applied to the Markdown listing and the map, never to the CSVs: those
+stay a faithful record of the charts, so anything here is undone by deleting
+its entry and rebuilding, and no curated value is ever baked into the
+extraction output. Consequently the listing carries more fields than
+``aerodromes-unleaded.csv``, and every curated element is flagged to the reader.
+
+Nothing here has an upstream to refresh it, so entries should be re-checked at
+each AIRAC cycle and kept few.
 """
 
 from __future__ import annotations
@@ -61,6 +69,78 @@ OVERRIDES: dict[str, Override] = {
 }
 
 
+@dataclass(frozen=True)
+class CuratedAerodrome:
+    """A field the AIP does not describe at all, entered by hand.
+
+    Mostly private ULM strips: they carry no VAC chart, so the code, position,
+    fuel and conditions all come from ``source`` rather than from the eAIP.
+    Landing at one needs the operator's prior agreement, which is why ``note``
+    is mandatory and shown on the map.
+    """
+
+    code: str
+    name: str
+    latitude: float
+    longitude: float
+    availability: dict[str, str]
+    source: str
+    """Human-readable provenance, shown to the reader."""
+
+    note: str
+    """Conditions and caveats, including the prior-agreement requirement."""
+
+    details: str = ""
+    """Free text reproduced from the source sheet, shown like a VAC excerpt."""
+
+    def to_aerodrome(self) -> Aerodrome:
+        return Aerodrome(
+            icao=self.code,
+            name=self.name,
+            fuels=frozenset(self.availability),
+            latitude=self.latitude,
+            longitude=self.longitude,
+            fuel_section=self.details,
+            availability=tuple(sorted(self.availability.items())),
+            availability_note=self.note,
+            curated_source=self.source,
+        )
+
+
+#: Fields absent from the eAIP. Kept deliberately short: this is hand-maintained
+#: data with no upstream to refresh it, so each entry earns its place by being
+#: a fuel source a pilot would otherwise never find.
+ADDITIONS: tuple[CuratedAerodrome, ...] = (
+    CuratedAerodrome(
+        code="LF4724",
+        name="MONTPEZAT D'AGENAIS",
+        # N 44 21 51 / E 000 29 29, reproduced in `details` for checking.
+        latitude=44.364167,
+        longitude=0.491389,
+        availability={UL91: AVAILABILITY_RESTRICTED},
+        source="Fiche BASULM LF4724 (FFPLUM), mise à jour du 24/10/2024",
+        note=(
+            "Aérodrome privé ouvert aux ULM : accord préalable du gestionnaire "
+            "obligatoire (Philippe Boucherat, +33 5 53 95 08 81). Terrain absent "
+            "de l'AIP, données non vérifiables sur une carte VAC."
+        ),
+        details=(
+            "BASULM LF4724 — Montpezat d'Agenais. LAT : N 44 21 51 - "
+            "LONG : E 000 29 29 - ALT : 120 ft. Radio : 123.50. "
+            "Carburants : Avgas UL 91. Pistes : 15-33 herbe 800x40, "
+            "10-28 herbe 250x40, préférentielle 33. TDP à l'Est à 500 ft. "
+            "Activité écolage importante. Gestionnaire : Philippe Boucherat, "
+            "+33 5 53 95 08 81, info@ulmstex.com, http://www.ulmstex.com"
+        ),
+    ),
+)
+
+
+def curated_aerodromes() -> list[Aerodrome]:
+    """The off-AIP fields, as :class:`~fuelmap.model.Aerodrome` records."""
+    return [addition.to_aerodrome() for addition in ADDITIONS]
+
+
 def apply(aerodrome: Aerodrome) -> Aerodrome:
     """Return ``aerodrome`` with its curated fuels and levels, if it has any."""
     override = OVERRIDES.get(aerodrome.icao)
@@ -77,4 +157,6 @@ def apply(aerodrome: Aerodrome) -> Aerodrome:
 
 
 def apply_all(aerodromes: list[Aerodrome]) -> list[Aerodrome]:
-    return [apply(a) for a in aerodromes]
+    """Correct the AIP records, then add the fields the AIP omits entirely."""
+    corrected = [apply(a) for a in aerodromes] + curated_aerodromes()
+    return sorted(corrected, key=lambda a: a.icao)

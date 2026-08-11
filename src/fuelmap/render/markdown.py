@@ -20,6 +20,9 @@ GENERATED_BY = "`fuelmap extract`"
 #: Flags a row whose access condition does not come from the chart.
 OVERRIDE_MARK = "†"
 
+#: Flags a row for a field that has no VAC chart at all.
+OFF_AIP_MARK = "‡"
+
 
 def count_fuels(aerodromes: list[Aerodrome]) -> Counter[str]:
     counts: Counter[str] = Counter()
@@ -48,12 +51,25 @@ def render_markdown(
     counts = count_fuels(aerodromes)
     updated = (today or date.today()).isoformat()
 
+    off_aip = [a for a in aerodromes if a.is_off_aip]
+    published = len(aerodromes) - len(off_aip)
+
+    summary = (
+        f"**{published} aérodromes** publient une pompe d'essence sans plomb "
+        "(UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC "
+        "officielle."
+    )
+    if off_aip:
+        plural = "s" if len(off_aip) > 1 else ""
+        summary += (
+            f" S'y ajoute{plural} **{len(off_aip)} terrain{plural} hors AIP** "
+            f"renseigné{plural} à la main, marqué{plural} {OFF_AIP_MARK}."
+        )
+
     lines = [
         "# Aérodromes français — UL91 / Mogas",
         "",
-        f"**{len(aerodromes)} aérodromes** publient une pompe d'essence sans "
-        "plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte "
-        "VAC officielle.",
+        summary,
         "",
         f"- **Cycle AIRAC** : {airac}",
         f"- **Date d'extraction** : {updated}",
@@ -99,19 +115,20 @@ def render_markdown(
         "",
         "## Liste complète",
         "",
-        "| OACI | Nom | Carburants | Accès |",
+        "| Code | Nom | Carburants | Accès |",
         "|------|-----|-----------|-------|",
     ]
     ordered = sorted(aerodromes, key=lambda a: a.icao)
     lines.extend(
-        f"| {a.icao} | {a.name} | {format_fuels(a.fuels)} "
+        f"| {a.icao}{' ' + OFF_AIP_MARK if a.is_off_aip else ''} "
+        f"| {a.name} | {format_fuels(a.fuels)} "
         f"| {AVAILABILITY_LABELS[overall_availability(a)]}"
-        f"{' ' + OVERRIDE_MARK if a.availability_note else ''} |"
+        f"{' ' + OVERRIDE_MARK if a.availability_note and not a.is_off_aip else ''} |"
         for a in ordered
     )
 
-    curated = [a for a in ordered if a.availability_note]
-    if curated:
+    overridden = [a for a in ordered if a.availability_note and not a.is_off_aip]
+    if overridden:
         lines += [
             "",
             f"{OVERRIDE_MARK} Condition d'accès **non publiée par la VAC**, "
@@ -119,7 +136,21 @@ def render_markdown(
             "",
         ]
         lines.extend(
-            f"- **{a.icao}** {a.name} — {a.availability_note}" for a in curated
+            f"- **{a.icao}** {a.name} — {a.availability_note}" for a in overridden
+        )
+
+    if off_aip:
+        lines += [
+            "",
+            f"{OFF_AIP_MARK} Terrain **absent de l'AIP**, donc absent des CSV et "
+            "invérifiable sur une carte VAC. Position, carburant et conditions "
+            "sont renseignés à la main :",
+            "",
+        ]
+        lines.extend(
+            f"- **{a.icao}** {a.name} — {a.availability_note} "
+            f"_(source : {a.curated_source})_"
+            for a in off_aip
         )
 
     lines += [

@@ -38,6 +38,18 @@ def aerodrome(
     )
 
 
+def _off_aip():
+    """A hand-entered field with no VAC chart, like a private ULM strip."""
+    return aerodrome(
+        "LF4724",
+        {model.UL91},
+        name="MONTPEZAT D'AGENAIS",
+        availability={model.UL91: RESTRICTED},
+        availability_note="Accord préalable obligatoire.",
+        curated_source="Fiche BASULM LF4724 (FFPLUM)",
+    )
+
+
 @pytest.fixture
 def aerodromes():
     return [
@@ -140,6 +152,22 @@ class TestMarkdown:
     def test_omits_the_footnote_when_nothing_is_curated(self, aerodromes):
         rendered = markdown.render_markdown(aerodromes, AIRAC, today=TODAY)
         assert "renseignée manuellement" not in rendered
+        assert markdown.OFF_AIP_MARK not in rendered
+
+    def test_separates_off_aip_fields_from_the_published_count(self, aerodromes):
+        """A hand-entered strip must not inflate the count of VAC-sourced fields."""
+        rendered = markdown.render_markdown(
+            [*aerodromes, _off_aip()], AIRAC, today=TODAY
+        )
+        assert f"**{len(aerodromes)} aérodromes**" in rendered
+        assert "**1 terrain hors AIP**" in rendered
+        row = next(
+            line for line in rendered.splitlines() if line.startswith("| LF4724")
+        )
+        assert markdown.OFF_AIP_MARK in row
+        # It is off-AIP, not an override of a chart, so it takes the other mark.
+        assert markdown.OVERRIDE_MARK not in row
+        assert "Fiche BASULM" in rendered
 
 
 class TestMapData:
@@ -200,6 +228,12 @@ class TestMapData:
     def test_uncurated_markers_carry_no_note(self, aerodromes):
         payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
         assert all(m["note"] == "" for m in payload["markers"])
+        assert all(m["source"] == "" for m in payload["markers"])
+
+    def test_off_aip_markers_name_their_source(self):
+        """The page badges these, so the provenance has to reach it."""
+        payload = web.build_payload([_off_aip()], AIRAC, today=TODAY)
+        assert payload["markers"][0]["source"] == "Fiche BASULM LF4724 (FFPLUM)"
 
     def test_markers_show_the_whole_field_for_context(self, aerodromes):
         payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
