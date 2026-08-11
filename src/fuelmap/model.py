@@ -130,8 +130,9 @@ class Aerodrome:
     curated_fuels: tuple[str, ...] = ()
     """Fuels added by hand because the chart omits them, sorted.
 
-    A field whose *only* unleaded fuel is in here does not sell unleaded at
-    all: it qualifies through something nearby, such as a road station.
+    A field whose *only* unleaded fuel is in here publishes none of its own:
+    it qualifies through a source the chart does not carry, such as a road
+    station next door or a club pump the AIP never lists.
     """
 
     curated_source: str = ""

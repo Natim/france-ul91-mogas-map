@@ -195,9 +195,10 @@ indexée par code OACI puis par carburant :
 ```
 
 Nommer un carburant que la VAC ignore l'ajoute au terrain. C'est ce qui fait
-entrer dans la carte un terrain qui ne vend aucun sans plomb, mais jouxte une
-station-service : LFCF Figeac et LFCY Royan n'y figurent qu'à ce titre, et le
-résumé d'[`AERODROMES.md`](./AERODROMES.md) les compte à part. Faute d'horaires
+entrer dans la carte un terrain dont la VAC ne publie aucun sans plomb : LFCF
+Figeac et LFCY Royan jouxtent une station-service, LFHY Moulins a une cuve au
+club ULM. Le résumé d'[`AERODROMES.md`](./AERODROMES.md) les compte à part, et
+la `reason` doit dire où le carburant se trouve vraiment. Faute d'horaires
 vérifiés, `AVAILABILITY_UNKNOWN` reste un choix légitime : il déclare le
 carburant sans rien affirmer de sa disponibilité.
 

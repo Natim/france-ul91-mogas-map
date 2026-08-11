@@ -52,10 +52,13 @@ def render_markdown(
     updated = (today or date.today()).isoformat()
 
     off_aip = [a for a in aerodromes if a.is_off_aip]
-    # Fields that qualify only through a fuel we added, typically a road
-    # station next door: their own chart publishes no unleaded at all.
-    nearby = [a for a in aerodromes if not a.is_off_aip and not a.sells_unleaded_itself]
-    published = len(aerodromes) - len(off_aip) - len(nearby)
+    # Fields that qualify only through a fuel we added: their own chart
+    # publishes no unleaded at all. The fuel may sit next door, at a road
+    # station, or on the field at a club pump the AIP simply does not list.
+    off_chart = [
+        a for a in aerodromes if not a.is_off_aip and not a.sells_unleaded_itself
+    ]
+    published = len(aerodromes) - len(off_aip) - len(off_chart)
 
     summary = (
         f"**{published} aérodromes** publient une pompe d'essence sans plomb "
@@ -63,16 +66,16 @@ def render_markdown(
         "officielle."
     )
     extras = []
-    if nearby:
+    if off_chart:
         extras.append(
-            f"{len(nearby)} dont le sans plomb vient d'une source voisine "
+            f"{len(off_chart)} dont le sans plomb vient d'une source hors VAC "
             f"({OVERRIDE_MARK})"
         )
     if off_aip:
         absent = "absent" if len(off_aip) == 1 else "absents"
         extras.append(f"{len(off_aip)} {absent} de l'AIP ({OFF_AIP_MARK})")
     if extras:
-        total = len(nearby) + len(off_aip)
+        total = len(off_chart) + len(off_aip)
         verb, plural = ("ajoutent", "s") if total > 1 else ("ajoute", "")
         summary += (
             f" S'y {verb} **{total} terrain{plural} renseigné{plural} à "

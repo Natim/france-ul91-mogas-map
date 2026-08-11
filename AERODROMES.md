@@ -1,6 +1,6 @@
 # Aérodromes français — UL91 / Mogas
 
-**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle. S'y ajoutent **3 terrains renseignés à la main** : 2 dont le sans plomb vient d'une source voisine (†), 1 absent de l'AIP (‡).
+**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle. S'y ajoutent **4 terrains renseignés à la main** : 3 dont le sans plomb vient d'une source hors VAC (†), 1 absent de l'AIP (‡).
 
 - **Cycle AIRAC** : 2026-08-06
 - **Date d'extraction** : 2026-08-11
@@ -12,9 +12,9 @@
 |-----------|-------------|
 | UL91 | 30 |
 | UL AERO SUPER+ | 7 |
-| Super Plus | 11 |
-| 100LL | 32 |
-| Jet A1 | 13 |
+| Super Plus | 12 |
+| 100LL | 33 |
+| Jet A1 | 14 |
 
 > Malgré son préfixe, `UL AERO SUPER+` n'est **pas** du `UL91` : c'est un SP98 sans éthanol de qualité aviation distribué par TotalEnergies, réservé aux moteurs ROTAX 912/914 homologués pour le SP98 EN 228. Il est donc rangé avec `Super Plus` / `SP95` / `SP98`. Le `UL91`, lui, est une essence aviation à la norme ASTM D7547.
 
@@ -23,7 +23,7 @@
 | Accès | Nb terrains |
 |-------|-------------|
 | Automate / H24 | 17 |
-| HX, PPR, sur demande | 27 |
+| HX, PPR, sur demande | 28 |
 | Non précisé | 2 |
 
 > Déduit automatiquement du texte de la section « 10 - AVT », sauf mention †. `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
@@ -53,6 +53,7 @@
 | LFGM | MONTCEAU LES MINES POUILLOUX | UL91, 100LL | HX, PPR, sur demande |
 | LFHC | PEROUGES MEXIMIEUX | UL91 | HX, PPR, sur demande |
 | LFHS | BOURG CEYZERIAT | UL91, 100LL | Automate / H24 |
+| LFHY | MOULINS MONTBEUGNY | Super Plus, 100LL, Jet A1 | HX, PPR, sur demande † |
 | LFIT | TOULOUSE BOURG SAINT BERNARD | UL91 | HX, PPR, sur demande |
 | LFJY | CHAMBLEY | UL91, 100LL, Jet A1 | HX, PPR, sur demande |
 | LFLG | GRENOBLE LE VERSOUD | UL91, 100LL, Jet A1 | Automate / H24 |
@@ -83,6 +84,7 @@
 
 - **LFCF** FIGEAC LIVERNON — Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, à emporter en bidon.
 - **LFCY** ROYAN MEDIS — Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, à emporter en bidon.
+- **LFHY** MOULINS MONTBEUGNY — SP98 non publié à la VAC : disponible auprès du club ULM, sur demande.
 - **LFOF** ALENCON VALFRAMBERT — Pompe UL91 en HX. SP98 H24 à la station Total en face, nécessite un bidon.
 - **LFRS** NANTES ATLANTIQUE — Automate accessible H24. La VAC ne donne aucune condition.
 

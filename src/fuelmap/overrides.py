@@ -71,6 +71,13 @@ OVERRIDES: dict[str, Override] = {
             "voisine, à emporter en bidon."
         ),
     ),
+    "LFHY": Override(
+        availability={SUPER_PLUS: AVAILABILITY_RESTRICTED},
+        reason=(
+            "SP98 non publié à la VAC : disponible auprès du club ULM, "
+            "sur demande."
+        ),
+    ),
     "LFOF": Override(
         availability={
             UL91: AVAILABILITY_RESTRICTED,

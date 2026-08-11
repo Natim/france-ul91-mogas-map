@@ -155,7 +155,7 @@ class TestMarkdown:
         assert markdown.OFF_AIP_MARK not in rendered
         assert "renseigné à la main" not in rendered
 
-    def test_excludes_nearby_only_fields_from_the_published_count(self):
+    def test_excludes_off_chart_fields_from_the_published_count(self):
         """Figeac sells no unleaded itself; counting it as a VAC pump would lie."""
         figeac = aerodrome(
             "LFCF",
@@ -167,7 +167,7 @@ class TestMarkdown:
         onfield = aerodrome("LFDA", {model.UL91}, availability={model.UL91: SELF})
         rendered = markdown.render_markdown([onfield, figeac], AIRAC, today=TODAY)
         assert "**1 aérodromes**" in rendered
-        assert "1 dont le sans plomb vient d'une source voisine" in rendered
+        assert "1 dont le sans plomb vient d'une source hors VAC" in rendered
 
     def test_separates_off_aip_fields_from_the_published_count(self, aerodromes):
         """A hand-entered strip must not inflate the count of VAC-sourced fields."""
