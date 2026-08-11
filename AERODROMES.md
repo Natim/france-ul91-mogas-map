@@ -23,8 +23,8 @@
 | Accès | Nb terrains |
 |-------|-------------|
 | Automate / H24 | 13 |
-| HX, PPR, sur demande | 24 |
-| Non précisé | 6 |
+| HX, PPR, sur demande | 26 |
+| Non précisé | 4 |
 
 > Déduit automatiquement du texte de la section « 10 - AVT ». `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
 
@@ -39,14 +39,14 @@
 | LFCS | BORDEAUX LEOGNAN SAUCATS | UL91, 100LL | HX, PPR, sur demande |
 | LFCU | USSEL THALAMY | Super Plus, 100LL | HX, PPR, sur demande |
 | LFCV | VILLEFRANCHE DE ROUERGUE | Super Plus, 100LL | HX, PPR, sur demande |
-| LFDA | AIRE SUR L'ADOUR | UL91 | Non précisé |
+| LFDA | AIRE SUR L'ADOUR | UL91 | HX, PPR, sur demande |
 | LFDC | MONTENDRE MARCILLAC | UL91 | HX, PPR, sur demande |
 | LFDE | EGLETONS | UL91 | HX, PPR, sur demande |
 | LFDT | TARBES LALOUBERE | UL91, 100LL | Automate / H24 |
 | LFDV | COUHE VERAC | Super Plus, 100LL | HX, PPR, sur demande |
 | LFFL | BAILLEAU ARMENONVILLE | UL91, 100LL | HX, PPR, sur demande |
 | LFFZ | SEZANNE SAINT REMY | UL91, 100LL | HX, PPR, sur demande |
-| LFGI | DIJON DAROIS | Super Plus, 100LL, Jet A1 | Non précisé |
+| LFGI | DIJON DAROIS | Super Plus, 100LL, Jet A1 | HX, PPR, sur demande |
 | LFGM | MONTCEAU LES MINES POUILLOUX | UL91, 100LL | HX, PPR, sur demande |
 | LFHC | PEROUGES MEXIMIEUX | UL91 | HX, PPR, sur demande |
 | LFHS | BOURG CEYZERIAT | UL91, 100LL | Automate / H24 |

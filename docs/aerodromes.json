@@ -127,8 +127,8 @@
         "UL91"
       ],
       "fuelsLabel": "UL91",
-      "availability": "unknown",
-      "availabilityLabel": "Non précisé",
+      "availability": "restricted",
+      "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91",
       "section": "10 - AVT : Carburant / Fuel : UL91. TEL : 07 82 77 32 56. Paiement : Carte Bancaire / Payment : Credit Card."
     },
@@ -239,8 +239,8 @@
         "SUPER_PLUS"
       ],
       "fuelsLabel": "Super Plus",
-      "availability": "unknown",
-      "availabilityLabel": "Non précisé",
+      "availability": "restricted",
+      "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "Super Plus, 100LL, Jet A1",
       "section": "10 - AVT : Carburant / Fuel : 100LL : AIR TOTAL : carte de crédit TOTAL ou paiement comptant à l'ACB / TOTAL credit card or cash payment to the ACB. JET A1, 100LL, SP95 : AVIA TEL : 06 49 75 14 88. Règlement possible par carte bancaire / possible payment by credit card."
     },

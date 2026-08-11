@@ -27,6 +27,9 @@ SELF_SERVICE_RE = re.compile(
 )
 
 # Anything that puts a person, a phone call or a clock between you and the pump.
+# A quoted phone number counts: a chart that offers a number and no hours is
+# telling you to arrange it with somebody. It never demotes a field that also
+# announces a dispenser, since self-service wins within a clause and on merge.
 RESTRICTED_RE = re.compile(
     r"\bHX\b|\bHJ\b|\bPPR\b|\bO/R\b"
     r"|sur demande|on request"
@@ -34,6 +37,7 @@ RESTRICTED_RE = re.compile(
     r"|\bRDV\b|rendez-vous|appointment"
     r"|se renseigner|contacter\b|\bcontact\b"
     r"|\bHOR\b|\bSKED\b"
+    r"|\bT[ÉE]L\b|\b0\d(?:[ .]?\d{2}){4}\b"
     r"|\d{4}\s*-\s*\d{4}",
     re.IGNORECASE,
 )

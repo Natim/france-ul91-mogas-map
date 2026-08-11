@@ -29,12 +29,37 @@ class TestSingleSignal:
             ("10 - AVT : UL 91. HJ sur PPR ACB.", RESTRICTED),
             ("10 - AVT : UL 91 : se renseigner auprès de l'ACB.", RESTRICTED),
             ("10 - AVT : UL 91. Contacter l'ACB auparavant.", RESTRICTED),
+            # A number and no hours means somebody has to be called.
+            ("10 - AVT : UL 91. TEL : 07 82 77 32 56.", RESTRICTED),
+            ("10 - AVT : UL 91. AVIA TÉL : 06.49.75.14.88.", RESTRICTED),
+            ("10 - AVT : UL 91. Renseignements 06 49 75 14 88.", RESTRICTED),
             ("10 - AVT : Carburant / Fuel : UL 91.", UNKNOWN),
-            ("10 - AVT : UL 91. TEL : 07 82 77 32 56.", UNKNOWN),
+            ("10 - AVT : Carburant / Fuel : UL91 Lubrifiant : NIL.", UNKNOWN),
         ],
     )
     def test_classifies_a_lone_signal(self, section, expected):
         assert availability(section, model.UL91) == {model.UL91: expected}
+
+    @pytest.mark.parametrize(
+        "section",
+        [
+            "10 - AVT : UL 91 : automate CB H24. TEL : 07 82 77 32 56.",
+            "10 - AVT : UL 91 libre service. En cas de panne TEL : 06 49 75 14 88.",
+        ],
+    )
+    def test_a_phone_number_never_demotes_a_dispenser(self, section):
+        """Support numbers sit next to automats; the pump is still self-service."""
+        assert availability(section, model.UL91)[model.UL91] == SELF
+
+    @pytest.mark.parametrize(
+        "section",
+        [
+            "10 - AVT : UL 91 H24. FREQ 120.500.",
+            "10 - AVT : UL 91 automate, poste 61.",
+        ],
+    )
+    def test_frequencies_and_stand_numbers_are_not_phone_numbers(self, section):
+        assert availability(section, model.UL91)[model.UL91] == SELF
 
 
 class TestConflictingSignals:
