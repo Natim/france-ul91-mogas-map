@@ -1,6 +1,6 @@
 # Aérodromes français — UL91 / Mogas
 
-**43 aérodromes** publient une pompe d'essence sans plomb (UL91, UL AERO SUPER+, Super Plus ou MOGAS) dans leur carte VAC officielle.
+**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle.
 
 - **Cycle AIRAC** : 2026-08-06
 - **Date d'extraction** : 2026-08-11
@@ -16,7 +16,7 @@
 | 100LL | 30 |
 | Jet A1 | 12 |
 
-> `UL91` et `UL AERO SUPER+` désignent le même carburant : `UL AERO SUPER+` est la dénomination commerciale TotalEnergies du UL91. C'est une essence *aviation* sans plomb, à ne pas confondre avec le mogas (`Super Plus` / `SP95` / `SP98`), qui est de l'essence routière.
+> Malgré son préfixe, `UL AERO SUPER+` n'est **pas** du `UL91` : c'est un SP98 sans éthanol de qualité aviation distribué par TotalEnergies, réservé aux moteurs ROTAX 912/914 homologués pour le SP98 EN 228. Il est donc rangé avec `Super Plus` / `SP95` / `SP98`. Le `UL91`, lui, est une essence aviation à la norme ASTM D7547.
 
 ## Conditions d'accès
 

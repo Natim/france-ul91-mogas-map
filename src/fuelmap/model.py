@@ -1,13 +1,20 @@
 """Fuel taxonomy and the aerodrome record produced by the extractor.
 
-The terminology is easy to get wrong, so it is pinned down here:
+The terminology is easy to get wrong, and the trap is that two different
+products both read as "unleaded". What decides the grouping here is which
+engine approval a pilot needs, not how the name is spelled:
 
-* ``UL91`` is an unleaded *aviation* gasoline (ASTM D7547). TotalEnergies
-  sells it as ``UL AERO SUPER+``, which is why both spellings appear in VAC
-  charts and are treated as the same product.
-* ``SUPER PLUS`` / ``SP95`` / ``SP98`` is automotive gasoline, i.e. mogas,
-  dispensed at aerodromes for engines certified to burn it. French VAC charts
-  never use the word "MOGAS", but it is matched defensively.
+* ``UL91`` is an unleaded *aviation* gasoline to ASTM D7547. It is its own
+  product, usable only on engines approved for UL91 avgas.
+* ``SUPER PLUS`` / ``SP95`` / ``SP98`` is automotive petrol to EN 228, i.e.
+  mogas, dispensed for engines certified to burn it. French VAC charts never
+  use the word "MOGAS", but it is matched defensively.
+* ``UL AERO SUPER+`` is TotalEnergies' *aviation-grade SP98*: an ethanol-free
+  EN 228 petrol, stored and filtered to aviation standards, approved for ROTAX
+  912/914 engines certified for SP98. Despite the "UL" it is **not** UL91 —
+  TotalEnergies sells the two side by side — so it belongs with the mogas
+  family. Grouping it under UL91 would tell a ROTAX pilot to skip a field they
+  can use, and send a UL91-only aircraft to a pump it is not approved for.
 * ``100LL`` is the leaded avgas that this project exists to help pilots avoid,
   and ``JET A1`` is turbine fuel. Both are recorded for context only.
 """
@@ -23,17 +30,7 @@ MOGAS = "MOGAS"
 AVGAS_100LL = "100LL"
 JET_A1 = "JET_A1"
 
-#: Unleaded aviation gasoline: the same physical product under two names.
-UNLEADED_AVGAS = frozenset({UL91, UL_AERO})
-
-#: Automotive gasoline sold airside.
-MOGAS_FUELS = frozenset({SUPER_PLUS, MOGAS})
-
-#: Everything an unleaded-certified piston engine can burn. Membership in this
-#: set is what puts an aerodrome in the published subset.
-UNLEADED_FUELS = UNLEADED_AVGAS | MOGAS_FUELS
-
-#: Display order for tables and legends, coarsest interest first.
+#: Display order for tables and legends, grouped by family.
 FUEL_DISPLAY_ORDER = (UL91, UL_AERO, SUPER_PLUS, MOGAS, AVGAS_100LL, JET_A1)
 
 FUEL_LABELS = {
@@ -45,21 +42,27 @@ FUEL_LABELS = {
     JET_A1: "Jet A1",
 }
 
-# The two families a pilot chooses between. The map draws one marker per
-# family, so a field selling both is filterable under either.
+# The two families a pilot chooses between, by required engine approval. The
+# map draws one marker per family, so a field selling both is filterable under
+# either.
 FAMILY_UL91 = "ul91"
 FAMILY_MOGAS = "mogas"
 
-#: Insertion order is the legend order.
+#: The single source of truth for which fuels belong together. Insertion order
+#: is the legend order.
 FUEL_FAMILIES = {
-    FAMILY_UL91: UNLEADED_AVGAS,
-    FAMILY_MOGAS: MOGAS_FUELS,
+    FAMILY_UL91: frozenset({UL91}),
+    FAMILY_MOGAS: frozenset({SUPER_PLUS, MOGAS, UL_AERO}),
 }
 
 FAMILY_LABELS = {
-    FAMILY_UL91: "UL91 / UL AERO SUPER+",
-    FAMILY_MOGAS: "Mogas (Super Plus / SP95-98)",
+    FAMILY_UL91: "UL91 (AVGAS sans plomb)",
+    FAMILY_MOGAS: "SP95 / SP98 (dont UL AERO SUPER+)",
 }
+
+#: Everything an unleaded-certified piston engine can burn. Membership is what
+#: puts an aerodrome in the published subset.
+UNLEADED_FUELS = frozenset().union(*FUEL_FAMILIES.values())
 
 # How obtainable a fuel is. See fuelmap.availability for how this is derived.
 AVAILABILITY_SELF_SERVICE = "self_service"
@@ -145,8 +148,9 @@ class Aerodrome:
     def family_availability(self, family: str) -> str:
         """Best availability across the fuels of ``family``.
 
-        UL91 and UL AERO SUPER+ are the same product under two names, so if
-        either is self-service the family is.
+        A family is as obtainable as its easiest member: a field where SP98 is
+        on an automat and UL AERO SUPER+ is on request still counts as
+        self-service for a pilot who can burn either.
         """
         return best_availability(
             {self.availability_of(fuel) for fuel in self.family_fuels(family)}

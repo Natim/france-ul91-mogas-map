@@ -1,8 +1,8 @@
 # Carte des aérodromes UL91 / mogas en France
 
 Où faire le plein d'essence **sans plomb** en France : liste et carte des
-aérodromes distribuant du **UL91** (alias **UL AERO SUPER+**) ou du **mogas**
-(**Super Plus**, **SP95**, **SP98**), extraites automatiquement de
+aérodromes distribuant de l'**AVGAS UL91** ou de l'essence **SP95 / SP98**
+(**Super Plus**, **UL AERO SUPER+**), extraites automatiquement de
 l'[eAIP du SIA](https://www.sia.aviation-civile.gouv.fr/) (cartes VAC,
 Atlas-VAC).
 
@@ -19,25 +19,31 @@ où s'avitailler. Des cartes communautaires existent
 directement sur la source officielle — les cartes VAC du SIA — ni ne se
 régénère à chaque cycle AIRAC. Ce dépôt comble ce vide.
 
-### UL91 n'est pas du mogas
+### UL91 n'est pas du SP98
 
 Une distinction que ce dépôt prend au sérieux, parce que les deux carburants ne
 sont pas interchangeables selon votre certification :
 
 | Carburant | Nature | Noms rencontrés dans les VAC |
 |---|---|---|
-| **UL91** | Essence *aviation* sans plomb (ASTM D7547) | `UL91`, `UL 91`, `UL AERO SUPER+` |
-| **Mogas** | Essence *routière* sans plomb | `SUPER PLUS`, `SUPER+`, `SP95`, `SP98`, `MOGAS` |
+| **UL91** | Essence *aviation* sans plomb, norme ASTM D7547 | `UL91`, `UL 91` |
+| **SP95 / SP98** | Essence sans plomb norme EN 228 | `SUPER PLUS`, `SP95`, `SP98`, `MOGAS`, `UL AERO SUPER+` |
 | **100LL** | Essence aviation **plombée** | `100LL`, `100 LL`, `AVGAS 100LL` |
 
-`UL AERO SUPER+` est la marque TotalEnergies du UL91 : malgré le « SUPER+ » de
-son nom, ce n'est **pas** du mogas.
+Le piège est l'`UL AERO SUPER+`. Malgré son préfixe « UL », ce **n'est pas** du
+UL91 : c'est un [SP98 sans éthanol de qualité
+aviation](https://aviation.totalenergies.com/fr/carburants-et-services-aviation/carburant-aviation/ul-aero-super-plus)
+distribué par TotalEnergies, réservé aux moteurs ROTAX 912/914 homologués pour
+le SP98 EN 228. TotalEnergies vend d'ailleurs l'UL91 et l'UL AERO SUPER+ comme
+deux produits distincts. Il est donc classé ici avec le SP95/SP98, et pas avec
+l'UL91 : l'inverse enverrait un pilote UL91 vers une pompe qui ne lui convient
+pas, et ferait manquer sept terrains à un pilote de ROTAX.
 
 ## Lire la carte
 
 Deux informations indépendantes sont encodées :
 
-- **La forme donne le carburant** : ● UL91 / UL AERO SUPER+, ■ mogas.
+- **La forme donne le carburant** : ● UL91, ■ SP95/SP98 (dont UL AERO SUPER+).
   Un terrain qui vend les deux porte **deux marqueurs**, pour rester visible
   quel que soit le filtre actif.
 - **La couleur donne les conditions d'accès** : 🟢 automate ou H24,
@@ -160,7 +166,8 @@ Les tests tournent sur des extraits de texte VAC stockés dans
    section 11 ou 12. Repli sur le document entier si les marqueurs manquent.
 3. Détection des variantes orthographiques de chaque carburant, en masquant au
    préalable la marque `UL AERO SUPER+` (aussi écrite `UL AEROSUPER +` ou
-   `UL Aéro Super +`) pour ne pas la compter comme du mogas.
+   `UL Aéro Super +`) pour ne pas créditer aussi le terrain d'un SP98 générique
+   que sa VAC n'annonce pas.
 4. Découpage de la section en clauses pour attribuer les conditions d'accès au
    carburant nommé dans la même phrase, avec repli sur les clauses générales.
 5. Lecture des coordonnées `LAT`/`LONG` de l'en-tête (sexagésimal → décimal).
@@ -175,6 +182,9 @@ Les tests tournent sur des extraits de texte VAC stockés dans
   cartes communautaires citées plus haut.
 - **Statut « NIL »** : Mauléon-Soule (LFJB) déclare `AVT : NIL`, malgré ce que
   des cartes communautaires peuvent affirmer.
+- **Mention « Super » seule** : Buno-Bonnevaux (LFFB) annonce `100LL, Super`
+  sans préciser d'indice. Faute de pouvoir en déduire un SP95 ou un SP98, le
+  terrain n'est **pas** compté comme sans plomb. C'est le seul cas du cycle.
 - **Périmètre géographique** : France métropolitaine + DOM (codes OACI `LF*`).
   L'outre-mer Pacifique (NTAA, NWWW…) n'est pas couvert.
 - **Conditions d'accès déduites** : le niveau vert/orange/gris vient d'une

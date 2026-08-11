@@ -45,12 +45,13 @@ class TestDetectFuels:
         section = parsing.extract_fuel_section(vac_text("LFOU"))
         assert parsing.detect_fuels(section) == {model.AVGAS_100LL, model.JET_A1}
 
-    def test_ul_aero_super_plus_is_not_mogas(self, vac_text):
-        """"UL AERO SUPER+" is TotalEnergies' UL91, not SP95/SP98."""
+    def test_ul_aero_super_plus_is_its_own_product(self, vac_text):
+        """Lyon-Bron sells UL AERO SUPER+; its chart claims no generic SP98."""
         section = parsing.extract_fuel_section(vac_text("LFLY"))
         fuels = parsing.detect_fuels(section)
         assert model.UL_AERO in fuels
         assert model.SUPER_PLUS not in fuels
+        assert model.UL91 not in fuels
 
     def test_genuine_mogas_is_still_detected(self, vac_text):
         section = parsing.extract_fuel_section(vac_text("LFCU"))
@@ -195,7 +196,7 @@ class TestParsedAvailability:
             == model.AVAILABILITY_SELF_SERVICE
         )
         assert (
-            aerodrome.family_availability(model.FAMILY_UL91)
+            aerodrome.family_availability(model.FAMILY_MOGAS)
             == model.AVAILABILITY_RESTRICTED
         )
 

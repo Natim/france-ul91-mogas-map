@@ -20,11 +20,14 @@ class TestFuelFamilies:
         ("fuels", "expected"),
         [
             ({model.UL91}, [model.FAMILY_UL91]),
-            ({model.UL_AERO}, [model.FAMILY_UL91]),
             ({model.UL91, model.AVGAS_100LL}, [model.FAMILY_UL91]),
             ({model.SUPER_PLUS}, [model.FAMILY_MOGAS]),
             ({model.MOGAS}, [model.FAMILY_MOGAS]),
             ({model.SUPER_PLUS, model.JET_A1}, [model.FAMILY_MOGAS]),
+            # UL AERO SUPER+ is an EN 228 SP98, not UL91, despite the name.
+            ({model.UL_AERO}, [model.FAMILY_MOGAS]),
+            ({model.UL_AERO, model.SUPER_PLUS}, [model.FAMILY_MOGAS]),
+            ({model.UL91, model.UL_AERO}, [model.FAMILY_UL91, model.FAMILY_MOGAS]),
             (
                 {model.UL91, model.SUPER_PLUS},
                 [model.FAMILY_UL91, model.FAMILY_MOGAS],
@@ -51,16 +54,16 @@ class TestFuelFamilies:
 
 class TestFamilyAvailability:
     def test_uses_the_best_level_within_a_family(self):
-        """UL91 and UL AERO SUPER+ are one product, so either being open counts."""
+        """Either SP98 grade being on an automat opens the family."""
         aerodrome = _aerodrome(
-            fuels=frozenset({model.UL91, model.UL_AERO}),
+            fuels=frozenset({model.SUPER_PLUS, model.UL_AERO}),
             availability=(
-                (model.UL91, model.AVAILABILITY_RESTRICTED),
+                (model.SUPER_PLUS, model.AVAILABILITY_RESTRICTED),
                 (model.UL_AERO, model.AVAILABILITY_SELF_SERVICE),
             ),
         )
         assert (
-            aerodrome.family_availability(model.FAMILY_UL91)
+            aerodrome.family_availability(model.FAMILY_MOGAS)
             == model.AVAILABILITY_SELF_SERVICE
         )
 
@@ -91,8 +94,16 @@ class TestFamilyAvailability:
 
 
 class TestFuelTaxonomy:
-    def test_unleaded_is_the_union_of_avgas_and_mogas(self):
-        assert model.UNLEADED_FUELS == model.UNLEADED_AVGAS | model.MOGAS_FUELS
+    def test_ul_aero_super_plus_is_grouped_with_sp98_not_ul91(self):
+        """It is TotalEnergies' aviation-grade EN 228 SP98, not ASTM D7547."""
+        assert model.UL_AERO in model.FUEL_FAMILIES[model.FAMILY_MOGAS]
+        assert model.UL_AERO not in model.FUEL_FAMILIES[model.FAMILY_UL91]
+
+    def test_families_do_not_overlap(self):
+        assert not (
+            model.FUEL_FAMILIES[model.FAMILY_UL91]
+            & model.FUEL_FAMILIES[model.FAMILY_MOGAS]
+        )
 
     def test_leaded_and_turbine_fuels_are_not_unleaded(self):
         assert model.AVGAS_100LL not in model.UNLEADED_FUELS

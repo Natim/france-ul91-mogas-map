@@ -33,12 +33,12 @@ FUEL_PATTERNS: dict[str, re.Pattern[str]] = {
     model.JET_A1: re.compile(r"\bJET\s*A[-\s]?1\b", re.IGNORECASE),
 }
 
-# TotalEnergies sells UL91 as "UL AERO SUPER+", also written "AERO SUPER+",
-# "UL AEROSUPER +" or "UL Aéro Super +" depending on the chart. The trailing
-# "SUPER+" is part of that brand name and must not be read as mogas, so these
-# mentions are masked out before the other patterns run. Without this,
-# aerodromes carrying only UL91 (Lyon-Bron, Avignon, Annecy…) are wrongly
-# advertised as selling SP95/SP98.
+# TotalEnergies' UL AERO SUPER+ appears as "AERO SUPER+", "UL AEROSUPER +" or
+# "UL Aéro Super +" depending on the chart. It is an SP98-grade fuel and is
+# classified with mogas, but it is still a distinct product from what comes out
+# of a generic SP98 pump, so these mentions are masked out before the other
+# patterns run. Without the mask a field selling only UL AERO SUPER+ would also
+# be credited with plain Super Plus, which its chart never claims.
 UL_AERO_BRAND_RE = re.compile(
     r"\b(?:UL\s+)?A[EÉ]RO\s*SUPER\s*\+", re.IGNORECASE
 )

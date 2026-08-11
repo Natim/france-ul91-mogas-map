@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Carte des aérodromes UL91 / Mogas en France</title>
-<meta name="description" content="Carte des aérodromes français distribuant de l'essence aviation sans plomb (UL91, UL AERO SUPER+) ou du mogas (Super Plus, SP95, SP98), avec les conditions d'accès, extraite de l'eAIP officiel du SIA." />
+<meta name="description" content="Carte des aérodromes français distribuant de l'AVGAS UL91 ou de l'essence SP95/SP98 (Super Plus, UL AERO SUPER+), avec les conditions d'accès, extraite de l'eAIP officiel du SIA." />
 <link rel="stylesheet"
   href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -120,8 +120,8 @@ const REPO_URL = "https://github.com/Natim/france-ul91-mogas-map";
 
 // Keys must match fuelmap.model: FUEL_FAMILIES and AVAILABILITY_ORDER.
 const FAMILIES = [
-  { key: "ul91", label: "UL91 / UL AERO SUPER+" },
-  { key: "mogas", label: "Mogas (Super Plus / SP95-98)" },
+  { key: "ul91", label: "UL91 (AVGAS sans plomb)" },
+  { key: "mogas", label: "SP95 / SP98 (dont UL AERO SUPER+)" },
 ];
 
 const AVAILABILITY = [

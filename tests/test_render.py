@@ -148,6 +148,21 @@ class TestMapData:
         assert by_key[("LFMW", model.FAMILY_UL91)]["fuels"] == [model.UL91]
         assert by_key[("LFMW", model.FAMILY_MOGAS)]["fuels"] == [model.SUPER_PLUS]
 
+    def test_ul_aero_super_plus_lands_on_the_sp98_filter(self):
+        """A ROTAX pilot filtering for SP98 must see Lyon-Bron and its kin."""
+        lyon = model.Aerodrome(
+            icao="LFLY",
+            name="LYON BRON",
+            fuels=frozenset({model.UL_AERO, model.AVGAS_100LL}),
+            latitude=45.72,
+            longitude=4.94,
+            fuel_section="10 - AVT : UL AERO SUPER+ - 100 LL.",
+            availability=((model.UL_AERO, RESTRICTED),),
+        )
+        payload = web.build_payload([lyon], AIRAC, today=TODAY)
+        assert [m["family"] for m in payload["markers"]] == [model.FAMILY_MOGAS]
+        assert payload["markers"][0]["fuelsLabel"] == "UL AERO SUPER+"
+
     def test_availability_is_resolved_per_family(self, aerodromes):
         payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
         by_key = {(m["icao"], m["family"]): m for m in payload["markers"]}
