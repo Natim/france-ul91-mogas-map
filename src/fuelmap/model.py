@@ -119,6 +119,14 @@ class Aerodrome:
     availability: tuple[tuple[str, str], ...] = ()
     """Sorted ``(fuel, level)`` pairs. A tuple so the record stays hashable."""
 
+    availability_note: str = ""
+    """Why the level departs from the chart. Empty unless curated.
+
+    Set by :mod:`fuelmap.overrides` for the few fields whose chart states no
+    fuelling conditions at all. Non-empty means "do not expect to find this in
+    the VAC text below", which is what the map popup says.
+    """
+
     error: str = ""
     """Non-empty when the chart could not be read at all."""
 

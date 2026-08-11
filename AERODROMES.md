@@ -12,7 +12,7 @@
 |-----------|-------------|
 | UL91 | 29 |
 | UL AERO SUPER+ | 7 |
-| Super Plus | 8 |
+| Super Plus | 9 |
 | 100LL | 30 |
 | Jet A1 | 12 |
 
@@ -22,11 +22,11 @@
 
 | Accès | Nb terrains |
 |-------|-------------|
-| Automate / H24 | 13 |
+| Automate / H24 | 15 |
 | HX, PPR, sur demande | 26 |
-| Non précisé | 4 |
+| Non précisé | 2 |
 
-> Déduit automatiquement du texte de la section « 10 - AVT ». `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
+> Déduit automatiquement du texte de la section « 10 - AVT », sauf mention †. `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
 
 ## Liste complète
 
@@ -64,16 +64,21 @@
 | LFNE | SALON EYGUIERES | Super Plus, 100LL | HX, PPR, sur demande |
 | LFNH | CARPENTRAS | UL91, 100LL | Non précisé |
 | LFNJ | ASPRES SUR BUECH | UL91 | Automate / H24 |
-| LFOF | ALENCON VALFRAMBERT | UL91 | Non précisé |
+| LFOF | ALENCON VALFRAMBERT | UL91, Super Plus | Automate / H24 † |
 | LFOI | ABBEVILLE | UL91, 100LL | HX, PPR, sur demande |
 | LFPE | MEAUX ESBLY | UL91, 100LL | Automate / H24 |
 | LFPF | BEYNES THIVERVAL | UL91 | Non précisé |
 | LFPL | LOGNES EMERAINVILLE | UL AERO SUPER+, 100LL, Jet A1 | Automate / H24 |
 | LFQD | ARRAS ROCLINCOURT | Super Plus, 100LL | HX, PPR, sur demande |
 | LFQJ | MAUBEUGE ELESMES | UL AERO SUPER+, 100LL | Automate / H24 |
-| LFRS | NANTES ATLANTIQUE | UL91, Jet A1 | Non précisé |
+| LFRS | NANTES ATLANTIQUE | UL91, Jet A1 | Automate / H24 † |
 | LFSA | BESANCON THISE | Super Plus | HX, PPR, sur demande |
 | LFSH | HAGUENAU | UL91, 100LL | HX, PPR, sur demande |
 | LFXU | LES MUREAUX | UL91, 100LL | HX, PPR, sur demande |
+
+† Condition d'accès **non publiée par la VAC**, renseignée manuellement :
+
+- **LFOF** ALENCON VALFRAMBERT — Pompe UL91 en HX. SP98 H24 à la station Total en face, nécessite un bidon.
+- **LFRS** NANTES ATLANTIQUE — Automate accessible H24. La VAC ne donne aucune condition.
 
 _Fichier auto-généré par `fuelmap extract`. Ne pas éditer à la main._

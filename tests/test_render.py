@@ -124,6 +124,23 @@ class TestMarkdown:
         row = next(line for line in rendered.splitlines() if line.startswith("| LFCU"))
         assert model.AVAILABILITY_LABELS[RESTRICTED] in row
 
+    def test_footnotes_curated_access_conditions(self, aerodromes):
+        curated = aerodrome(
+            "LFRS",
+            {model.UL91},
+            name="NANTES ATLANTIQUE",
+            availability={model.UL91: SELF},
+            availability_note="Automate accessible H24.",
+        )
+        rendered = markdown.render_markdown([*aerodromes, curated], AIRAC, today=TODAY)
+        row = next(line for line in rendered.splitlines() if line.startswith("| LFRS"))
+        assert markdown.OVERRIDE_MARK in row
+        assert "- **LFRS** NANTES ATLANTIQUE — Automate accessible H24." in rendered
+
+    def test_omits_the_footnote_when_nothing_is_curated(self, aerodromes):
+        rendered = markdown.render_markdown(aerodromes, AIRAC, today=TODAY)
+        assert "renseignée manuellement" not in rendered
+
 
 class TestMapData:
     def test_drops_aerodromes_without_coordinates(self, aerodromes):
@@ -168,6 +185,21 @@ class TestMapData:
         by_key = {(m["icao"], m["family"]): m for m in payload["markers"]}
         assert by_key[("LFMW", model.FAMILY_UL91)]["availability"] == SELF
         assert by_key[("LFMW", model.FAMILY_MOGAS)]["availability"] == RESTRICTED
+
+    def test_curated_levels_are_flagged_for_the_reader(self):
+        """The chart text in the popup will not back this up, so say so."""
+        curated = aerodrome(
+            "LFRS",
+            {model.UL91},
+            availability={model.UL91: SELF},
+            availability_note="Automate accessible H24.",
+        )
+        payload = web.build_payload([curated], AIRAC, today=TODAY)
+        assert payload["markers"][0]["note"] == "Automate accessible H24."
+
+    def test_uncurated_markers_carry_no_note(self, aerodromes):
+        payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
+        assert all(m["note"] == "" for m in payload["markers"])
 
     def test_markers_show_the_whole_field_for_context(self, aerodromes):
         payload = web.build_payload(aerodromes, AIRAC, today=TODAY)

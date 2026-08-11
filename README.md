@@ -150,6 +150,7 @@ Le code vit dans `src/fuelmap/` :
 | `model.py` | Taxonomie des carburants, familles, `Aerodrome` |
 | `parsing.py` | Regex et extraction pure depuis le texte des VAC |
 | `availability.py` | Déduction des conditions d'accès, clause par clause |
+| `overrides.py` | Corrections manuelles : conditions d'accès et carburants hors AIP |
 | `vac.py` | Appel à `pdftotext`, détection du cycle AIRAC |
 | `pipeline.py` | Parcours parallèle du dossier VAC |
 | `render/` | Sorties CSV, Markdown et données de la carte |
@@ -172,6 +173,10 @@ Les tests tournent sur des extraits de texte VAC stockés dans
    carburant nommé dans la même phrase, avec repli sur les clauses générales.
 5. Lecture des coordonnées `LAT`/`LONG` de l'en-tête (sexagésimal → décimal).
 6. Normalisation des caractères Windows-1252 que Poppler laisse passer.
+7. Application des corrections manuelles d'`overrides.py` — conditions d'accès
+   et, le cas échéant, carburant absent de l'AIP — uniquement sur la liste
+   Markdown et la carte : les CSV gardent ce que dit la VAC, si bien qu'une
+   correction se retire en supprimant son entrée.
 
 ## Limites connues
 
@@ -191,6 +196,13 @@ Les tests tournent sur des extraits de texte VAC stockés dans
   analyse de texte libre, pas d'un champ structuré de l'AIP. Il est vérifié
   sur les 43 terrains du cycle courant, mais une tournure inédite peut le
   tromper. Le texte source est affiché dans la popup pour arbitrer.
+- **Corrections manuelles** : quelques terrains ne publient aucune condition
+  dans leur VAC, et un carburant peut exister sans figurer à l'AIP — une
+  station-service de bord de route, par exemple. Ces cas sont renseignés à la
+  main dans [`overrides.py`](./src/fuelmap/overrides.py), signalés « hors VAC »
+  dans la popup et par un † dans [`AERODROMES.md`](./AERODROMES.md), avec la
+  raison. **Lisez-la** : elle précise notamment quand le carburant n'est pas au
+  parking. Les CSV, eux, restent le reflet fidèle des cartes.
 - **Données périssables** : l'eAIP change tous les 28 jours. Le cycle publié est
   indiqué en tête d'[`AERODROMES.md`](./AERODROMES.md) et sur la carte.
 - **Aucune valeur opérationnelle** : ces données sont indicatives. Consultez la

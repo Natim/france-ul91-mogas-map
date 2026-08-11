@@ -24,7 +24,8 @@ from ..model import (
 
 #: Bumped when the JSON shape changes, so the page can refuse stale data.
 #: 2 — markers are per fuel family and carry an availability level.
-SCHEMA_VERSION = 2
+#: 3 — markers carry ``note``, set when the level is curated rather than read.
+SCHEMA_VERSION = 3
 
 
 def _marker(aerodrome: Aerodrome, family: str) -> dict:
@@ -46,6 +47,9 @@ def _marker(aerodrome: Aerodrome, family: str) -> dict:
         # raw wording so they can check the availability we inferred.
         "allFuelsLabel": format_fuels(aerodrome.fuels),
         "section": aerodrome.fuel_section,
+        # Non-empty when the level was curated: the chart below will not
+        # corroborate it, and the popup says so.
+        "note": aerodrome.availability_note,
     }
 
 

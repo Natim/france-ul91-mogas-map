@@ -17,6 +17,9 @@ from ..model import (
 
 GENERATED_BY = "`fuelmap extract`"
 
+#: Flags a row whose access condition does not come from the chart.
+OVERRIDE_MARK = "†"
+
 
 def count_fuels(aerodromes: list[Aerodrome]) -> Counter[str]:
     counts: Counter[str] = Counter()
@@ -88,21 +91,37 @@ def render_markdown(
     )
     lines += [
         "",
-        "> Déduit automatiquement du texte de la section « 10 - AVT ». "
-        "`Automate / H24` signifie qu'une pompe en libre-service est annoncée ; "
-        "les autres terrains demandent un PPR, un appel, ou ne servent que "
-        "pendant certaines plages. **En cas de doute, la carte VAC fait foi.**",
+        "> Déduit automatiquement du texte de la section « 10 - AVT », sauf "
+        f"mention {OVERRIDE_MARK}. `Automate / H24` signifie qu'une pompe en "
+        "libre-service est annoncée ; les autres terrains demandent un PPR, un "
+        "appel, ou ne servent que pendant certaines plages. **En cas de doute, "
+        "la carte VAC fait foi.**",
         "",
         "## Liste complète",
         "",
         "| OACI | Nom | Carburants | Accès |",
         "|------|-----|-----------|-------|",
     ]
+    ordered = sorted(aerodromes, key=lambda a: a.icao)
     lines.extend(
         f"| {a.icao} | {a.name} | {format_fuels(a.fuels)} "
-        f"| {AVAILABILITY_LABELS[overall_availability(a)]} |"
-        for a in sorted(aerodromes, key=lambda a: a.icao)
+        f"| {AVAILABILITY_LABELS[overall_availability(a)]}"
+        f"{' ' + OVERRIDE_MARK if a.availability_note else ''} |"
+        for a in ordered
     )
+
+    curated = [a for a in ordered if a.availability_note]
+    if curated:
+        lines += [
+            "",
+            f"{OVERRIDE_MARK} Condition d'accès **non publiée par la VAC**, "
+            "renseignée manuellement :",
+            "",
+        ]
+        lines.extend(
+            f"- **{a.icao}** {a.name} — {a.availability_note}" for a in curated
+        )
+
     lines += [
         "",
         f"_Fichier auto-généré par {GENERATED_BY}. Ne pas éditer à la main._",

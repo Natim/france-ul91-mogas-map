@@ -8,6 +8,9 @@ Two subcommands:
 ``rebuild``
     Regenerate the Markdown and map data from the committed CSV. Useful when
     editing presentation without a copy of the source PDFs at hand.
+
+Both write the CSVs straight from the charts, then apply the curated access
+conditions of :mod:`fuelmap.overrides` to the Markdown and map only.
 """
 
 from __future__ import annotations
@@ -18,7 +21,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
-from . import pipeline, vac
+from . import overrides, pipeline, vac
 from .model import Aerodrome
 from .render import csv_export, markdown, web
 
@@ -115,14 +118,18 @@ def _write_outputs(
 ):
     unleaded = pipeline.unleaded_only(aerodromes)
 
+    # The CSVs record the charts as they are; the reader-facing outputs get the
+    # curated access conditions on top.
     csv_export.write_csv(args.all_csv, aerodromes)
     csv_export.write_csv(
         args.unleaded_csv, unleaded, columns=csv_export.SUBSET_COLUMNS
     )
+
+    curated = overrides.apply_all(unleaded)
     args.markdown.write_text(
-        markdown.render_markdown(unleaded, airac, today=extracted_on), encoding="utf-8"
+        markdown.render_markdown(curated, airac, today=extracted_on), encoding="utf-8"
     )
-    plotted = web.write_map_data(args.map_data, unleaded, airac, today=extracted_on)
+    plotted = web.write_map_data(args.map_data, curated, airac, today=extracted_on)
 
     print(f"\nTous les terrains  : {args.all_csv} ({len(aerodromes)})")
     print(f"Sans plomb         : {args.unleaded_csv} ({len(unleaded)})")

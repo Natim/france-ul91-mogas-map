@@ -1,5 +1,5 @@
 {
-  "schema": 2,
+  "schema": 3,
   "airac": "2026-08-06",
   "generated": "2026-08-11",
   "aerodromeCount": 43,
@@ -18,7 +18,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91",
-      "section": "10 - AVT : AVGAS UL91 : réservé aux ACFT basés / reserved for based ACFT ."
+      "section": "10 - AVT : AVGAS UL91 : réservé aux ACFT basés / reserved for based ACFT .",
+      "note": ""
     },
     {
       "icao": "LFBY",
@@ -34,7 +35,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : \u0007Carburants sur demande / Fuel on request : MIL : F34 - CIV : 100 LL - UL 91 Paiement / Payment : - MIL : Carte SCALP / SCALP Card  05 58 35 93 34 - CIV : Espèces ou chèque bancaire / Cash or cheque  05 58 74 14 20"
+      "section": "10 - AVT : \u0007Carburants sur demande / Fuel on request : MIL : F34 - CIV : 100 LL - UL 91 Paiement / Payment : - MIL : Carte SCALP / SCALP Card  05 58 35 93 34 - CIV : Espèces ou chèque bancaire / Cash or cheque  05 58 74 14 20",
+      "note": ""
     },
     {
       "icao": "LFCH",
@@ -50,7 +52,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
-      "section": "← 10 - AVT : Carburant / Fuel : UL AERO SUPER+, 100LL, JET A1. AVT automatique disponible avec carte TOTAL et CB (uniquement 100LL et AERO SUPER+). Automatic fuel dispenser available with TOTAL card and Credit Card (only for 100LL and AERO SUPER+). Non porteurs de carte, contacter la TWR pendant les HOR suivants : Non-card holders, contact TWR during the following SKED : 15 APR - 15 SEP : 0830-1045, 1300-1700 16 SEP - 14 APR : 0800-1045, 1315-1530."
+      "section": "← 10 - AVT : Carburant / Fuel : UL AERO SUPER+, 100LL, JET A1. AVT automatique disponible avec carte TOTAL et CB (uniquement 100LL et AERO SUPER+). Automatic fuel dispenser available with TOTAL card and Credit Card (only for 100LL and AERO SUPER+). Non porteurs de carte, contacter la TWR pendant les HOR suivants : Non-card holders, contact TWR during the following SKED : 15 APR - 15 SEP : 0830-1045, 1300-1700 16 SEP - 14 APR : 0800-1045, 1315-1530.",
+      "note": ""
     },
     {
       "icao": "LFCL",
@@ -66,7 +69,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "← 10 - AVT : 100 LL, UL91 H24 par carte TOTAL ou carte bancaire / H24 for TOTAL or credit card."
+      "section": "← 10 - AVT : 100 LL, UL91 H24 par carte TOTAL ou carte bancaire / H24 for TOTAL or credit card.",
+      "note": ""
     },
     {
       "icao": "LFCS",
@@ -82,7 +86,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : 100 LL/UL 91 PPR 06 77 63 68 41. Carte de crédit / Credit card Lubrifiants / Lubricants : NIL."
+      "section": "10 - AVT : 100 LL/UL 91 PPR 06 77 63 68 41. Carte de crédit / Credit card Lubrifiants / Lubricants : NIL.",
+      "note": ""
     },
     {
       "icao": "LFCU",
@@ -98,7 +103,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "Super Plus, 100LL",
-      "section": "10 - AVT : Carburant / Fuel 100 LL. SP 98 HX. Paiement comptant ou par chèque / Cheque or cash payment. PPR pour la délivrance des carburants et paiement comptant, chèque ou carte bleue. PPR for fuel delivery and cash payment, cheque or credit card."
+      "section": "10 - AVT : Carburant / Fuel 100 LL. SP 98 HX. Paiement comptant ou par chèque / Cheque or cash payment. PPR pour la délivrance des carburants et paiement comptant, chèque ou carte bleue. PPR for fuel delivery and cash payment, cheque or credit card.",
+      "note": ""
     },
     {
       "icao": "LFCV",
@@ -114,7 +120,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "Super Plus, 100LL",
-      "section": "← 10 - AVT : Carburant / Fuel : 100LL, SP 98 - Lubrifiant / Lubricant : D 80 (CIV MIL). HJ sur / on PPR ACB."
+      "section": "← 10 - AVT : Carburant / Fuel : 100LL, SP 98 - Lubrifiant / Lubricant : D 80 (CIV MIL). HJ sur / on PPR ACB.",
+      "note": ""
     },
     {
       "icao": "LFDA",
@@ -130,7 +137,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91",
-      "section": "10 - AVT : Carburant / Fuel : UL91. TEL : 07 82 77 32 56. Paiement : Carte Bancaire / Payment : Credit Card."
+      "section": "10 - AVT : Carburant / Fuel : UL91. TEL : 07 82 77 32 56. Paiement : Carte Bancaire / Payment : Credit Card.",
+      "note": ""
     },
     {
       "icao": "LFDC",
@@ -146,7 +154,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91",
-      "section": "10 - AVT : Carburant / Fuel UL 91 seulement / only : 0800-1100, 1300-1700. Paiement par chèque, carte de crédit ou en espèces / Cheques, credit card or cash payment."
+      "section": "10 - AVT : Carburant / Fuel UL 91 seulement / only : 0800-1100, 1300-1700. Paiement par chèque, carte de crédit ou en espèces / Cheques, credit card or cash payment.",
+      "note": ""
     },
     {
       "icao": "LFDE",
@@ -162,7 +171,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91",
-      "section": "10 - AVT : Carburant / Fuel: UL 91 HX. Paiement comptant carte bancaire uniquement / Card only. Gestion Aéroclub / ACB management : TEL : 05 55 93 09 50. Lubrifiant / Lubricant: NIL."
+      "section": "10 - AVT : Carburant / Fuel: UL 91 HX. Paiement comptant carte bancaire uniquement / Card only. Gestion Aéroclub / ACB management : TEL : 05 55 93 09 50. Lubrifiant / Lubricant: NIL.",
+      "note": ""
     },
     {
       "icao": "LFDT",
@@ -178,7 +188,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : Carburants / Fuel TOTAL 100 LL et / and UL 91: station automatique de paiement par carte TOTAL ou aux heures d'ouvertures de l'aéroclub de Bigorre par carte bancaire (VISA, MASTERCARD) / automatic dispenser by TOTAL card or during ACB de Bigorre SKED by credit card (VISA, MASTERCARD)."
+      "section": "10 - AVT : Carburants / Fuel TOTAL 100 LL et / and UL 91: station automatique de paiement par carte TOTAL ou aux heures d'ouvertures de l'aéroclub de Bigorre par carte bancaire (VISA, MASTERCARD) / automatic dispenser by TOTAL card or during ACB de Bigorre SKED by credit card (VISA, MASTERCARD).",
+      "note": ""
     },
     {
       "icao": "LFDV",
@@ -194,7 +205,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "Super Plus, 100LL",
-      "section": "← 10 - AVT : Carburant / Fuel : 100 LL - SP98 - O/R ACB. Lubrifiant / Lubricant : NIL."
+      "section": "← 10 - AVT : Carburant / Fuel : 100 LL - SP98 - O/R ACB. Lubrifiant / Lubricant : NIL.",
+      "note": ""
     },
     {
       "icao": "LFFL",
@@ -210,7 +222,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : Carburant / Fuel AVGAS 100LL et AVGAS UL91. Lubrifiant / Lubricant : qualité aviation / aviation quality. Réservé aux ACFT basés / Reserved for home-based ACFT."
+      "section": "10 - AVT : Carburant / Fuel AVGAS 100LL et AVGAS UL91. Lubrifiant / Lubricant : qualité aviation / aviation quality. Réservé aux ACFT basés / Reserved for home-based ACFT.",
+      "note": ""
     },
     {
       "icao": "LFFZ",
@@ -226,7 +239,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : Carburant / Fuel : 100 LL, UL 91 - HX. Paiement comptant chèque ou espèce / Payment : cheque or cash."
+      "section": "10 - AVT : Carburant / Fuel : 100 LL, UL 91 - HX. Paiement comptant chèque ou espèce / Payment : cheque or cash.",
+      "note": ""
     },
     {
       "icao": "LFGI",
@@ -242,7 +256,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "Super Plus, 100LL, Jet A1",
-      "section": "10 - AVT : Carburant / Fuel : 100LL : AIR TOTAL : carte de crédit TOTAL ou paiement comptant à l'ACB / TOTAL credit card or cash payment to the ACB. JET A1, 100LL, SP95 : AVIA TEL : 06 49 75 14 88. Règlement possible par carte bancaire / possible payment by credit card."
+      "section": "10 - AVT : Carburant / Fuel : 100LL : AIR TOTAL : carte de crédit TOTAL ou paiement comptant à l'ACB / TOTAL credit card or cash payment to the ACB. JET A1, 100LL, SP95 : AVIA TEL : 06 49 75 14 88. Règlement possible par carte bancaire / possible payment by credit card.",
+      "note": ""
     },
     {
       "icao": "LFGM",
@@ -258,7 +273,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : Carburant / Fuel: 100 LL Automate avec carte de crédit TOTAL H 24 / Automatic dispenser with TOTAL credit card H24. UL 91, Lubrifiant / Lubricant: 80 - 100 W : 0800-1500 tous les jours (été), sauf mardi (hiver). Réglement par CB, chèques ou espèces / 0800-1500 every day (summer), except tuesday (winter). CB, cash payment or cheque."
+      "section": "10 - AVT : Carburant / Fuel: 100 LL Automate avec carte de crédit TOTAL H 24 / Automatic dispenser with TOTAL credit card H24. UL 91, Lubrifiant / Lubricant: 80 - 100 W : 0800-1500 tous les jours (été), sauf mardi (hiver). Réglement par CB, chèques ou espèces / 0800-1500 every day (summer), except tuesday (winter). CB, cash payment or cheque.",
+      "note": ""
     },
     {
       "icao": "LFHC",
@@ -274,7 +290,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91",
-      "section": "10 - AVT : Carburant / Fuel : UL91 (CIV-MIL) HX. Paiement comptant / Cash payment TEL : 04 27 41 01 43. Quantité limitée / Limited amount."
+      "section": "10 - AVT : Carburant / Fuel : UL91 (CIV-MIL) HX. Paiement comptant / Cash payment TEL : 04 27 41 01 43. Quantité limitée / Limited amount.",
+      "note": ""
     },
     {
       "icao": "LFHS",
@@ -290,7 +307,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : AVGAS 100 LL et UL 91 H24 par carte TOTAL, ou bureau de piste par chèque, espèces et CB. AVGAS 100 LL and UL 91 H24 by TOTAL card, or cheque, cash or credit card in reporting office. HOR / SKED : 0900-1600."
+      "section": "10 - AVT : AVGAS 100 LL et UL 91 H24 par carte TOTAL, ou bureau de piste par chèque, espèces et CB. AVGAS 100 LL and UL 91 H24 by TOTAL card, or cheque, cash or credit card in reporting office. HOR / SKED : 0900-1600.",
+      "note": ""
     },
     {
       "icao": "LFIT",
@@ -306,7 +324,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91",
-      "section": "10 - AVT : Carburant / Fuel : UL 91. Lubrifiant / Lubricant : NIL. HX réservé aux ACFT basés / reserved for home based ACFT."
+      "section": "10 - AVT : Carburant / Fuel : UL 91. Lubrifiant / Lubricant : NIL. HX réservé aux ACFT basés / reserved for home based ACFT.",
+      "note": ""
     },
     {
       "icao": "LFJY",
@@ -322,7 +341,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL, Jet A1",
-      "section": "← 10 - AVT : 100 LL : Paiements cartes TOTAL H24 / Payment TOTAL card H24. 100 LL, UL91 : O/R paiements par CB, cash, chèque / O/R payments by credit card, cash, cheque. JET A1 : Paiements / payments CB H24. O/R paiements par cash, chèque / O/R payments by cash, cheque. TEL : 03 29 89 30 10 ou / or 06 07 85 15 39."
+      "section": "← 10 - AVT : 100 LL : Paiements cartes TOTAL H24 / Payment TOTAL card H24. 100 LL, UL91 : O/R paiements par CB, cash, chèque / O/R payments by credit card, cash, cheque. JET A1 : Paiements / payments CB H24. O/R paiements par cash, chèque / O/R payments by cash, cheque. TEL : 03 29 89 30 10 ou / or 06 07 85 15 39.",
+      "note": ""
     },
     {
       "icao": "LFLG",
@@ -338,7 +358,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, 100LL, Jet A1",
-      "section": "10 - AVT : Carburant / Fuel : AVGAS 100LL - UL91 - JET A1. Lubrifiant / Lubricant : NIL. Libre service : H24 avec les cartes Air BP, Sterling Card pour AVGAS 100LL - UL91 - JET A1. H24 avec CB VISA et MASTERCARD pour UL91 uniquement. Service par agent avitailleur : AVGAS 100LL et JET A1 uniquement. Du 1er avril au 30 septembre : 0730-1045, 1230-1615. Du 1er octobre au 31 mars : 0800-1045, 1230-1545. Fermé le 25 décembre et le 1er janvier. Paiement par carte bancaire uniquement : Visa, Master Card, American Express. Self service : H24 with Air BP, Sterling cards for AVGAS 100LL - UL91 - JET A1. H24 with VISA and MASTERCARD for UL91 only. Service by fueller agent : AVGAS 100LL and JET A1 only. From april 1st to september 30th : 0730-1045, 1230-1615. From october 1st to march 31st : 0800-1045, 1230-1545. Closed on december 25th and january 1st. Payment by credit card only : Visa, Master Card, American Express."
+      "section": "10 - AVT : Carburant / Fuel : AVGAS 100LL - UL91 - JET A1. Lubrifiant / Lubricant : NIL. Libre service : H24 avec les cartes Air BP, Sterling Card pour AVGAS 100LL - UL91 - JET A1. H24 avec CB VISA et MASTERCARD pour UL91 uniquement. Service par agent avitailleur : AVGAS 100LL et JET A1 uniquement. Du 1er avril au 30 septembre : 0730-1045, 1230-1615. Du 1er octobre au 31 mars : 0800-1045, 1230-1545. Fermé le 25 décembre et le 1er janvier. Paiement par carte bancaire uniquement : Visa, Master Card, American Express. Self service : H24 with Air BP, Sterling cards for AVGAS 100LL - UL91 - JET A1. H24 with VISA and MASTERCARD for UL91 only. Service by fueller agent : AVGAS 100LL and JET A1 only. From april 1st to september 30th : 0730-1045, 1230-1615. From october 1st to march 31st : 0800-1045, 1230-1545. Closed on december 25th and january 1st. Payment by credit card only : Visa, Master Card, American Express.",
+      "note": ""
     },
     {
       "icao": "LFLO",
@@ -354,7 +375,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, 100LL, Jet A1",
-      "section": "← 10 - AVT : Carburants / Fuel : 100 LL, Jet A1, UL91 HOR AFIS / AFIS SKED Lubrifiants / Lubricants : NIL Paiement comptant, cartes bancaires, chèques / Cash, credit cards, cheques. Tous carburants / All fuels : CB H24 Exonération TIC uniquement en présence de RFFS / TIC exemption only in the presence of RFFS."
+      "section": "← 10 - AVT : Carburants / Fuel : 100 LL, Jet A1, UL91 HOR AFIS / AFIS SKED Lubrifiants / Lubricants : NIL Paiement comptant, cartes bancaires, chèques / Cash, credit cards, cheques. Tous carburants / All fuels : CB H24 Exonération TIC uniquement en présence de RFFS / TIC exemption only in the presence of RFFS.",
+      "note": ""
     },
     {
       "icao": "LFLP",
@@ -370,7 +392,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
-      "section": "← 10 - AVT : Carburants / Fuel : 100 LL, UL Aéro Super +, électricité / electricity , JET A1, JET A1 SAF (suivre ligne 6 / follow line 6) Automates H24 envergure max 16 m : 100 LL, UL Aéro Super +, électricité (poste 61), JET A1 (paiement JET A1 automate par carte TotalEnergies uniquement) Self-Service H24 max span 16 m : 100 LL, UL Aéro Super +, electricity (stand 61), JET A1 (JET A1 self- service payment only with TotalEnergies card) Au poste 0800-1800 : JET A1 et JET A1 SAF (paiement JET A1 SAF par carte TotalEnergies ou Fuel release uniquement) On the stand 0800-1800 : JET A1 and JET A1 SAF (JET A1 SAF payment with TotalEnergies card or fuel release only) Carte TotalEnergies, VISA, MASTERCARD, espèces euros. TotalEnergies card, VISA, MASTERCARD, cash euros. TEL : 04 50 27 22 50 / 06 61 70 98 22."
+      "section": "← 10 - AVT : Carburants / Fuel : 100 LL, UL Aéro Super +, électricité / electricity , JET A1, JET A1 SAF (suivre ligne 6 / follow line 6) Automates H24 envergure max 16 m : 100 LL, UL Aéro Super +, électricité (poste 61), JET A1 (paiement JET A1 automate par carte TotalEnergies uniquement) Self-Service H24 max span 16 m : 100 LL, UL Aéro Super +, electricity (stand 61), JET A1 (JET A1 self- service payment only with TotalEnergies card) Au poste 0800-1800 : JET A1 et JET A1 SAF (paiement JET A1 SAF par carte TotalEnergies ou Fuel release uniquement) On the stand 0800-1800 : JET A1 and JET A1 SAF (JET A1 SAF payment with TotalEnergies card or fuel release only) Carte TotalEnergies, VISA, MASTERCARD, espèces euros. TotalEnergies card, VISA, MASTERCARD, cash euros. TEL : 04 50 27 22 50 / 06 61 70 98 22.",
+      "note": ""
     },
     {
       "icao": "LFLQ",
@@ -386,7 +409,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91",
-      "section": "← 10 - AVT : AVGAS UL 91. HX : voir / see ACB de Montélimar. Quantité limitée / Limited quantities . Paiement comptant ou carte bancaire. Cash payment or credit card. Approvisionnement entre 0900 et 1700, uniquement sur RDV fixé la veille au 06 95 46 87 14 Refuelling : between 0900 and 1700, only with appointment the day before to + 33 (0)6 95 46 87 14"
+      "section": "← 10 - AVT : AVGAS UL 91. HX : voir / see ACB de Montélimar. Quantité limitée / Limited quantities . Paiement comptant ou carte bancaire. Cash payment or credit card. Approvisionnement entre 0900 et 1700, uniquement sur RDV fixé la veille au 06 95 46 87 14 Refuelling : between 0900 and 1700, only with appointment the day before to + 33 (0)6 95 46 87 14",
+      "note": ""
     },
     {
       "icao": "LFLY",
@@ -402,7 +426,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
-      "section": "← 10 - AVT : Carburants / Fuel : UL AERO SUPER+ - 100 LL - JET A1 (TOTAL Energies et / and Air BP). 0630-2230, carte crédit, Eurochèques ou paiement comptant. Société SCAL : Hors HOR ouverture, TEL : 06 34 53 30 58 Carte TOTAL à la station 100LL : H24. JET A1 : TOTAL ou BP (Carte TOTAL ou Carte Sterling). S'adresser au comptoir ADL dans le Terminal ou contacter FREQ OPS. 0630-2230, credit card, Eurocheques or cash payment. SCAL company : outside opening SKED, TEL : 06 34 53 30 58 TOTAL Card for 100LL : H24. JET A1 : TOTAL or BP (TOTAL card or Sterling card). Contact ADL desk counter inside terminal or contact OPS FREQ."
+      "section": "← 10 - AVT : Carburants / Fuel : UL AERO SUPER+ - 100 LL - JET A1 (TOTAL Energies et / and Air BP). 0630-2230, carte crédit, Eurochèques ou paiement comptant. Société SCAL : Hors HOR ouverture, TEL : 06 34 53 30 58 Carte TOTAL à la station 100LL : H24. JET A1 : TOTAL ou BP (Carte TOTAL ou Carte Sterling). S'adresser au comptoir ADL dans le Terminal ou contacter FREQ OPS. 0630-2230, credit card, Eurocheques or cash payment. SCAL company : outside opening SKED, TEL : 06 34 53 30 58 TOTAL Card for 100LL : H24. JET A1 : TOTAL or BP (TOTAL card or Sterling card). Contact ADL desk counter inside terminal or contact OPS FREQ.",
+      "note": ""
     },
     {
       "icao": "LFMP",
@@ -418,7 +443,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
-      "section": "10 - AVT : Carburant / Fuel : JET A1. 100LL/AVGAS et / and UL AERO SUPER + par automate en zone sud, proche hangar SABENA (roulettes indispensables pour hélicoptères) / by fuel dispenser in south area, close to hangar SABENA (necessary wheels for HEL). LUN-SAM / MON-SAT : 0500-2000, DIM / SUN : 0630-2000. Autres HOR O/R avant 1900 / Outside these SKED O/R before 1900. TEL : 04 68 61 28 14. AMDT 11/25 © Service de l'Information Aéronautique, France AIP FRANCE AD 2 LFMP TXT 06 02 OCT 2025 PERPIGNAN RIVESALTES"
+      "section": "10 - AVT : Carburant / Fuel : JET A1. 100LL/AVGAS et / and UL AERO SUPER + par automate en zone sud, proche hangar SABENA (roulettes indispensables pour hélicoptères) / by fuel dispenser in south area, close to hangar SABENA (necessary wheels for HEL). LUN-SAM / MON-SAT : 0500-2000, DIM / SUN : 0630-2000. Autres HOR O/R avant 1900 / Outside these SKED O/R before 1900. TEL : 04 68 61 28 14. AMDT 11/25 © Service de l'Information Aéronautique, France AIP FRANCE AD 2 LFMP TXT 06 02 OCT 2025 PERPIGNAN RIVESALTES",
+      "note": ""
     },
     {
       "icao": "LFMV",
@@ -434,7 +460,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
-      "section": "10 - AVT : Carburants / Fuel : AVGAS 100 LL - UL AERO SUPER+ - JET A1 – Lubrifiants / Lubricants : NIL. LUN-VEN / MON-FRI : ETE / SUM : 0500-1900, HIV / WIN : 0600-1930. SAM / SAT : 0630-1730. DIM / SUN : 0730-1830. Automate / Dispenser AVGAS 100LL (envergure MAX / MAX span 15 m) - UL AERO SUPER+ (envergure MAX / MAX span 10 m) : HOR AVT uniquement, paiement espèces, carte TOTAL et carte bancaire / AVT SKED only, payment by cash, TOTAL card and credit card. Hors HOR / Outside these SKED : TEL gestionnaire d'AD / AD operator."
+      "section": "10 - AVT : Carburants / Fuel : AVGAS 100 LL - UL AERO SUPER+ - JET A1 – Lubrifiants / Lubricants : NIL. LUN-VEN / MON-FRI : ETE / SUM : 0500-1900, HIV / WIN : 0600-1930. SAM / SAT : 0630-1730. DIM / SUN : 0730-1830. Automate / Dispenser AVGAS 100LL (envergure MAX / MAX span 15 m) - UL AERO SUPER+ (envergure MAX / MAX span 10 m) : HOR AVT uniquement, paiement espèces, carte TOTAL et carte bancaire / AVT SKED only, payment by cash, TOTAL card and credit card. Hors HOR / Outside these SKED : TEL gestionnaire d'AD / AD operator.",
+      "note": ""
     },
     {
       "icao": "LFMW",
@@ -450,7 +477,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, Super Plus",
-      "section": "10 - AVT : Carburant / Fuel : SP98 UL 91, Lubrifiant / Lubricant : NIL. (CIV-MIL) HOR ACB - Bons ENAC et MIL ou paiement comptant. ENAC and MIL vouchers or cash payment. Contacter l'ACB auparavant / Contact ACB in advance."
+      "section": "10 - AVT : Carburant / Fuel : SP98 UL 91, Lubrifiant / Lubricant : NIL. (CIV-MIL) HOR ACB - Bons ENAC et MIL ou paiement comptant. ENAC and MIL vouchers or cash payment. Contacter l'ACB auparavant / Contact ACB in advance.",
+      "note": ""
     },
     {
       "icao": "LFMW",
@@ -466,7 +494,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, Super Plus",
-      "section": "10 - AVT : Carburant / Fuel : SP98 UL 91, Lubrifiant / Lubricant : NIL. (CIV-MIL) HOR ACB - Bons ENAC et MIL ou paiement comptant. ENAC and MIL vouchers or cash payment. Contacter l'ACB auparavant / Contact ACB in advance."
+      "section": "10 - AVT : Carburant / Fuel : SP98 UL 91, Lubrifiant / Lubricant : NIL. (CIV-MIL) HOR ACB - Bons ENAC et MIL ou paiement comptant. ENAC and MIL vouchers or cash payment. Contacter l'ACB auparavant / Contact ACB in advance.",
+      "note": ""
     },
     {
       "icao": "LFNA",
@@ -482,7 +511,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, 100LL, Jet A1",
-      "section": "10 - AVT : Carburants / Fuel : 100LL - JET A1 - UL 91. HIV / WIN : 0800-1115, 1230-1530 - ETE / SUM : 0800-1115, 1230-1630. Paiement comptant, carte bancaire / Cash payment, credit card. Hors HOR, 100LL et UL 91 disponible par automate carte bancaire / Outside SKED, 100L and UL 91 available by credit card automatic dispenser. TEL : Exploitant AD / AD operator."
+      "section": "10 - AVT : Carburants / Fuel : 100LL - JET A1 - UL 91. HIV / WIN : 0800-1115, 1230-1530 - ETE / SUM : 0800-1115, 1230-1630. Paiement comptant, carte bancaire / Cash payment, credit card. Hors HOR, 100LL et UL 91 disponible par automate carte bancaire / Outside SKED, 100L and UL 91 available by credit card automatic dispenser. TEL : Exploitant AD / AD operator.",
+      "note": ""
     },
     {
       "icao": "LFNE",
@@ -498,7 +528,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "Super Plus, 100LL",
-      "section": "10 - AVT : (CIV) Carburant / Fuel : 100 LL SP98 - Lubrifiants / Lubricants : NIL O/R PPR - TEL : 06 80 72 97 11."
+      "section": "10 - AVT : (CIV) Carburant / Fuel : 100 LL SP98 - Lubrifiants / Lubricants : NIL O/R PPR - TEL : 06 80 72 97 11.",
+      "note": ""
     },
     {
       "icao": "LFNH",
@@ -514,7 +545,8 @@
       "availability": "unknown",
       "availabilityLabel": "Non précisé",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : Carburants / Fuel : AVGAS 100 LL, UL 91. Lubrifiants / Lubricants : NIL."
+      "section": "10 - AVT : Carburants / Fuel : AVGAS 100 LL, UL 91. Lubrifiants / Lubricants : NIL.",
+      "note": ""
     },
     {
       "icao": "LFNJ",
@@ -530,7 +562,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91",
-      "section": "← 10 - AVT : Carburant / Fuel : UL 91. Station automatique : carte bancaire uniquement / Automatic fuel dispenser : credit card only."
+      "section": "← 10 - AVT : Carburant / Fuel : UL 91. Station automatique : carte bancaire uniquement / Automatic fuel dispenser : credit card only.",
+      "note": ""
     },
     {
       "icao": "LFOF",
@@ -543,10 +576,28 @@
         "UL91"
       ],
       "fuelsLabel": "UL91",
-      "availability": "unknown",
-      "availabilityLabel": "Non précisé",
-      "allFuelsLabel": "UL91",
-      "section": "10 - AVT : Carburant / Fuel : UL 91."
+      "availability": "restricted",
+      "availabilityLabel": "HX, PPR, sur demande",
+      "allFuelsLabel": "UL91, Super Plus",
+      "section": "10 - AVT : Carburant / Fuel : UL 91.",
+      "note": "Pompe UL91 en HX. SP98 H24 à la station Total en face, nécessite un bidon."
+    },
+    {
+      "icao": "LFOF",
+      "name": "ALENCON VALFRAMBERT",
+      "lat": 48.446667,
+      "lon": 0.108333,
+      "family": "mogas",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "fuels": [
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus",
+      "availability": "self_service",
+      "availabilityLabel": "Automate / H24",
+      "allFuelsLabel": "UL91, Super Plus",
+      "section": "10 - AVT : Carburant / Fuel : UL 91.",
+      "note": "Pompe UL91 en HX. SP98 H24 à la station Total en face, nécessite un bidon."
     },
     {
       "icao": "LFOI",
@@ -562,7 +613,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : 100 LL et / and UL91 - Lubrifiant / Lubricant : NIL - HX. Paiement par CB, chèque, espèces / Payment with credit card, check, cash."
+      "section": "10 - AVT : 100 LL et / and UL91 - Lubrifiant / Lubricant : NIL - HX. Paiement par CB, chèque, espèces / Payment with credit card, check, cash.",
+      "note": ""
     },
     {
       "icao": "LFPE",
@@ -578,7 +630,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : Carburant / Fuel: 100 LL, UL 91. Lubrifiants / Lubricants: NIL. Paiements : carte TOTAL H24, espèces, chèques . Payment: TOTAL card H24, cash, cheque . Tous les jours sauf LUN et VEN : HOR ACB 1300-1700 ou O/R en dehors de ces horaires PPR 24 HR. All days except MON and FRI: ACB SKED 1300-1700 or O/R outside these SKED PPR 24 HR. Contacter / Contact ACB ACE - TEL : 01 60 04 26 27."
+      "section": "10 - AVT : Carburant / Fuel: 100 LL, UL 91. Lubrifiants / Lubricants: NIL. Paiements : carte TOTAL H24, espèces, chèques . Payment: TOTAL card H24, cash, cheque . Tous les jours sauf LUN et VEN : HOR ACB 1300-1700 ou O/R en dehors de ces horaires PPR 24 HR. All days except MON and FRI: ACB SKED 1300-1700 or O/R outside these SKED PPR 24 HR. Contacter / Contact ACB ACE - TEL : 01 60 04 26 27.",
+      "note": ""
     },
     {
       "icao": "LFPF",
@@ -594,7 +647,8 @@
       "availability": "unknown",
       "availabilityLabel": "Non précisé",
       "allFuelsLabel": "UL91",
-      "section": "10 - AVT : Carburant / Fuel : UL91 Lubrifiant / Lubricant : NIL."
+      "section": "10 - AVT : Carburant / Fuel : UL91 Lubrifiant / Lubricant : NIL.",
+      "note": ""
     },
     {
       "icao": "LFPL",
@@ -610,7 +664,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
-      "section": "10 - AVT : Carburants / Fuel : 100 LL - JET A1 - UL AERO SUPER +. Lubrifiants / Lubricants : NIL. Paiement / Payment : Carte TOTAL / TOTAL card H24. Espèces, CB, Visa ou Mastercard / Cash, CB, Visa or Mastercard. ETE / SUM : 0730-1030, 1200-1600. HIV / WIN : 0830-1130, 1300-1600. TEL : 01 60 05 37 24."
+      "section": "10 - AVT : Carburants / Fuel : 100 LL - JET A1 - UL AERO SUPER +. Lubrifiants / Lubricants : NIL. Paiement / Payment : Carte TOTAL / TOTAL card H24. Espèces, CB, Visa ou Mastercard / Cash, CB, Visa or Mastercard. ETE / SUM : 0730-1030, 1200-1600. HIV / WIN : 0830-1130, 1300-1600. TEL : 01 60 05 37 24.",
+      "note": ""
     },
     {
       "icao": "LFQD",
@@ -626,7 +681,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "Super Plus, 100LL",
-      "section": "10 - AVT : Carburant / Fuel : SP 98 et / and 100LL. Lubrifiant / Lubricant : Yacco 2 et 4 temps / Yacco 2 & 4 stroke oil. 1400-1900 sauf DIM et JF / 1400-1900 except SUN and public HOL. TEL : 06 83 01 41 09 ou / or 06 87 80 34 65."
+      "section": "10 - AVT : Carburant / Fuel : SP 98 et / and 100LL. Lubrifiant / Lubricant : Yacco 2 et 4 temps / Yacco 2 & 4 stroke oil. 1400-1900 sauf DIM et JF / 1400-1900 except SUN and public HOL. TEL : 06 83 01 41 09 ou / or 06 87 80 34 65.",
+      "note": ""
     },
     {
       "icao": "LFQJ",
@@ -642,7 +698,8 @@
       "availability": "self_service",
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL AERO SUPER+, 100LL",
-      "section": "← 10 - AVT : Carburants / Fuel : 100LL - UL AEROSUPER + . Pompe automatique. Paiement comptant - CB / Cash payment - credit card. ← Avitaillement 100LL et UL AEROSUPER + limité aux aéronefs d'envergure inférieure ou égale à 12 m. / 100LL and UL AEROSUPER + refuelling limited to ACFT with wingspan smaller than or equal to 12 m. Autres envergures après accord de l'exploitant. / Other wingspans after prior agreement of AD operator. Tel : 06 95 62 61 66. Lubrifiant / Lubricant : NIL."
+      "section": "← 10 - AVT : Carburants / Fuel : 100LL - UL AEROSUPER + . Pompe automatique. Paiement comptant - CB / Cash payment - credit card. ← Avitaillement 100LL et UL AEROSUPER + limité aux aéronefs d'envergure inférieure ou égale à 12 m. / 100LL and UL AEROSUPER + refuelling limited to ACFT with wingspan smaller than or equal to 12 m. Autres envergures après accord de l'exploitant. / Other wingspans after prior agreement of AD operator. Tel : 06 95 62 61 66. Lubrifiant / Lubricant : NIL.",
+      "note": ""
     },
     {
       "icao": "LFRS",
@@ -655,10 +712,11 @@
         "UL91"
       ],
       "fuelsLabel": "UL91",
-      "availability": "unknown",
-      "availabilityLabel": "Non précisé",
+      "availability": "self_service",
+      "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, Jet A1",
-      "section": "← 10 - AVT : Carburants / Fuel : UL91, JET A1 - Lubrifiants / Lubricants : NIL"
+      "section": "← 10 - AVT : Carburants / Fuel : UL91, JET A1 - Lubrifiants / Lubricants : NIL",
+      "note": "Automate accessible H24. La VAC ne donne aucune condition."
     },
     {
       "icao": "LFSA",
@@ -674,7 +732,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "Super Plus",
-      "section": "← 10 - AVT : Carburant SP 98 réservé aux aéronefs basés. Lubrifiant : NIL."
+      "section": "← 10 - AVT : Carburant SP 98 réservé aux aéronefs basés. Lubrifiant : NIL.",
+      "note": ""
     },
     {
       "icao": "LFSH",
@@ -690,7 +749,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : Carburant / Fuel : 100 LL, UL91 O/R TEL : ACB. Lubrifiants / Lubricants : qualité aviation (CIV) HOR ACB paiement comptant / aviation quality (CIV) ACB SKED cash payment."
+      "section": "10 - AVT : Carburant / Fuel : 100 LL, UL91 O/R TEL : ACB. Lubrifiants / Lubricants : qualité aviation (CIV) HOR ACB paiement comptant / aviation quality (CIV) ACB SKED cash payment.",
+      "note": ""
     },
     {
       "icao": "LFXU",
@@ -706,7 +766,8 @@
       "availability": "restricted",
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL",
-      "section": "10 - AVT : Carburant / Fuel : 100 LL : se renseigner auprès de / see ACB Roger Janin ; UL 91 : se renseigner auprès de / see ACB Roger Janin. Paiement comptant ou carte de credit TOTAL / Cash payment or TOTAL credit card."
+      "section": "10 - AVT : Carburant / Fuel : 100 LL : se renseigner auprès de / see ACB Roger Janin ; UL 91 : se renseigner auprès de / see ACB Roger Janin. Paiement comptant ou carte de credit TOTAL / Cash payment or TOTAL credit card.",
+      "note": ""
     }
   ]
 }

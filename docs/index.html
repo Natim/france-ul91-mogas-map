@@ -77,6 +77,10 @@
   .popup-name { margin: 2px 0 8px; }
   .popup-row { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
   .popup-all { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .popup-note {
+    margin-top: 7px; padding: 5px 7px; font-size: 11px; line-height: 1.45;
+    background: #fdf5e3; border-left: 3px solid var(--restricted); color: #7a5c1e;
+  }
   .popup-section {
     margin-top: 8px; padding-top: 8px; border-top: 1px solid #e4e4e4;
     font-size: 11px; color: var(--muted); line-height: 1.45;
@@ -114,7 +118,7 @@
   crossorigin=""></script>
 <script>
 const DATA_URL = "aerodromes.json";
-const SUPPORTED_SCHEMA = 2;
+const SUPPORTED_SCHEMA = 3;
 const SOURCE_URL = "https://www.sia.aviation-civile.gouv.fr/";
 const REPO_URL = "https://github.com/Natim/france-ul91-mogas-map";
 
@@ -152,6 +156,11 @@ function popupHtml(marker) {
   const section = marker.section
     ? `<div class="popup-section">${escapeHtml(marker.section)}</div>`
     : "";
+  // The chart text below says nothing about access for these, so flag the
+  // discrepancy rather than letting the reader find it.
+  const note = marker.note
+    ? `<div class="popup-note">Hors VAC : ${escapeHtml(marker.note)}</div>`
+    : "";
   return (
     `<div class="popup-icao">${marker.icao}</div>` +
     `<div class="popup-name">${escapeHtml(name)}</div>` +
@@ -160,6 +169,7 @@ function popupHtml(marker) {
       `<span><strong>${escapeHtml(marker.fuelsLabel)}</strong> — ` +
       `${escapeHtml(marker.availabilityLabel)}</span>` +
     `</div>` +
+    note +
     `<div class="popup-all">Sur le terrain : ${escapeHtml(marker.allFuelsLabel)}</div>` +
     section
   );
@@ -235,7 +245,7 @@ function applyFilters() {
 
   document.getElementById("note").textContent =
     `${shown} marqueur${shown > 1 ? "s" : ""} affiché${shown > 1 ? "s" : ""}. ` +
-    "Conditions déduites du texte de la carte VAC, qui fait foi.";
+    "Conditions déduites de la carte VAC, qui fait foi, sauf mention « hors VAC ».";
 }
 
 function fail(message) {
