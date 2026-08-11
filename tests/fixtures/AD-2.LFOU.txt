@@ -1,0 +1,21 @@
+APPROCHE A VUE                                                    CHOLET LE PONTREAU
+Visual approach                                                      AD 2 LFOU APP 01
+                                                                        16 APR 2026
+ALT AD : 449 (16 hPa)
+LFOU                    LAT : 47 04 55 N                VAR : 1°W
+                        LONG : 000 52 38 W              (2025)
+AFIS : 118.400
+
+9 - TRANSPORTS / TRANSPORTS
+    Taxi sur demande / Taxi on request.
+
+10 - AVT : Carburants / Fuel : 100 LL, JET A1. Lubrifiants / Lubricants : NIL.
+     Chèques, cartes bancaires ou paiement comptant. HOR AFIS. En dehors de ces
+     HOR, PPR dernier jour ouvrable précédent avant 1700.
+     Cheques, bank cards or cash. AFIS SKED. Outside these SKED, PPR on the last
+     working day before 1700.
+
+11 - RFFS : Niveau 1 / Level 1.
+
+12 - PERIL ANIMALIER / WILDLIFE STRIKE HAZARD
+     Occasionnel / Random.

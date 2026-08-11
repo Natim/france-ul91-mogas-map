@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: pytest -q
+
+  outputs-are-current:
+    # The CSV, Markdown and map data are committed, so they can drift away from
+    # each other. Rebuilding the derived files must be a no-op.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -e .
+      - run: fuelmap rebuild
+      - name: Fail if the derived files are stale
+        run: |
+          if ! git diff --quiet -- AERODROMES.md docs/aerodromes.json data/; then
+            echo "::error::Les fichiers dérivés ne correspondent plus au CSV. Lancez 'fuelmap rebuild'."
+            git diff --stat -- AERODROMES.md docs/aerodromes.json data/
+            exit 1
+          fi

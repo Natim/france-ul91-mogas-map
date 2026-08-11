@@ -3,603 +3,203 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Aérodromes UL91 / Super Plus — France</title>
+<title>Carte des aérodromes UL91 / Mogas en France</title>
+<meta name="description" content="Carte des aérodromes français distribuant de l'essence aviation sans plomb (UL91, UL AERO SUPER+) ou du mogas (Super Plus, SP95, SP98), extraite de l'eAIP officiel du SIA." />
 <link rel="stylesheet"
   href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
   crossorigin="" />
 <style>
+  :root {
+    --color-ul91: #2ecc71;
+    --color-mogas: #f39c12;
+    --color-both: #3498db;
+  }
   html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, sans-serif; }
   #map { position: absolute; inset: 0; }
-  .info-panel {
+
+  .panel {
     position: absolute; top: 12px; right: 12px; z-index: 1000;
-    background: rgba(255,255,255,0.95); padding: 12px 16px;
-    border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    font-size: 13px; max-width: 280px;
+    background: rgba(255, 255, 255, 0.96); padding: 12px 16px;
+    border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: 13px; max-width: 300px;
   }
-  .info-panel h1 { margin: 0 0 6px; font-size: 15px; }
-  .info-panel .meta { color: #666; font-size: 11px; margin-bottom: 8px; }
-  .legend { margin-top: 8px; }
+  .panel h1 { margin: 0 0 6px; font-size: 15px; }
+  .panel .meta { color: #666; font-size: 11px; line-height: 1.5; }
+  .panel a { color: #2c7bb6; }
+
+  .search { width: 100%; box-sizing: border-box; margin-top: 10px; padding: 6px 8px;
+    border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
+
+  .legend { margin-top: 10px; }
   .legend label {
     display: flex; align-items: center; gap: 8px;
-    cursor: pointer; user-select: none; line-height: 1.6;
+    cursor: pointer; user-select: none; line-height: 1.7;
   }
-  .legend .dot {
+  .legend .count { color: #888; font-size: 11px; margin-left: auto; }
+  .dot {
     display: inline-block; width: 14px; height: 14px; border-radius: 50%;
-    border: 2px solid white; box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+    border: 2px solid white; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3); flex: none;
   }
-  .dot-ul91 { background: #2ecc71; }
-  .dot-super_plus { background: #f39c12; }
-  .dot-both { background: #3498db; }
+  .dot-ul91 { background: var(--color-ul91); }
+  .dot-mogas { background: var(--color-mogas); }
+  .dot-both { background: var(--color-both); }
+
+  .status { margin-top: 10px; font-size: 12px; color: #c0392b; }
+  .status:empty { display: none; }
+
   .popup-icao { font-weight: bold; font-size: 14px; }
   .popup-name { margin: 4px 0; }
   .popup-fuels { font-size: 12px; color: #444; }
-  a { color: #3498db; }
+
+  @media (max-width: 600px) {
+    .panel { left: 12px; right: 12px; max-width: none; }
+  }
 </style>
 </head>
 <body>
 <div id="map"></div>
-<div class="info-panel">
-  <h1>Essence aviation en France</h1>
-  <div class="meta">
-    41 terrains · AIRAC 2026-05-14 · MAJ 2026-05-18<br>
-    Source : <a href="https://www.sia.aviation-civile.gouv.fr/" target="_blank" rel="noopener">eAIP SIA</a> ·
-    <a href="https://github.com/Natim/french-ul91-superplus-aerodrome" target="_blank" rel="noopener">Code</a>
-  </div>
-  <div class="legend">
-    <label><input type="checkbox" data-cat="ul91" checked>
-      <span class="dot dot-ul91"></span>UL91 / UL AERO</label>
-    <label><input type="checkbox" data-cat="super_plus" checked>
-      <span class="dot dot-super_plus"></span>Super Plus uniquement</label>
-    <label><input type="checkbox" data-cat="both" checked>
-      <span class="dot dot-both"></span>UL91 + Super Plus</label>
-  </div>
+
+<div class="panel">
+  <h1>Essence sans plomb en France</h1>
+  <div class="meta" id="meta">Chargement…</div>
+
+  <input type="search" class="search" id="search"
+         placeholder="Filtrer par code OACI ou nom…" autocomplete="off" />
+
+  <div class="legend" id="legend"></div>
+  <div class="status" id="status"></div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
   crossorigin=""></script>
 <script>
-const AERODROMES = [
-  {
-    "icao": "LFAE",
-    "name": "EU MERS LE TREPORT",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 50.069167,
-    "lon": 1.426667
-  },
-  {
-    "icao": "LFBY",
-    "name": "DAX SEYRESSE",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 43.689167,
-    "lon": -1.068889
-  },
-  {
-    "icao": "LFCH",
-    "name": "ARCACHON LA TESTE DE BUCH",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "SUPER_PLUS",
-      "UL_AERO"
-    ],
-    "fuels_human": "100LL, Jet A1, Super Plus, UL AERO",
-    "category": "both",
-    "lat": 44.596944,
-    "lon": -1.113889
-  },
-  {
-    "icao": "LFCS",
-    "name": "BORDEAUX LEOGNAN SAUCATS",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 44.699167,
-    "lon": -0.597222
-  },
-  {
-    "icao": "LFCU",
-    "name": "USSEL THALAMY",
-    "fuels": [
-      "100LL",
-      "SUPER_PLUS"
-    ],
-    "fuels_human": "100LL, Super Plus",
-    "category": "super_plus",
-    "lat": 45.535833,
-    "lon": 2.424722
-  },
-  {
-    "icao": "LFCV",
-    "name": "VILLEFRANCHE DE ROUERGUE",
-    "fuels": [
-      "100LL",
-      "SUPER_PLUS"
-    ],
-    "fuels_human": "100LL, Super Plus",
-    "category": "super_plus",
-    "lat": 44.368889,
-    "lon": 2.026944
-  },
-  {
-    "icao": "LFDA",
-    "name": "AIRE SUR L'ADOUR",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 43.708611,
-    "lon": -0.247222
-  },
-  {
-    "icao": "LFDC",
-    "name": "MONTENDRE MARCILLAC",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 45.273611,
-    "lon": -0.453333
-  },
-  {
-    "icao": "LFDE",
-    "name": "EGLETONS",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 45.420556,
-    "lon": 2.067778
-  },
-  {
-    "icao": "LFDP",
-    "name": "SAINT PIERRE D'OLERON",
-    "fuels": [
-      "100LL",
-      "SUPER_PLUS"
-    ],
-    "fuels_human": "100LL, Super Plus",
-    "category": "super_plus",
-    "lat": 45.957778,
-    "lon": -1.311389
-  },
-  {
-    "icao": "LFDT",
-    "name": "TARBES LALOUBERE",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 43.215,
-    "lon": 0.0775
-  },
-  {
-    "icao": "LFDV",
-    "name": "COUHE VERAC",
-    "fuels": [
-      "100LL",
-      "SUPER_PLUS"
-    ],
-    "fuels_human": "100LL, Super Plus",
-    "category": "super_plus",
-    "lat": 46.270556,
-    "lon": 0.188333
-  },
-  {
-    "icao": "LFFL",
-    "name": "BAILLEAU ARMENONVILLE",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 48.514722,
-    "lon": 1.638611
-  },
-  {
-    "icao": "LFFZ",
-    "name": "SEZANNE SAINT REMY",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 48.709444,
-    "lon": 3.762778
-  },
-  {
-    "icao": "LFGI",
-    "name": "DIJON DAROIS",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "SUPER_PLUS"
-    ],
-    "fuels_human": "100LL, Jet A1, Super Plus",
-    "category": "super_plus",
-    "lat": 47.385278,
-    "lon": 4.946944
-  },
-  {
-    "icao": "LFGM",
-    "name": "MONTCEAU LES MINES POUILLOUX",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 46.603333,
-    "lon": 4.332778
-  },
-  {
-    "icao": "LFHC",
-    "name": "PEROUGES MEXIMIEUX",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 45.868611,
-    "lon": 5.186111
-  },
-  {
-    "icao": "LFHN",
-    "name": "BELLEGARDE VOUVRAY",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 46.123333,
-    "lon": 5.804722
-  },
-  {
-    "icao": "LFHS",
-    "name": "BOURG CEYZERIAT",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 46.205556,
-    "lon": 5.291667
-  },
-  {
-    "icao": "LFIT",
-    "name": "TOULOUSE BOURG SAINT BERNARD",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 43.611111,
-    "lon": 1.724167
-  },
-  {
-    "icao": "LFJY",
-    "name": "CHAMBLEY",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "UL91"
-    ],
-    "fuels_human": "100LL, Jet A1, UL91",
-    "category": "ul91",
-    "lat": 49.025556,
-    "lon": 5.876111
-  },
-  {
-    "icao": "LFLG",
-    "name": "GRENOBLE LE VERSOUD",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "UL91"
-    ],
-    "fuels_human": "100LL, Jet A1, UL91",
-    "category": "ul91",
-    "lat": 45.218056,
-    "lon": 5.848611
-  },
-  {
-    "icao": "LFLO",
-    "name": "ROANNE",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "UL91"
-    ],
-    "fuels_human": "100LL, Jet A1, UL91",
-    "category": "ul91",
-    "lat": 46.052778,
-    "lon": 3.999722
-  },
-  {
-    "icao": "LFLQ",
-    "name": "MONTELIMAR ANCONE",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 44.580278,
-    "lon": 4.739167
-  },
-  {
-    "icao": "LFLY",
-    "name": "LYON BRON",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "SUPER_PLUS",
-      "UL_AERO"
-    ],
-    "fuels_human": "100LL, Jet A1, Super Plus, UL AERO",
-    "category": "both",
-    "lat": 45.729444,
-    "lon": 4.938889
-  },
-  {
-    "icao": "LFMP",
-    "name": "PERPIGNAN RIVESALTES",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "SUPER_PLUS",
-      "UL_AERO"
-    ],
-    "fuels_human": "100LL, Jet A1, Super Plus, UL AERO",
-    "category": "both",
-    "lat": 42.740833,
-    "lon": 2.869722
-  },
-  {
-    "icao": "LFMV",
-    "name": "AVIGNON CAUMONT",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "SUPER_PLUS",
-      "UL_AERO"
-    ],
-    "fuels_human": "100LL, Jet A1, Super Plus, UL AERO",
-    "category": "both",
-    "lat": 43.906667,
-    "lon": 4.901944
-  },
-  {
-    "icao": "LFMW",
-    "name": "CASTELNAUDARY VILLENEUVE",
-    "fuels": [
-      "SUPER_PLUS",
-      "UL91"
-    ],
-    "fuels_human": "Super Plus, UL91",
-    "category": "both",
-    "lat": 43.311111,
-    "lon": 1.92
-  },
-  {
-    "icao": "LFNA",
-    "name": "GAP TALLARD",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "UL91"
-    ],
-    "fuels_human": "100LL, Jet A1, UL91",
-    "category": "ul91",
-    "lat": 44.453889,
-    "lon": 6.036667
-  },
-  {
-    "icao": "LFNE",
-    "name": "SALON EYGUIERES",
-    "fuels": [
-      "100LL",
-      "SUPER_PLUS"
-    ],
-    "fuels_human": "100LL, Super Plus",
-    "category": "super_plus",
-    "lat": 43.6575,
-    "lon": 5.012778
-  },
-  {
-    "icao": "LFNH",
-    "name": "CARPENTRAS",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 44.0225,
-    "lon": 5.09
-  },
-  {
-    "icao": "LFNJ",
-    "name": "ASPRES SUR BUECH",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 44.517778,
-    "lon": 5.736111
-  },
-  {
-    "icao": "LFOF",
-    "name": "ALENCON VALFRAMBERT",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 48.446667,
-    "lon": 0.108333
-  },
-  {
-    "icao": "LFOI",
-    "name": "ABBEVILLE",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 50.142222,
-    "lon": 1.831111
-  },
-  {
-    "icao": "LFPE",
-    "name": "MEAUX ESBLY",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 48.926944,
-    "lon": 2.833889
-  },
-  {
-    "icao": "LFPF",
-    "name": "BEYNES THIVERVAL",
-    "fuels": [
-      "UL91"
-    ],
-    "fuels_human": "UL91",
-    "category": "ul91",
-    "lat": 48.842778,
-    "lon": 1.9075
-  },
-  {
-    "icao": "LFPL",
-    "name": "LOGNES EMERAINVILLE",
-    "fuels": [
-      "100LL",
-      "JET_A1",
-      "SUPER_PLUS",
-      "UL_AERO"
-    ],
-    "fuels_human": "100LL, Jet A1, Super Plus, UL AERO",
-    "category": "both",
-    "lat": 48.821944,
-    "lon": 2.622778
-  },
-  {
-    "icao": "LFQD",
-    "name": "ARRAS ROCLINCOURT",
-    "fuels": [
-      "100LL",
-      "SUPER_PLUS"
-    ],
-    "fuels_human": "100LL, Super Plus",
-    "category": "super_plus",
-    "lat": 50.323889,
-    "lon": 2.802778
-  },
-  {
-    "icao": "LFSA",
-    "name": "BESANCON THISE",
-    "fuels": [
-      "SUPER_PLUS"
-    ],
-    "fuels_human": "Super Plus",
-    "category": "super_plus",
-    "lat": 47.273611,
-    "lon": 6.083056
-  },
-  {
-    "icao": "LFSH",
-    "name": "HAGUENAU",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 48.796944,
-    "lon": 7.819167
-  },
-  {
-    "icao": "LFXU",
-    "name": "LES MUREAUX",
-    "fuels": [
-      "100LL",
-      "UL91"
-    ],
-    "fuels_human": "100LL, UL91",
-    "category": "ul91",
-    "lat": 48.998611,
-    "lon": 1.941667
-  }
+const DATA_URL = "aerodromes.json";
+const SUPPORTED_SCHEMA = 1;
+const SOURCE_URL = "https://www.sia.aviation-civile.gouv.fr/";
+const REPO_URL = "https://github.com/Natim/france-ul91-mogas-map";
+
+// Order defines the legend order. Keys match `category` in the JSON, which is
+// produced by fuelmap.model.map_category.
+const CATEGORIES = [
+  { key: "ul91", label: "UL91 / UL AERO SUPER+", color: "#2ecc71" },
+  { key: "mogas", label: "Mogas (Super Plus / SP95-98)", color: "#f39c12" },
+  { key: "both", label: "UL91 + Mogas", color: "#3498db" },
 ];
 
-const COLORS = {
-  ul91: "#2ecc71",
-  super_plus: "#f39c12",
-  both: "#3498db",
-};
+const FRANCE_CENTER = [46.7, 2.3];
+const FRANCE_ZOOM = 6;
 
-const map = L.map("map").setView([46.7, 2.3], 6);
-
+const map = L.map("map").setView(FRANCE_CENTER, FRANCE_ZOOM);
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 18,
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-const layers = { ul91: L.layerGroup(), super_plus: L.layerGroup(), both: L.layerGroup() };
+const markers = [];
 
-for (const a of AERODROMES) {
-  const color = COLORS[a.category] || "#888";
-  const marker = L.circleMarker([a.lat, a.lon], {
+function createMarker(aerodrome, color) {
+  const marker = L.circleMarker([aerodrome.lat, aerodrome.lon], {
     radius: 7,
     weight: 2,
     color: "white",
     fillColor: color,
     fillOpacity: 0.95,
   });
+  const name = aerodrome.name || aerodrome.icao;
   marker.bindPopup(
-    `<div class="popup-icao">${a.icao}</div>` +
-    `<div class="popup-name">${a.name}</div>` +
-    `<div class="popup-fuels">${a.fuels_human}</div>`
+    `<div class="popup-icao">${aerodrome.icao}</div>` +
+    `<div class="popup-name">${name}</div>` +
+    `<div class="popup-fuels">${aerodrome.fuelsLabel}</div>`
   );
-  marker.bindTooltip(`${a.icao} — ${a.name}`, { direction: "top" });
-  (layers[a.category] || layers.ul91).addLayer(marker);
+  marker.bindTooltip(`${aerodrome.icao} — ${name}`, { direction: "top" });
+  return marker;
 }
-Object.values(layers).forEach(g => g.addTo(map));
 
-document.querySelectorAll(".legend input[type=checkbox]").forEach(cb => {
-  cb.addEventListener("change", () => {
-    const layer = layers[cb.dataset.cat];
-    if (!layer) return;
-    if (cb.checked) layer.addTo(map); else map.removeLayer(layer);
-  });
-});
+function renderLegend(counts) {
+  const legend = document.getElementById("legend");
+  legend.innerHTML = "";
+  for (const category of CATEGORIES) {
+    const label = document.createElement("label");
+    label.innerHTML =
+      `<input type="checkbox" data-category="${category.key}" checked>` +
+      `<span class="dot dot-${category.key}"></span>${category.label}` +
+      `<span class="count">${counts[category.key] || 0}</span>`;
+    legend.appendChild(label);
+  }
+  legend.addEventListener("change", applyFilters);
+}
+
+// A single pass over every marker keeps the legend checkboxes and the search
+// box from fighting over which markers are on the map.
+function applyFilters() {
+  const enabled = new Set(
+    Array.from(document.querySelectorAll(".legend input:checked"))
+      .map((input) => input.dataset.category)
+  );
+  const query = document.getElementById("search").value.trim().toLowerCase();
+
+  for (const { marker, aerodrome, haystack } of markers) {
+    const visible =
+      enabled.has(aerodrome.category) && (!query || haystack.includes(query));
+    if (visible && !map.hasLayer(marker)) {
+      marker.addTo(map);
+    } else if (!visible && map.hasLayer(marker)) {
+      map.removeLayer(marker);
+    }
+  }
+}
+
+function fail(message) {
+  document.getElementById("meta").textContent = "";
+  document.getElementById("status").textContent = message;
+}
+
+async function load() {
+  let data;
+  try {
+    const response = await fetch(DATA_URL, { cache: "no-cache" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    data = await response.json();
+  } catch (error) {
+    fail(
+      `Impossible de charger les données (${error.message}). ` +
+      "En local, servir le dossier via un serveur HTTP."
+    );
+    return;
+  }
+
+  if (data.schema !== SUPPORTED_SCHEMA) {
+    fail(`Format de données inattendu (schéma ${data.schema}).`);
+    return;
+  }
+
+  const colors = Object.fromEntries(CATEGORIES.map((c) => [c.key, c.color]));
+  const counts = {};
+
+  for (const aerodrome of data.aerodromes) {
+    counts[aerodrome.category] = (counts[aerodrome.category] || 0) + 1;
+    const marker = createMarker(aerodrome, colors[aerodrome.category] || "#888");
+    markers.push({
+      marker,
+      aerodrome,
+      haystack: `${aerodrome.icao} ${aerodrome.name}`.toLowerCase(),
+    });
+  }
+
+  document.getElementById("meta").innerHTML =
+    `${data.aerodromes.length} terrains · AIRAC ${data.airac} · MAJ ${data.generated}<br>` +
+    `Source : <a href="${SOURCE_URL}" target="_blank" rel="noopener">eAIP SIA</a> · ` +
+    `<a href="${REPO_URL}" target="_blank" rel="noopener">Code et données</a>`;
+
+  renderLegend(counts);
+  document.getElementById("search").addEventListener("input", applyFilters);
+  applyFilters();
+}
+
+load();
 </script>
 </body>
 </html>

@@ -1,0 +1,498 @@
+{
+  "schema": 1,
+  "airac": "2026-05-14",
+  "generated": "2026-05-18",
+  "aerodromes": [
+    {
+      "icao": "LFAE",
+      "name": "EU MERS LE TREPORT",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 50.069167,
+      "lon": 1.426667
+    },
+    {
+      "icao": "LFBY",
+      "name": "DAX SEYRESSE",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 43.689167,
+      "lon": -1.068889
+    },
+    {
+      "icao": "LFCH",
+      "name": "ARCACHON LA TESTE DE BUCH",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "UL_AERO"
+      ],
+      "fuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
+      "category": "ul91",
+      "lat": 44.596944,
+      "lon": -1.113889
+    },
+    {
+      "icao": "LFCS",
+      "name": "BORDEAUX LEOGNAN SAUCATS",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 44.699167,
+      "lon": -0.597222
+    },
+    {
+      "icao": "LFCU",
+      "name": "USSEL THALAMY",
+      "fuels": [
+        "100LL",
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus, 100LL",
+      "category": "mogas",
+      "lat": 45.535833,
+      "lon": 2.424722
+    },
+    {
+      "icao": "LFCV",
+      "name": "VILLEFRANCHE DE ROUERGUE",
+      "fuels": [
+        "100LL",
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus, 100LL",
+      "category": "mogas",
+      "lat": 44.368889,
+      "lon": 2.026944
+    },
+    {
+      "icao": "LFDA",
+      "name": "AIRE SUR L'ADOUR",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 43.708611,
+      "lon": -0.247222
+    },
+    {
+      "icao": "LFDC",
+      "name": "MONTENDRE MARCILLAC",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 45.273611,
+      "lon": -0.453333
+    },
+    {
+      "icao": "LFDE",
+      "name": "EGLETONS",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 45.420556,
+      "lon": 2.067778
+    },
+    {
+      "icao": "LFDP",
+      "name": "SAINT PIERRE D'OLERON",
+      "fuels": [
+        "100LL",
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus, 100LL",
+      "category": "mogas",
+      "lat": 45.957778,
+      "lon": -1.311389
+    },
+    {
+      "icao": "LFDT",
+      "name": "TARBES LALOUBERE",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 43.215,
+      "lon": 0.0775
+    },
+    {
+      "icao": "LFDV",
+      "name": "COUHE VERAC",
+      "fuels": [
+        "100LL",
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus, 100LL",
+      "category": "mogas",
+      "lat": 46.270556,
+      "lon": 0.188333
+    },
+    {
+      "icao": "LFFL",
+      "name": "BAILLEAU ARMENONVILLE",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 48.514722,
+      "lon": 1.638611
+    },
+    {
+      "icao": "LFFZ",
+      "name": "SEZANNE SAINT REMY",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 48.709444,
+      "lon": 3.762778
+    },
+    {
+      "icao": "LFGI",
+      "name": "DIJON DAROIS",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus, 100LL, Jet A1",
+      "category": "mogas",
+      "lat": 47.385278,
+      "lon": 4.946944
+    },
+    {
+      "icao": "LFGM",
+      "name": "MONTCEAU LES MINES POUILLOUX",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 46.603333,
+      "lon": 4.332778
+    },
+    {
+      "icao": "LFHC",
+      "name": "PEROUGES MEXIMIEUX",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 45.868611,
+      "lon": 5.186111
+    },
+    {
+      "icao": "LFHN",
+      "name": "BELLEGARDE VOUVRAY",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 46.123333,
+      "lon": 5.804722
+    },
+    {
+      "icao": "LFHS",
+      "name": "BOURG CEYZERIAT",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 46.205556,
+      "lon": 5.291667
+    },
+    {
+      "icao": "LFIT",
+      "name": "TOULOUSE BOURG SAINT BERNARD",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 43.611111,
+      "lon": 1.724167
+    },
+    {
+      "icao": "LFJY",
+      "name": "CHAMBLEY",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL, Jet A1",
+      "category": "ul91",
+      "lat": 49.025556,
+      "lon": 5.876111
+    },
+    {
+      "icao": "LFLG",
+      "name": "GRENOBLE LE VERSOUD",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL, Jet A1",
+      "category": "ul91",
+      "lat": 45.218056,
+      "lon": 5.848611
+    },
+    {
+      "icao": "LFLO",
+      "name": "ROANNE",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL, Jet A1",
+      "category": "ul91",
+      "lat": 46.052778,
+      "lon": 3.999722
+    },
+    {
+      "icao": "LFLQ",
+      "name": "MONTELIMAR ANCONE",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 44.580278,
+      "lon": 4.739167
+    },
+    {
+      "icao": "LFLY",
+      "name": "LYON BRON",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "UL_AERO"
+      ],
+      "fuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
+      "category": "ul91",
+      "lat": 45.729444,
+      "lon": 4.938889
+    },
+    {
+      "icao": "LFMP",
+      "name": "PERPIGNAN RIVESALTES",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "UL_AERO"
+      ],
+      "fuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
+      "category": "ul91",
+      "lat": 42.740833,
+      "lon": 2.869722
+    },
+    {
+      "icao": "LFMV",
+      "name": "AVIGNON CAUMONT",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "UL_AERO"
+      ],
+      "fuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
+      "category": "ul91",
+      "lat": 43.906667,
+      "lon": 4.901944
+    },
+    {
+      "icao": "LFMW",
+      "name": "CASTELNAUDARY VILLENEUVE",
+      "fuels": [
+        "SUPER_PLUS",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, Super Plus",
+      "category": "both",
+      "lat": 43.311111,
+      "lon": 1.92
+    },
+    {
+      "icao": "LFNA",
+      "name": "GAP TALLARD",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL, Jet A1",
+      "category": "ul91",
+      "lat": 44.453889,
+      "lon": 6.036667
+    },
+    {
+      "icao": "LFNE",
+      "name": "SALON EYGUIERES",
+      "fuels": [
+        "100LL",
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus, 100LL",
+      "category": "mogas",
+      "lat": 43.6575,
+      "lon": 5.012778
+    },
+    {
+      "icao": "LFNH",
+      "name": "CARPENTRAS",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 44.0225,
+      "lon": 5.09
+    },
+    {
+      "icao": "LFNJ",
+      "name": "ASPRES SUR BUECH",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 44.517778,
+      "lon": 5.736111
+    },
+    {
+      "icao": "LFOF",
+      "name": "ALENCON VALFRAMBERT",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 48.446667,
+      "lon": 0.108333
+    },
+    {
+      "icao": "LFOI",
+      "name": "ABBEVILLE",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 50.142222,
+      "lon": 1.831111
+    },
+    {
+      "icao": "LFPE",
+      "name": "MEAUX ESBLY",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 48.926944,
+      "lon": 2.833889
+    },
+    {
+      "icao": "LFPF",
+      "name": "BEYNES THIVERVAL",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "category": "ul91",
+      "lat": 48.842778,
+      "lon": 1.9075
+    },
+    {
+      "icao": "LFPL",
+      "name": "LOGNES EMERAINVILLE",
+      "fuels": [
+        "100LL",
+        "JET_A1",
+        "UL_AERO"
+      ],
+      "fuelsLabel": "UL AERO SUPER+, 100LL, Jet A1",
+      "category": "ul91",
+      "lat": 48.821944,
+      "lon": 2.622778
+    },
+    {
+      "icao": "LFQD",
+      "name": "ARRAS ROCLINCOURT",
+      "fuels": [
+        "100LL",
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus, 100LL",
+      "category": "mogas",
+      "lat": 50.323889,
+      "lon": 2.802778
+    },
+    {
+      "icao": "LFSA",
+      "name": "BESANCON THISE",
+      "fuels": [
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus",
+      "category": "mogas",
+      "lat": 47.273611,
+      "lon": 6.083056
+    },
+    {
+      "icao": "LFSH",
+      "name": "HAGUENAU",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 48.796944,
+      "lon": 7.819167
+    },
+    {
+      "icao": "LFXU",
+      "name": "LES MUREAUX",
+      "fuels": [
+        "100LL",
+        "UL91"
+      ],
+      "fuelsLabel": "UL91, 100LL",
+      "category": "ul91",
+      "lat": 48.998611,
+      "lon": 1.941667
+    }
+  ]
+}

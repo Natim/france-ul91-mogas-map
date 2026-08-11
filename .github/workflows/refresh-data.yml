@@ -1,0 +1,110 @@
+name: Rafraîchir les données AIRAC
+
+# Le SIA ne publie pas d'URL stable pour le paquet eAIP, donc le
+# téléchargement ne peut pas être automatisé de bout en bout. Ce workflow prend
+# l'URL en entrée et se charge du reste ; le job planifié se contente de
+# rappeler qu'un nouveau cycle est disponible.
+on:
+  workflow_dispatch:
+    inputs:
+      eaip_url:
+        description: "URL du ZIP eAIP sur sia.aviation-civile.gouv.fr"
+        required: true
+      airac:
+        description: "Cycle AIRAC (YYYY-MM-DD), auto-détecté si vide"
+        required: false
+  schedule:
+    # Le mercredi, jour habituel de publication d'un cycle AIRAC.
+    - cron: "0 6 * * 3"
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  refresh:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Installer pdftotext
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - run: pip install -e .
+
+      - name: Télécharger et dézipper l'eAIP
+        run: |
+          curl -fSL --retry 3 -o eaip.zip "${{ inputs.eaip_url }}"
+          unzip -q eaip.zip -d extracted
+
+      - name: Localiser les cartes VAC
+        id: vac
+        run: |
+          dir=$(find extracted -type d -path "*/VAC/AD" | head -n 1)
+          if [ -z "$dir" ]; then
+            echo "::error::Dossier VAC/AD introuvable dans le paquet."
+            exit 1
+          fi
+          echo "dir=$dir" >> "$GITHUB_OUTPUT"
+
+      - name: Régénérer les sorties
+        run: |
+          fuelmap extract --vac-dir "${{ steps.vac.outputs.dir }}" \
+            ${{ inputs.airac && format('--airac {0}', inputs.airac) || '' }}
+
+      - name: Ouvrir une pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git diff --quiet -- AERODROMES.md docs/ data/; then
+            echo "Aucun changement, cycle déjà à jour."
+            exit 0
+          fi
+          airac=$(python -c "import json;print(json.load(open('docs/aerodromes.json'))['airac'])")
+          branch="airac/$airac"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add AERODROMES.md docs/ data/
+          git commit -m "data: cycle AIRAC $airac"
+          git push -u origin "$branch" --force
+
+          gh pr create --fill --head "$branch" \
+            --title "data: cycle AIRAC $airac" \
+            || gh pr edit "$branch" --title "data: cycle AIRAC $airac"
+
+  rappel:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Signaler un cycle périmé
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          airac=$(python -c "import json;print(json.load(open('docs/aerodromes.json'))['airac'])")
+          age=$(( ( $(date +%s) - $(date -d "$airac" +%s) ) / 86400 ))
+          echo "Cycle publié : $airac ($age jours)."
+          # Un cycle AIRAC dure 28 jours ; on laisse une marge avant d'alerter.
+          if [ "$age" -lt 35 ]; then
+            exit 0
+          fi
+          title="Données périmées : cycle AIRAC $airac ($age jours)"
+          if gh issue list --state open --search "$title in:title" | grep -q .; then
+            echo "Rappel déjà ouvert."
+            exit 0
+          fi
+          printf '%s\n' \
+            "Le cycle AIRAC publié (\`$airac\`) a $age jours." \
+            "" \
+            "Pour rafraîchir, récupérer l'URL du ZIP eAIP courant sur" \
+            "<https://www.sia.aviation-civile.gouv.fr/produits-numeriques-en-libre-disposition/eaip.html>" \
+            "puis lancer le workflow **Rafraîchir les données AIRAC** avec cette URL." \
+            > body.md
+          gh issue create --title "$title" --body-file body.md

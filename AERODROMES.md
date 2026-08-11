@@ -1,9 +1,9 @@
-# Aérodromes français — UL91 / Super Plus
+# Aérodromes français — UL91 / Mogas
 
-**41 aérodromes** publient une pompe essence (UL91, UL AERO SUPER+, Super Plus ou MOGAS) dans leur carte VAC officielle.
+**41 aérodromes** publient une pompe d'essence sans plomb (UL91, UL AERO SUPER+, Super Plus ou MOGAS) dans leur carte VAC officielle.
 
 - **Cycle AIRAC** : 2026-05-14
-- **Dernière mise à jour du fichier** : 2026-05-18
+- **Date d'extraction** : 2026-05-18
 - **Source** : eAIP du SIA, Atlas-VAC
 
 ## Répartition par carburant
@@ -11,57 +11,57 @@
 | Carburant | Nb terrains |
 |-----------|-------------|
 | UL91 | 28 |
-| UL AERO | 5 |
-| Super Plus | 14 |
+| UL AERO SUPER+ | 5 |
+| Super Plus | 9 |
 | 100LL | 29 |
 | Jet A1 | 10 |
 
-> `UL91` et `UL AERO SUPER+` désignent en pratique le même carburant : `UL AERO SUPER+` est la dénomination commerciale TotalEnergies du UL91.
+> `UL91` et `UL AERO SUPER+` désignent le même carburant : `UL AERO SUPER+` est la dénomination commerciale TotalEnergies du UL91. C'est une essence *aviation* sans plomb, à ne pas confondre avec le mogas (`Super Plus` / `SP95` / `SP98`), qui est de l'essence routière.
 
 ## Liste complète
 
 | OACI | Nom | Carburants |
 |------|-----|-----------|
 | LFAE | EU MERS LE TREPORT | UL91 |
-| LFBY | DAX SEYRESSE | 100LL, UL91 |
-| LFCH | ARCACHON LA TESTE DE BUCH | 100LL, Jet A1, Super Plus, UL AERO |
-| LFCS | BORDEAUX LEOGNAN SAUCATS | 100LL, UL91 |
-| LFCU | USSEL THALAMY | 100LL, Super Plus |
-| LFCV | VILLEFRANCHE DE ROUERGUE | 100LL, Super Plus |
+| LFBY | DAX SEYRESSE | UL91, 100LL |
+| LFCH | ARCACHON LA TESTE DE BUCH | UL AERO SUPER+, 100LL, Jet A1 |
+| LFCS | BORDEAUX LEOGNAN SAUCATS | UL91, 100LL |
+| LFCU | USSEL THALAMY | Super Plus, 100LL |
+| LFCV | VILLEFRANCHE DE ROUERGUE | Super Plus, 100LL |
 | LFDA | AIRE SUR L'ADOUR | UL91 |
 | LFDC | MONTENDRE MARCILLAC | UL91 |
 | LFDE | EGLETONS | UL91 |
-| LFDP | SAINT PIERRE D'OLERON | 100LL, Super Plus |
-| LFDT | TARBES LALOUBERE | 100LL, UL91 |
-| LFDV | COUHE VERAC | 100LL, Super Plus |
-| LFFL | BAILLEAU ARMENONVILLE | 100LL, UL91 |
-| LFFZ | SEZANNE SAINT REMY | 100LL, UL91 |
-| LFGI | DIJON DAROIS | 100LL, Jet A1, Super Plus |
-| LFGM | MONTCEAU LES MINES POUILLOUX | 100LL, UL91 |
+| LFDP | SAINT PIERRE D'OLERON | Super Plus, 100LL |
+| LFDT | TARBES LALOUBERE | UL91, 100LL |
+| LFDV | COUHE VERAC | Super Plus, 100LL |
+| LFFL | BAILLEAU ARMENONVILLE | UL91, 100LL |
+| LFFZ | SEZANNE SAINT REMY | UL91, 100LL |
+| LFGI | DIJON DAROIS | Super Plus, 100LL, Jet A1 |
+| LFGM | MONTCEAU LES MINES POUILLOUX | UL91, 100LL |
 | LFHC | PEROUGES MEXIMIEUX | UL91 |
-| LFHN | BELLEGARDE VOUVRAY | 100LL, UL91 |
-| LFHS | BOURG CEYZERIAT | 100LL, UL91 |
+| LFHN | BELLEGARDE VOUVRAY | UL91, 100LL |
+| LFHS | BOURG CEYZERIAT | UL91, 100LL |
 | LFIT | TOULOUSE BOURG SAINT BERNARD | UL91 |
-| LFJY | CHAMBLEY | 100LL, Jet A1, UL91 |
-| LFLG | GRENOBLE LE VERSOUD | 100LL, Jet A1, UL91 |
-| LFLO | ROANNE | 100LL, Jet A1, UL91 |
+| LFJY | CHAMBLEY | UL91, 100LL, Jet A1 |
+| LFLG | GRENOBLE LE VERSOUD | UL91, 100LL, Jet A1 |
+| LFLO | ROANNE | UL91, 100LL, Jet A1 |
 | LFLQ | MONTELIMAR ANCONE | UL91 |
-| LFLY | LYON BRON | 100LL, Jet A1, Super Plus, UL AERO |
-| LFMP | PERPIGNAN RIVESALTES | 100LL, Jet A1, Super Plus, UL AERO |
-| LFMV | AVIGNON CAUMONT | 100LL, Jet A1, Super Plus, UL AERO |
-| LFMW | CASTELNAUDARY VILLENEUVE | Super Plus, UL91 |
-| LFNA | GAP TALLARD | 100LL, Jet A1, UL91 |
-| LFNE | SALON EYGUIERES | 100LL, Super Plus |
-| LFNH | CARPENTRAS | 100LL, UL91 |
+| LFLY | LYON BRON | UL AERO SUPER+, 100LL, Jet A1 |
+| LFMP | PERPIGNAN RIVESALTES | UL AERO SUPER+, 100LL, Jet A1 |
+| LFMV | AVIGNON CAUMONT | UL AERO SUPER+, 100LL, Jet A1 |
+| LFMW | CASTELNAUDARY VILLENEUVE | UL91, Super Plus |
+| LFNA | GAP TALLARD | UL91, 100LL, Jet A1 |
+| LFNE | SALON EYGUIERES | Super Plus, 100LL |
+| LFNH | CARPENTRAS | UL91, 100LL |
 | LFNJ | ASPRES SUR BUECH | UL91 |
 | LFOF | ALENCON VALFRAMBERT | UL91 |
-| LFOI | ABBEVILLE | 100LL, UL91 |
-| LFPE | MEAUX ESBLY | 100LL, UL91 |
+| LFOI | ABBEVILLE | UL91, 100LL |
+| LFPE | MEAUX ESBLY | UL91, 100LL |
 | LFPF | BEYNES THIVERVAL | UL91 |
-| LFPL | LOGNES EMERAINVILLE | 100LL, Jet A1, Super Plus, UL AERO |
-| LFQD | ARRAS ROCLINCOURT | 100LL, Super Plus |
+| LFPL | LOGNES EMERAINVILLE | UL AERO SUPER+, 100LL, Jet A1 |
+| LFQD | ARRAS ROCLINCOURT | Super Plus, 100LL |
 | LFSA | BESANCON THISE | Super Plus |
-| LFSH | HAGUENAU | 100LL, UL91 |
-| LFXU | LES MUREAUX | 100LL, UL91 |
+| LFSH | HAGUENAU | UL91, 100LL |
+| LFXU | LES MUREAUX | UL91, 100LL |
 
-_Fichier auto-généré par [`extract_avgas.py`](./extract_avgas.py). Ne pas éditer à la main._
+_Fichier auto-généré par `fuelmap extract`. Ne pas éditer à la main._

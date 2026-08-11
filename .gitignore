@@ -5,8 +5,13 @@ extracted/
 # Python
 __pycache__/
 *.pyc
+*.egg-info/
+build/
+dist/
 .venv/
 venv/
+.pytest_cache/
+.ruff_cache/
 
 # Misc
 .DS_Store
