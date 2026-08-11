@@ -5,7 +5,15 @@ from __future__ import annotations
 from collections import Counter
 from datetime import date
 
-from ..model import FUEL_DISPLAY_ORDER, FUEL_LABELS, Aerodrome, format_fuels
+from ..model import (
+    AVAILABILITY_LABELS,
+    AVAILABILITY_ORDER,
+    FUEL_DISPLAY_ORDER,
+    FUEL_LABELS,
+    Aerodrome,
+    best_availability,
+    format_fuels,
+)
 
 GENERATED_BY = "`fuelmap extract`"
 
@@ -15,6 +23,17 @@ def count_fuels(aerodromes: list[Aerodrome]) -> Counter[str]:
     for aerodrome in aerodromes:
         counts.update(aerodrome.fuels)
     return counts
+
+
+def overall_availability(aerodrome: Aerodrome) -> str:
+    """Best availability across the unleaded fuels of an aerodrome."""
+    return best_availability(
+        {aerodrome.family_availability(f) for f in aerodrome.families()}
+    )
+
+
+def count_availability(aerodromes: list[Aerodrome]) -> Counter[str]:
+    return Counter(overall_availability(a) for a in aerodromes)
 
 
 def render_markdown(
@@ -47,6 +66,8 @@ def render_markdown(
         for fuel in FUEL_DISPLAY_ORDER
         if counts.get(fuel)
     )
+
+    availability = count_availability(aerodromes)
     lines += [
         "",
         "> `UL91` et `UL AERO SUPER+` désignent le même carburant : "
@@ -54,13 +75,31 @@ def render_markdown(
         "C'est une essence *aviation* sans plomb, à ne pas confondre avec le "
         "mogas (`Super Plus` / `SP95` / `SP98`), qui est de l'essence routière.",
         "",
-        "## Liste complète",
+        "## Conditions d'accès",
         "",
-        "| OACI | Nom | Carburants |",
-        "|------|-----|-----------|",
+        "| Accès | Nb terrains |",
+        "|-------|-------------|",
     ]
     lines.extend(
-        f"| {a.icao} | {a.name} | {format_fuels(a.fuels)} |"
+        f"| {AVAILABILITY_LABELS[level]} | {availability[level]} |"
+        for level in AVAILABILITY_ORDER
+        if availability.get(level)
+    )
+    lines += [
+        "",
+        "> Déduit automatiquement du texte de la section « 10 - AVT ». "
+        "`Automate / H24` signifie qu'une pompe en libre-service est annoncée ; "
+        "les autres terrains demandent un PPR, un appel, ou ne servent que "
+        "pendant certaines plages. **En cas de doute, la carte VAC fait foi.**",
+        "",
+        "## Liste complète",
+        "",
+        "| OACI | Nom | Carburants | Accès |",
+        "|------|-----|-----------|-------|",
+    ]
+    lines.extend(
+        f"| {a.icao} | {a.name} | {format_fuels(a.fuels)} "
+        f"| {AVAILABILITY_LABELS[overall_availability(a)]} |"
         for a in sorted(aerodromes, key=lambda a: a.icao)
     )
     lines += [

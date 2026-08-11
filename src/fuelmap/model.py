@@ -45,34 +45,53 @@ FUEL_LABELS = {
     JET_A1: "Jet A1",
 }
 
-# Map marker categories. Every aerodrome carrying an unleaded fuel falls into
-# exactly one of these, which is what lets the legend stay exhaustive.
-CATEGORY_UL91 = "ul91"
-CATEGORY_MOGAS = "mogas"
-CATEGORY_BOTH = "both"
+# The two families a pilot chooses between. The map draws one marker per
+# family, so a field selling both is filterable under either.
+FAMILY_UL91 = "ul91"
+FAMILY_MOGAS = "mogas"
 
-CATEGORY_LABELS = {
-    CATEGORY_UL91: "UL91 / UL AERO SUPER+",
-    CATEGORY_MOGAS: "Mogas (Super Plus / SP95-98)",
-    CATEGORY_BOTH: "UL91 + Mogas",
+#: Insertion order is the legend order.
+FUEL_FAMILIES = {
+    FAMILY_UL91: UNLEADED_AVGAS,
+    FAMILY_MOGAS: MOGAS_FUELS,
+}
+
+FAMILY_LABELS = {
+    FAMILY_UL91: "UL91 / UL AERO SUPER+",
+    FAMILY_MOGAS: "Mogas (Super Plus / SP95-98)",
+}
+
+# How obtainable a fuel is. See fuelmap.availability for how this is derived.
+AVAILABILITY_SELF_SERVICE = "self_service"
+AVAILABILITY_RESTRICTED = "restricted"
+AVAILABILITY_UNKNOWN = "unknown"
+
+#: Most permissive first; also the legend order.
+AVAILABILITY_ORDER = (
+    AVAILABILITY_SELF_SERVICE,
+    AVAILABILITY_RESTRICTED,
+    AVAILABILITY_UNKNOWN,
+)
+
+AVAILABILITY_LABELS = {
+    AVAILABILITY_SELF_SERVICE: "Automate / H24",
+    AVAILABILITY_RESTRICTED: "HX, PPR, sur demande",
+    AVAILABILITY_UNKNOWN: "Non précisé",
+}
+
+AVAILABILITY_HINTS = {
+    AVAILABILITY_SELF_SERVICE: "Pompe en libre-service, accessible par carte.",
+    AVAILABILITY_RESTRICTED: "Horaires limités, PPR, sur demande ou réservé aux basés.",
+    AVAILABILITY_UNKNOWN: "La carte VAC ne précise pas les conditions.",
 }
 
 
-def map_category(fuels: frozenset[str] | set[str]) -> str:
-    """Classify an aerodrome for the map legend.
-
-    Raises ``ValueError`` for aerodromes with no unleaded fuel at all, which
-    would otherwise be drawn in a colour the legend cannot explain.
-    """
-    has_avgas = bool(fuels & UNLEADED_AVGAS)
-    has_mogas = bool(fuels & MOGAS_FUELS)
-    if has_avgas and has_mogas:
-        return CATEGORY_BOTH
-    if has_avgas:
-        return CATEGORY_UL91
-    if has_mogas:
-        return CATEGORY_MOGAS
-    raise ValueError(f"no unleaded fuel among {sorted(fuels)}")
+def best_availability(levels) -> str:
+    """Return the most permissive level in ``levels``."""
+    for level in AVAILABILITY_ORDER:
+        if level in levels:
+            return level
+    return AVAILABILITY_UNKNOWN
 
 
 def format_fuels(fuels: frozenset[str] | set[str] | tuple[str, ...]) -> str:
@@ -94,6 +113,9 @@ class Aerodrome:
     fuel_section: str
     """Raw text of VAC section "10 - AVT", trimmed. Empty when not found."""
 
+    availability: tuple[tuple[str, str], ...] = ()
+    """Sorted ``(fuel, level)`` pairs. A tuple so the record stays hashable."""
+
     error: str = ""
     """Non-empty when the chart could not be read at all."""
 
@@ -105,6 +127,27 @@ class Aerodrome:
     def has_position(self) -> bool:
         return self.latitude is not None and self.longitude is not None
 
-    @property
-    def category(self) -> str:
-        return map_category(self.fuels)
+    def availability_of(self, fuel: str) -> str:
+        return dict(self.availability).get(fuel, AVAILABILITY_UNKNOWN)
+
+    def family_fuels(self, family: str) -> frozenset[str]:
+        """The fuels this aerodrome carries within ``family``."""
+        return self.fuels & FUEL_FAMILIES[family]
+
+    def families(self) -> list[str]:
+        """Which unleaded families are available, in legend order.
+
+        Empty for a field with no unleaded fuel, which therefore contributes
+        no markers to the map.
+        """
+        return [f for f in FUEL_FAMILIES if self.family_fuels(f)]
+
+    def family_availability(self, family: str) -> str:
+        """Best availability across the fuels of ``family``.
+
+        UL91 and UL AERO SUPER+ are the same product under two names, so if
+        either is self-service the family is.
+        """
+        return best_availability(
+            {self.availability_of(fuel) for fuel in self.family_fuels(family)}
+        )

@@ -31,7 +31,37 @@ sont pas interchangeables selon votre certification :
 | **100LL** | Essence aviation **plombée** | `100LL`, `100 LL`, `AVGAS 100LL` |
 
 `UL AERO SUPER+` est la marque TotalEnergies du UL91 : malgré le « SUPER+ » de
-son nom, ce n'est **pas** du mogas. La carte les distingue par couleur.
+son nom, ce n'est **pas** du mogas.
+
+## Lire la carte
+
+Deux informations indépendantes sont encodées :
+
+- **La forme donne le carburant** : ● UL91 / UL AERO SUPER+, ■ mogas.
+  Un terrain qui vend les deux porte **deux marqueurs**, pour rester visible
+  quel que soit le filtre actif.
+- **La couleur donne les conditions d'accès** : 🟢 automate ou H24,
+  🟠 HX / PPR / sur demande / horaires limités, ⚪ non précisé par la VAC.
+
+### Pourquoi « automate » plutôt que « H24 »
+
+Les VAC annoncent rarement des horaires nets. Elles disent plutôt « H24 par
+carte TOTAL, sinon bureau de piste 0900-1600 » : c'est H24 *si vous avez la
+carte*. Un simple drapeau H24/HX serait faux pour la moitié des lecteurs.
+
+La question retenue est donc celle que se pose un pilote de passage : **puis-je
+me servir seul, ou dois-je organiser quelque chose ?** Un terrain est vert
+quand la carte annonce une pompe en libre-service ; orange dès qu'il faut un
+PPR, un appel, être basé, ou tomber dans une plage horaire.
+
+Les conditions peuvent différer d'un carburant à l'autre sur le même terrain —
+Montceau-les-Mines publie le 100LL sur automate H24 mais l'UL91 seulement de
+0800 à 1500 — donc l'analyse est faite carburant par carburant.
+
+> Cette classification est **déduite automatiquement** d'un texte libre. Elle
+> vous aide à trier, pas à décider : la carte VAC en vigueur fait foi, et un
+> coup de téléphone reste la seule certitude. Le texte brut de la section
+> « 10 - AVT » est affiché dans chaque popup pour que vous puissiez vérifier.
 
 ## Fichiers produits
 
@@ -43,8 +73,11 @@ son nom, ce n'est **pas** du mogas. La carte les distingue par couleur.
 | [`data/aerodromes-unleaded.csv`](./data/aerodromes-unleaded.csv) | Terrains avec essence sans plomb. **Généré.** |
 | [`data/aerodromes-all.csv`](./data/aerodromes-all.csv) | Les 420 terrains français et leur section avitaillement brute. **Généré.** |
 
-Colonnes CSV : `icao`, `name`, `fuels` (séparés par `|`), `lat`, `lon` (degrés
-décimaux), `fuel_section` (texte brut de la section « 10 - AVT »), `error`.
+Colonnes CSV : `icao`, `name`, `fuels` (séparés par `|`), `availability`
+(`CARBURANT=niveau`, séparés par `|`), `lat`, `lon` (degrés décimaux),
+`fuel_section` (texte brut de la section « 10 - AVT »), `error`.
+
+Niveaux d'`availability` : `self_service`, `restricted`, `unknown`.
 
 ## Installation
 
@@ -108,8 +141,9 @@ Le code vit dans `src/fuelmap/` :
 
 | Module | Rôle |
 |---|---|
-| `model.py` | Taxonomie des carburants, `Aerodrome`, catégories de la carte |
+| `model.py` | Taxonomie des carburants, familles, `Aerodrome` |
 | `parsing.py` | Regex et extraction pure depuis le texte des VAC |
+| `availability.py` | Déduction des conditions d'accès, clause par clause |
 | `vac.py` | Appel à `pdftotext`, détection du cycle AIRAC |
 | `pipeline.py` | Parcours parallèle du dossier VAC |
 | `render/` | Sorties CSV, Markdown et données de la carte |
@@ -125,9 +159,12 @@ Les tests tournent sur des extraits de texte VAC stockés dans
 2. Isolation de la section `10 - AVT` (Carburants / Fuel), qui se termine à la
    section 11 ou 12. Repli sur le document entier si les marqueurs manquent.
 3. Détection des variantes orthographiques de chaque carburant, en masquant au
-   préalable la marque `UL AERO SUPER+` pour ne pas la compter comme du mogas.
-4. Lecture des coordonnées `LAT`/`LONG` de l'en-tête (sexagésimal → décimal).
-5. Normalisation des caractères Windows-1252 que Poppler laisse passer.
+   préalable la marque `UL AERO SUPER+` (aussi écrite `UL AEROSUPER +` ou
+   `UL Aéro Super +`) pour ne pas la compter comme du mogas.
+4. Découpage de la section en clauses pour attribuer les conditions d'accès au
+   carburant nommé dans la même phrase, avec repli sur les clauses générales.
+5. Lecture des coordonnées `LAT`/`LONG` de l'en-tête (sexagésimal → décimal).
+6. Normalisation des caractères Windows-1252 que Poppler laisse passer.
 
 ## Limites connues
 
@@ -140,6 +177,10 @@ Les tests tournent sur des extraits de texte VAC stockés dans
   des cartes communautaires peuvent affirmer.
 - **Périmètre géographique** : France métropolitaine + DOM (codes OACI `LF*`).
   L'outre-mer Pacifique (NTAA, NWWW…) n'est pas couvert.
+- **Conditions d'accès déduites** : le niveau vert/orange/gris vient d'une
+  analyse de texte libre, pas d'un champ structuré de l'AIP. Il est vérifié
+  sur les 43 terrains du cycle courant, mais une tournure inédite peut le
+  tromper. Le texte source est affiché dans la popup pour arbitrer.
 - **Données périssables** : l'eAIP change tous les 28 jours. Le cycle publié est
   indiqué en tête d'[`AERODROMES.md`](./AERODROMES.md) et sur la carte.
 - **Aucune valeur opérationnelle** : ces données sont indicatives. Consultez la

@@ -173,3 +173,33 @@ class TestParseVacText:
         assert "\n" not in aerodrome.fuel_section
         assert "  " not in aerodrome.fuel_section
         assert len(aerodrome.fuel_section) <= parsing.FUEL_SECTION_EXCERPT_LENGTH
+
+
+class TestParsedAvailability:
+    def test_records_a_level_for_every_fuel(self, vac_text):
+        aerodrome = parsing.parse_vac_text("LFCU", vac_text("LFCU"))
+        assert set(dict(aerodrome.availability)) == aerodrome.fuels
+
+    def test_restricted_field_is_flagged(self, vac_text):
+        aerodrome = parsing.parse_vac_text("LFCU", vac_text("LFCU"))
+        assert (
+            aerodrome.family_availability(model.FAMILY_MOGAS)
+            == model.AVAILABILITY_RESTRICTED
+        )
+
+    def test_h24_card_applies_only_to_the_fuel_it_names(self, vac_text):
+        """Lyon-Bron: 100LL is H24 on the TOTAL card, UL AERO is 0630-2230."""
+        aerodrome = parsing.parse_vac_text("LFLY", vac_text("LFLY"))
+        assert (
+            aerodrome.availability_of(model.AVGAS_100LL)
+            == model.AVAILABILITY_SELF_SERVICE
+        )
+        assert (
+            aerodrome.family_availability(model.FAMILY_UL91)
+            == model.AVAILABILITY_RESTRICTED
+        )
+
+    def test_chart_without_a_fuel_section_has_no_availability(self, vac_text):
+        """Reading hours off a whole chart would pick up ATS and runway times."""
+        aerodrome = parsing.parse_vac_text("LFOJ", vac_text("LFOJ"))
+        assert aerodrome.availability == ()

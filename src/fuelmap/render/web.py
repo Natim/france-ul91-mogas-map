@@ -3,6 +3,10 @@
 Only the data is generated. ``docs/index.html`` is a hand-maintained static
 page that fetches this file at load time, so the map UI can be edited without
 re-running the extraction over the PDFs.
+
+One marker is emitted per *fuel family* rather than per aerodrome: the handful
+of fields selling both UL91 and mogas get two markers, so each family can be
+filtered independently.
 """
 
 from __future__ import annotations
@@ -11,10 +15,38 @@ import json
 from datetime import date
 from pathlib import Path
 
-from ..model import Aerodrome, format_fuels
+from ..model import (
+    AVAILABILITY_LABELS,
+    FAMILY_LABELS,
+    Aerodrome,
+    format_fuels,
+)
 
 #: Bumped when the JSON shape changes, so the page can refuse stale data.
-SCHEMA_VERSION = 1
+#: 2 — markers are per fuel family and carry an availability level.
+SCHEMA_VERSION = 2
+
+
+def _marker(aerodrome: Aerodrome, family: str) -> dict:
+    family_fuels = aerodrome.family_fuels(family)
+    return {
+        "icao": aerodrome.icao,
+        "name": aerodrome.name,
+        "lat": aerodrome.latitude,
+        "lon": aerodrome.longitude,
+        "family": family,
+        "familyLabel": FAMILY_LABELS[family],
+        "fuels": sorted(family_fuels),
+        "fuelsLabel": format_fuels(family_fuels),
+        "availability": aerodrome.family_availability(family),
+        "availabilityLabel": AVAILABILITY_LABELS[
+            aerodrome.family_availability(family)
+        ],
+        # Everything on the field, so a pilot sees the whole picture, and the
+        # raw wording so they can check the availability we inferred.
+        "allFuelsLabel": format_fuels(aerodrome.fuels),
+        "section": aerodrome.fuel_section,
+    }
 
 
 def build_payload(
@@ -30,22 +62,19 @@ def build_payload(
     mappable = sorted(
         (a for a in aerodromes if a.has_position), key=lambda a: a.icao
     )
+    # A field with no unleaded fuel has no family and would vanish silently;
+    # that means it was never filtered out upstream.
+    unmappable = [a.icao for a in mappable if not a.families()]
+    if unmappable:
+        raise ValueError(f"aerodromes without unleaded fuel: {unmappable}")
+
+    markers = [_marker(a, family) for a in mappable for family in a.families()]
     return {
         "schema": SCHEMA_VERSION,
         "airac": airac,
         "generated": (today or date.today()).isoformat(),
-        "aerodromes": [
-            {
-                "icao": a.icao,
-                "name": a.name,
-                "fuels": sorted(a.fuels),
-                "fuelsLabel": format_fuels(a.fuels),
-                "category": a.category,
-                "lat": a.latitude,
-                "lon": a.longitude,
-            }
-            for a in mappable
-        ],
+        "aerodromeCount": len(mappable),
+        "markers": markers,
     }
 
 
@@ -61,4 +90,4 @@ def write_map_data(
     path.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    return len(payload["aerodromes"])
+    return payload["aerodromeCount"]

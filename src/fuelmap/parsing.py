@@ -10,6 +10,7 @@ from __future__ import annotations
 import re
 
 from . import model
+from .availability import detect_availability
 
 ICAO_FILENAME_RE = re.compile(r"AD-2\.(LF[A-Z0-9]{2,3})\.pdf$", re.IGNORECASE)
 
@@ -23,7 +24,7 @@ FUEL_SECTION_RE = re.compile(
 # Spelling variants observed across the French VAC set.
 FUEL_PATTERNS: dict[str, re.Pattern[str]] = {
     model.UL91: re.compile(r"\bUL\s*91\b", re.IGNORECASE),
-    model.UL_AERO: re.compile(r"\bUL\s*AERO\b", re.IGNORECASE),
+    model.UL_AERO: re.compile(r"\bUL\s*A[EÉ]RO\b", re.IGNORECASE),
     model.SUPER_PLUS: re.compile(
         r"\bSUPER\s*\+|\bSUPER\s*PLUS\b|\bSP\s*95\b|\bSP\s*98\b", re.IGNORECASE
     ),
@@ -32,12 +33,15 @@ FUEL_PATTERNS: dict[str, re.Pattern[str]] = {
     model.JET_A1: re.compile(r"\bJET\s*A[-\s]?1\b", re.IGNORECASE),
 }
 
-# TotalEnergies sells UL91 as "UL AERO SUPER+", sometimes shortened to
-# "AERO SUPER+". The trailing "SUPER+" is part of that brand name and must not
-# be read as mogas, so these mentions are masked out before the other patterns
-# run. Without this, aerodromes carrying only UL91 (Lyon-Bron, Avignon,
-# Perpignan…) are wrongly advertised as selling SP95/SP98.
-UL_AERO_BRAND_RE = re.compile(r"\b(?:UL\s+)?AERO\s*SUPER\s*\+", re.IGNORECASE)
+# TotalEnergies sells UL91 as "UL AERO SUPER+", also written "AERO SUPER+",
+# "UL AEROSUPER +" or "UL Aéro Super +" depending on the chart. The trailing
+# "SUPER+" is part of that brand name and must not be read as mogas, so these
+# mentions are masked out before the other patterns run. Without this,
+# aerodromes carrying only UL91 (Lyon-Bron, Avignon, Annecy…) are wrongly
+# advertised as selling SP95/SP98.
+UL_AERO_BRAND_RE = re.compile(
+    r"\b(?:UL\s+)?A[EÉ]RO\s*SUPER\s*\+", re.IGNORECASE
+)
 
 LATITUDE_RE = re.compile(
     r"LAT\s*:\s*(\d{1,3})\s+(\d{1,2})\s+(\d{1,2})\s*([NS])", re.IGNORECASE
@@ -80,8 +84,10 @@ _MOJIBAKE_REPLACEMENTS = {
     "\u2019": "'",
 }
 
-#: How much of the fuel section to keep in the CSV, in characters.
-FUEL_SECTION_EXCERPT_LENGTH = 300
+#: How much of the fuel section to keep in the CSV, in characters. Long enough
+#: to hold the whole paragraph for all but a handful of charts, so a reader can
+#: audit the availability we inferred against the actual wording.
+FUEL_SECTION_EXCERPT_LENGTH = 1000
 
 #: The aerodrome name and coordinates both live in the chart header.
 HEADER_LINES = 20
@@ -180,12 +186,20 @@ def parse_vac_text(icao: str, text: str) -> model.Aerodrome:
     # Fall back to the whole document when the section markers are missing, so
     # that unusually formatted charts still contribute fuel data.
     section = extract_fuel_section(text)
+    fuels = detect_fuels(section or text)
     latitude, longitude = extract_position(text)
+
+    # Availability is only read from a properly delimited section: running it
+    # over a whole chart would pick up runway and ATS hours as if they were
+    # fuelling terms.
+    availability = detect_availability(section, fuels) if section else {}
+
     return model.Aerodrome(
         icao=icao,
         name=extract_aerodrome_name(text),
-        fuels=detect_fuels(section or text),
+        fuels=fuels,
         latitude=latitude,
         longitude=longitude,
         fuel_section=summarize_fuel_section(section),
+        availability=tuple(sorted(availability.items())),
     )

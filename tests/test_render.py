@@ -10,14 +10,30 @@ AIRAC = "2026-05-14"
 TODAY = date(2026, 8, 11)
 
 
-def aerodrome(icao, fuels, name="TERRAIN", latitude=45.0, longitude=2.0, **kwargs):
+SELF = model.AVAILABILITY_SELF_SERVICE
+RESTRICTED = model.AVAILABILITY_RESTRICTED
+
+
+def aerodrome(
+    icao,
+    fuels,
+    name="TERRAIN",
+    latitude=45.0,
+    longitude=2.0,
+    availability=None,
+    **kwargs,
+):
+    fuels = frozenset(fuels)
+    if availability is None:
+        availability = dict.fromkeys(fuels, RESTRICTED)
     return model.Aerodrome(
         icao=icao,
         name=name,
-        fuels=frozenset(fuels),
+        fuels=fuels,
         latitude=latitude,
         longitude=longitude,
         fuel_section=f"10 - AVT : {', '.join(sorted(fuels))}",
+        availability=tuple(sorted(availability.items())),
         **kwargs,
     )
 
@@ -25,9 +41,13 @@ def aerodrome(icao, fuels, name="TERRAIN", latitude=45.0, longitude=2.0, **kwarg
 @pytest.fixture
 def aerodromes():
     return [
-        aerodrome("LFDA", {model.UL91}),
+        aerodrome("LFDA", {model.UL91}, availability={model.UL91: SELF}),
         aerodrome("LFCU", {model.AVGAS_100LL, model.SUPER_PLUS}),
-        aerodrome("LFMW", {model.SUPER_PLUS, model.UL91}),
+        aerodrome(
+            "LFMW",
+            {model.SUPER_PLUS, model.UL91},
+            availability={model.UL91: SELF, model.SUPER_PLUS: RESTRICTED},
+        ),
         aerodrome("LFXX", {model.UL91}, latitude=None, longitude=None),
     ]
 
@@ -44,6 +64,19 @@ class TestCsvRoundTrip:
         header = path.read_text(encoding="utf-8").splitlines()[0]
         assert "error" not in header
         assert csv_export.read_csv(path) == aerodromes
+
+    def test_availability_round_trips_per_fuel(self, tmp_path):
+        path = tmp_path / "all.csv"
+        original = aerodrome(
+            "LFGM",
+            {model.UL91, model.AVGAS_100LL},
+            availability={model.AVGAS_100LL: SELF, model.UL91: RESTRICTED},
+        )
+        csv_export.write_csv(path, [original])
+        restored = csv_export.read_csv(path)[0]
+        assert restored == original
+        assert restored.availability_of(model.UL91) == RESTRICTED
+        assert restored.availability_of(model.AVGAS_100LL) == SELF
 
     def test_creates_missing_directories(self, tmp_path, aerodromes):
         path = tmp_path / "nested" / "dir" / "all.csv"
@@ -80,21 +113,60 @@ class TestMarkdown:
         assert "| Jet A1 |" not in rendered
         assert "| UL91 | 3 |" in rendered
 
+    def test_breaks_down_access_conditions(self, aerodromes):
+        rendered = markdown.render_markdown(aerodromes, AIRAC, today=TODAY)
+        assert "## Conditions d'accès" in rendered
+        assert f"| {model.AVAILABILITY_LABELS[SELF]} | 2 |" in rendered
+        assert f"| {model.AVAILABILITY_LABELS[RESTRICTED]} | 2 |" in rendered
+
+    def test_lists_access_per_aerodrome(self, aerodromes):
+        rendered = markdown.render_markdown(aerodromes, AIRAC, today=TODAY)
+        row = next(line for line in rendered.splitlines() if line.startswith("| LFCU"))
+        assert model.AVAILABILITY_LABELS[RESTRICTED] in row
+
 
 class TestMapData:
     def test_drops_aerodromes_without_coordinates(self, aerodromes):
         payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
-        assert [a["icao"] for a in payload["aerodromes"]] == ["LFCU", "LFDA", "LFMW"]
+        assert payload["aerodromeCount"] == 3
+        assert {m["icao"] for m in payload["markers"]} == {"LFCU", "LFDA", "LFMW"}
 
-    def test_assigns_a_legend_category_to_every_point(self, aerodromes):
+    def test_emits_one_marker_per_fuel_family(self, aerodromes):
+        """A field selling both must be filterable under either family."""
         payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
-        categories = {a["icao"]: a["category"] for a in payload["aerodromes"]}
-        assert categories == {
-            "LFCU": model.CATEGORY_MOGAS,
-            "LFDA": model.CATEGORY_UL91,
-            "LFMW": model.CATEGORY_BOTH,
-        }
-        assert set(categories.values()) <= set(model.CATEGORY_LABELS)
+        pairs = [(m["icao"], m["family"]) for m in payload["markers"]]
+        assert pairs == [
+            ("LFCU", model.FAMILY_MOGAS),
+            ("LFDA", model.FAMILY_UL91),
+            ("LFMW", model.FAMILY_UL91),
+            ("LFMW", model.FAMILY_MOGAS),
+        ]
+
+    def test_each_marker_carries_only_its_family_fuels(self, aerodromes):
+        payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
+        by_key = {(m["icao"], m["family"]): m for m in payload["markers"]}
+        assert by_key[("LFMW", model.FAMILY_UL91)]["fuels"] == [model.UL91]
+        assert by_key[("LFMW", model.FAMILY_MOGAS)]["fuels"] == [model.SUPER_PLUS]
+
+    def test_availability_is_resolved_per_family(self, aerodromes):
+        payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
+        by_key = {(m["icao"], m["family"]): m for m in payload["markers"]}
+        assert by_key[("LFMW", model.FAMILY_UL91)]["availability"] == SELF
+        assert by_key[("LFMW", model.FAMILY_MOGAS)]["availability"] == RESTRICTED
+
+    def test_markers_show_the_whole_field_for_context(self, aerodromes):
+        payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
+        mogas = next(m for m in payload["markers"] if m["icao"] == "LFCU")
+        assert mogas["fuelsLabel"] == "Super Plus"
+        assert mogas["allFuelsLabel"] == "Super Plus, 100LL"
+        assert mogas["section"].startswith("10 - AVT")
+
+    def test_every_marker_uses_known_legend_keys(self, aerodromes):
+        payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
+        assert {m["family"] for m in payload["markers"]} <= set(model.FAMILY_LABELS)
+        assert {m["availability"] for m in payload["markers"]} <= set(
+            model.AVAILABILITY_LABELS
+        )
 
     def test_records_schema_and_cycle(self, aerodromes):
         payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
@@ -106,9 +178,10 @@ class TestMapData:
         path = tmp_path / "docs" / "aerodromes.json"
         plotted = web.write_map_data(path, aerodromes, AIRAC, today=TODAY)
         payload = json.loads(path.read_text(encoding="utf-8"))
-        assert plotted == len(payload["aerodromes"]) == 3
+        assert plotted == payload["aerodromeCount"] == 3
+        assert len(payload["markers"]) == 4
 
     def test_refuses_aerodromes_the_legend_cannot_explain(self):
-        """A 100LL-only field must never silently reach the map."""
+        """A 100LL-only field has no family and must not vanish silently."""
         with pytest.raises(ValueError):
             web.build_payload([aerodrome("LFAT", {model.AVGAS_100LL})], AIRAC)

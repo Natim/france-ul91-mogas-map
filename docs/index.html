@@ -4,56 +4,88 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Carte des aérodromes UL91 / Mogas en France</title>
-<meta name="description" content="Carte des aérodromes français distribuant de l'essence aviation sans plomb (UL91, UL AERO SUPER+) ou du mogas (Super Plus, SP95, SP98), extraite de l'eAIP officiel du SIA." />
+<meta name="description" content="Carte des aérodromes français distribuant de l'essence aviation sans plomb (UL91, UL AERO SUPER+) ou du mogas (Super Plus, SP95, SP98), avec les conditions d'accès, extraite de l'eAIP officiel du SIA." />
 <link rel="stylesheet"
   href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
   crossorigin="" />
 <style>
   :root {
-    --color-ul91: #2ecc71;
-    --color-mogas: #f39c12;
-    --color-both: #3498db;
+    --self-service: #2ecc71;
+    --restricted: #f39c12;
+    --unknown: #9aa0a6;
+    --ink: #202124;
+    --muted: #5f6368;
   }
-  html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, sans-serif; }
+  html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, sans-serif; color: var(--ink); }
   #map { position: absolute; inset: 0; }
 
   .panel {
     position: absolute; top: 12px; right: 12px; z-index: 1000;
-    background: rgba(255, 255, 255, 0.96); padding: 12px 16px;
-    border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    font-size: 13px; max-width: 300px;
+    background: rgba(255, 255, 255, 0.97); padding: 14px 16px;
+    border-radius: 10px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.22);
+    font-size: 13px; width: 290px; max-height: calc(100% - 24px);
+    overflow-y: auto;
   }
   .panel h1 { margin: 0 0 6px; font-size: 15px; }
-  .panel .meta { color: #666; font-size: 11px; line-height: 1.5; }
-  .panel a { color: #2c7bb6; }
+  .panel h2 {
+    margin: 14px 0 6px; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--muted);
+  }
+  .meta { color: var(--muted); font-size: 11px; line-height: 1.5; }
+  a { color: #2c7bb6; }
 
-  .search { width: 100%; box-sizing: border-box; margin-top: 10px; padding: 6px 8px;
-    border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
+  .search {
+    width: 100%; box-sizing: border-box; margin-top: 10px; padding: 7px 9px;
+    border: 1px solid #ccc; border-radius: 6px; font-size: 13px;
+  }
 
-  .legend { margin-top: 10px; }
-  .legend label {
+  .filters label {
     display: flex; align-items: center; gap: 8px;
-    cursor: pointer; user-select: none; line-height: 1.7;
+    cursor: pointer; user-select: none; line-height: 1.9;
   }
-  .legend .count { color: #888; font-size: 11px; margin-left: auto; }
-  .dot {
-    display: inline-block; width: 14px; height: 14px; border-radius: 50%;
-    border: 2px solid white; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3); flex: none;
-  }
-  .dot-ul91 { background: var(--color-ul91); }
-  .dot-mogas { background: var(--color-mogas); }
-  .dot-both { background: var(--color-both); }
+  .filters .count { color: var(--muted); font-size: 11px; margin-left: auto; }
+  .filters input { flex: none; }
 
+  /* Shape encodes the fuel family, fill encodes how obtainable it is. */
+  .key {
+    display: inline-block; width: 15px; height: 15px; flex: none;
+    border: 2px solid white; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+    background: var(--muted);
+  }
+  .key-ul91 { border-radius: 50%; }
+  .key-mogas { border-radius: 3px; }
+  .key-self_service { background: var(--self-service); }
+  .key-restricted { background: var(--restricted); }
+  .key-unknown { background: var(--unknown); }
+
+  .marker {
+    width: 15px; height: 15px; box-sizing: border-box;
+    border: 2px solid white; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  }
+  .marker-ul91 { border-radius: 50%; }
+  .marker-mogas { border-radius: 3px; }
+  .marker-self_service { background: var(--self-service); }
+  .marker-restricted { background: var(--restricted); }
+  .marker-unknown { background: var(--unknown); }
+
+  .note { margin-top: 12px; font-size: 11px; color: var(--muted); line-height: 1.45; }
   .status { margin-top: 10px; font-size: 12px; color: #c0392b; }
   .status:empty { display: none; }
 
-  .popup-icao { font-weight: bold; font-size: 14px; }
-  .popup-name { margin: 4px 0; }
-  .popup-fuels { font-size: 12px; color: #444; }
+  .popup-icao { font-weight: 700; font-size: 14px; }
+  .popup-name { margin: 2px 0 8px; }
+  .popup-row { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
+  .popup-all { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .popup-section {
+    margin-top: 8px; padding-top: 8px; border-top: 1px solid #e4e4e4;
+    font-size: 11px; color: var(--muted); line-height: 1.45;
+    max-height: 108px; overflow-y: auto;
+  }
+  .leaflet-popup-content { margin: 12px 14px; min-width: 230px; }
 
-  @media (max-width: 600px) {
-    .panel { left: 12px; right: 12px; max-width: none; }
+  @media (max-width: 640px) {
+    .panel { left: 12px; right: 12px; width: auto; }
   }
 </style>
 </head>
@@ -67,7 +99,13 @@
   <input type="search" class="search" id="search"
          placeholder="Filtrer par code OACI ou nom…" autocomplete="off" />
 
-  <div class="legend" id="legend"></div>
+  <h2>Carburant</h2>
+  <div class="filters" id="family-filters"></div>
+
+  <h2>Conditions d'accès</h2>
+  <div class="filters" id="availability-filters"></div>
+
+  <div class="note" id="note"></div>
   <div class="status" id="status"></div>
 </div>
 
@@ -76,20 +114,29 @@
   crossorigin=""></script>
 <script>
 const DATA_URL = "aerodromes.json";
-const SUPPORTED_SCHEMA = 1;
+const SUPPORTED_SCHEMA = 2;
 const SOURCE_URL = "https://www.sia.aviation-civile.gouv.fr/";
 const REPO_URL = "https://github.com/Natim/france-ul91-mogas-map";
 
-// Order defines the legend order. Keys match `category` in the JSON, which is
-// produced by fuelmap.model.map_category.
-const CATEGORIES = [
-  { key: "ul91", label: "UL91 / UL AERO SUPER+", color: "#2ecc71" },
-  { key: "mogas", label: "Mogas (Super Plus / SP95-98)", color: "#f39c12" },
-  { key: "both", label: "UL91 + Mogas", color: "#3498db" },
+// Keys must match fuelmap.model: FUEL_FAMILIES and AVAILABILITY_ORDER.
+const FAMILIES = [
+  { key: "ul91", label: "UL91 / UL AERO SUPER+" },
+  { key: "mogas", label: "Mogas (Super Plus / SP95-98)" },
+];
+
+const AVAILABILITY = [
+  { key: "self_service", label: "Automate / H24" },
+  { key: "restricted", label: "HX, PPR, sur demande" },
+  { key: "unknown", label: "Non précisé" },
 ];
 
 const FRANCE_CENTER = [46.7, 2.3];
 const FRANCE_ZOOM = 6;
+const MARKER_SIZE = 15;
+
+// A field selling both families gets one marker per family. They share a
+// position, so nudge them apart far enough to both be clickable.
+const SPLIT_OFFSET_PX = 9;
 
 const map = L.map("map").setView(FRANCE_CENTER, FRANCE_ZOOM);
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -98,58 +145,97 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-const markers = [];
+const entries = [];
 
-function createMarker(aerodrome, color) {
-  const marker = L.circleMarker([aerodrome.lat, aerodrome.lon], {
-    radius: 7,
-    weight: 2,
-    color: "white",
-    fillColor: color,
-    fillOpacity: 0.95,
-  });
-  const name = aerodrome.name || aerodrome.icao;
-  marker.bindPopup(
-    `<div class="popup-icao">${aerodrome.icao}</div>` +
-    `<div class="popup-name">${name}</div>` +
-    `<div class="popup-fuels">${aerodrome.fuelsLabel}</div>`
+function popupHtml(marker) {
+  const name = marker.name || marker.icao;
+  const section = marker.section
+    ? `<div class="popup-section">${escapeHtml(marker.section)}</div>`
+    : "";
+  return (
+    `<div class="popup-icao">${marker.icao}</div>` +
+    `<div class="popup-name">${escapeHtml(name)}</div>` +
+    `<div class="popup-row">` +
+      `<span class="key key-${marker.family} key-${marker.availability}"></span>` +
+      `<span><strong>${escapeHtml(marker.fuelsLabel)}</strong> — ` +
+      `${escapeHtml(marker.availabilityLabel)}</span>` +
+    `</div>` +
+    `<div class="popup-all">Sur le terrain : ${escapeHtml(marker.allFuelsLabel)}</div>` +
+    section
   );
-  marker.bindTooltip(`${aerodrome.icao} — ${name}`, { direction: "top" });
+}
+
+function escapeHtml(value) {
+  const div = document.createElement("div");
+  div.textContent = value;
+  return div.innerHTML;
+}
+
+function createMarker(data, offsetX) {
+  const icon = L.divIcon({
+    className: "",
+    html: `<div class="marker marker-${data.family} marker-${data.availability}"></div>`,
+    iconSize: [MARKER_SIZE, MARKER_SIZE],
+    iconAnchor: [MARKER_SIZE / 2 - offsetX, MARKER_SIZE / 2],
+  });
+  const marker = L.marker([data.lat, data.lon], { icon });
+  marker.bindPopup(popupHtml(data));
+  marker.bindTooltip(
+    `${data.icao} — ${data.name || ""} · ${data.fuelsLabel}`,
+    { direction: "top" }
+  );
   return marker;
 }
 
-function renderLegend(counts) {
-  const legend = document.getElementById("legend");
-  legend.innerHTML = "";
-  for (const category of CATEGORIES) {
+function renderFilters(container, options, counts, group) {
+  container.innerHTML = "";
+  for (const option of options) {
     const label = document.createElement("label");
+    const swatch =
+      group === "family"
+        ? `<span class="key key-${option.key} key-unknown"></span>`
+        : `<span class="key key-ul91 key-${option.key}"></span>`;
     label.innerHTML =
-      `<input type="checkbox" data-category="${category.key}" checked>` +
-      `<span class="dot dot-${category.key}"></span>${category.label}` +
-      `<span class="count">${counts[category.key] || 0}</span>`;
-    legend.appendChild(label);
+      `<input type="checkbox" data-group="${group}" data-key="${option.key}" checked>` +
+      swatch + option.label +
+      `<span class="count">${counts[option.key] || 0}</span>`;
+    container.appendChild(label);
   }
-  legend.addEventListener("change", applyFilters);
+  container.addEventListener("change", applyFilters);
 }
 
-// A single pass over every marker keeps the legend checkboxes and the search
-// box from fighting over which markers are on the map.
-function applyFilters() {
-  const enabled = new Set(
-    Array.from(document.querySelectorAll(".legend input:checked"))
-      .map((input) => input.dataset.category)
+function checkedKeys(group) {
+  return new Set(
+    Array.from(
+      document.querySelectorAll(`input[data-group="${group}"]:checked`)
+    ).map((input) => input.dataset.key)
   );
-  const query = document.getElementById("search").value.trim().toLowerCase();
+}
 
-  for (const { marker, aerodrome, haystack } of markers) {
+// One pass over every marker, so the two filter groups and the search box
+// cannot fight over which markers belong on the map.
+function applyFilters() {
+  const families = checkedKeys("family");
+  const availability = checkedKeys("availability");
+  const query = document.getElementById("search").value.trim().toLowerCase();
+  let shown = 0;
+
+  for (const { marker, data, haystack } of entries) {
     const visible =
-      enabled.has(aerodrome.category) && (!query || haystack.includes(query));
-    if (visible && !map.hasLayer(marker)) {
-      marker.addTo(map);
-    } else if (!visible && map.hasLayer(marker)) {
+      families.has(data.family) &&
+      availability.has(data.availability) &&
+      (!query || haystack.includes(query));
+    if (visible) {
+      shown += 1;
+      if (!map.hasLayer(marker)) marker.addTo(map);
+    } else if (map.hasLayer(marker)) {
       map.removeLayer(marker);
     }
   }
+
+  document.getElementById("note").textContent =
+    `${shown} marqueur${shown > 1 ? "s" : ""} affiché${shown > 1 ? "s" : ""}. ` +
+    "Conditions déduites du texte de la carte VAC, qui fait foi.";
 }
 
 function fail(message) {
@@ -176,25 +262,45 @@ async function load() {
     return;
   }
 
-  const colors = Object.fromEntries(CATEGORIES.map((c) => [c.key, c.color]));
-  const counts = {};
+  const perAerodrome = {};
+  for (const marker of data.markers) {
+    (perAerodrome[marker.icao] ||= []).push(marker);
+  }
 
-  for (const aerodrome of data.aerodromes) {
-    counts[aerodrome.category] = (counts[aerodrome.category] || 0) + 1;
-    const marker = createMarker(aerodrome, colors[aerodrome.category] || "#888");
-    markers.push({
-      marker,
-      aerodrome,
-      haystack: `${aerodrome.icao} ${aerodrome.name}`.toLowerCase(),
+  const familyCounts = {};
+  const availabilityCounts = {};
+
+  for (const marker of data.markers) {
+    familyCounts[marker.family] = (familyCounts[marker.family] || 0) + 1;
+    availabilityCounts[marker.availability] =
+      (availabilityCounts[marker.availability] || 0) + 1;
+
+    const siblings = perAerodrome[marker.icao];
+    const index = siblings.indexOf(marker);
+    const offsetX =
+      siblings.length > 1
+        ? (index - (siblings.length - 1) / 2) * SPLIT_OFFSET_PX * 2
+        : 0;
+
+    entries.push({
+      marker: createMarker(marker, offsetX),
+      data: marker,
+      haystack: `${marker.icao} ${marker.name}`.toLowerCase(),
     });
   }
 
   document.getElementById("meta").innerHTML =
-    `${data.aerodromes.length} terrains · AIRAC ${data.airac} · MAJ ${data.generated}<br>` +
+    `${data.aerodromeCount} terrains · AIRAC ${data.airac} · MAJ ${data.generated}<br>` +
     `Source : <a href="${SOURCE_URL}" target="_blank" rel="noopener">eAIP SIA</a> · ` +
     `<a href="${REPO_URL}" target="_blank" rel="noopener">Code et données</a>`;
 
-  renderLegend(counts);
+  renderFilters(
+    document.getElementById("family-filters"), FAMILIES, familyCounts, "family"
+  );
+  renderFilters(
+    document.getElementById("availability-filters"),
+    AVAILABILITY, availabilityCounts, "availability"
+  );
   document.getElementById("search").addEventListener("input", applyFilters);
   applyFilters();
 }
