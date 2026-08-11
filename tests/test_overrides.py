@@ -37,9 +37,13 @@ class TestOverrideTable:
         assert overrides.OVERRIDES[icao].reason.strip()
 
     @pytest.mark.parametrize("icao", sorted(overrides.OVERRIDES))
-    def test_entry_states_a_definite_level(self, icao):
-        """An entry resolving to "unknown" would change nothing."""
-        assert UNKNOWN not in overrides.OVERRIDES[icao].availability.values()
+    def test_entry_names_at_least_one_fuel(self, icao):
+        """An empty entry changes nothing but still claims to be a correction.
+
+        A level of "unknown" is allowed: it adds a fuel the chart omits without
+        asserting hours nobody has verified.
+        """
+        assert overrides.OVERRIDES[icao].availability
 
 
 class TestAdditions:
@@ -118,6 +122,23 @@ class TestApply:
         overrides.apply(nantes)
         assert nantes.availability_of(model.UL91) == UNKNOWN
         assert nantes.availability_note == ""
+
+    def test_adding_a_fuel_can_qualify_a_field_that_had_none(self):
+        """Figeac sells only 100LL; the SP98 next door is why it appears at all.
+
+        This only works if overrides run before the unleaded filter, so the
+        filter is applied here in the same order as the CLI does it.
+        """
+        from fuelmap.pipeline import unleaded_only
+
+        figeac = _aerodrome(
+            "LFCF",
+            {model.AVGAS_100LL},
+            {model.AVGAS_100LL: RESTRICTED},
+        )
+        assert not figeac.has_unleaded
+        qualified = unleaded_only(overrides.apply_all([figeac]))
+        assert "LFCF" in {a.icao for a in qualified}
 
     def test_is_idempotent(self):
         for icao in overrides.OVERRIDES:

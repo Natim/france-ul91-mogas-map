@@ -153,6 +153,21 @@ class TestMarkdown:
         rendered = markdown.render_markdown(aerodromes, AIRAC, today=TODAY)
         assert "renseignée manuellement" not in rendered
         assert markdown.OFF_AIP_MARK not in rendered
+        assert "renseigné à la main" not in rendered
+
+    def test_excludes_nearby_only_fields_from_the_published_count(self):
+        """Figeac sells no unleaded itself; counting it as a VAC pump would lie."""
+        figeac = aerodrome(
+            "LFCF",
+            {model.SUPER_PLUS, model.AVGAS_100LL},
+            availability={model.SUPER_PLUS: model.AVAILABILITY_UNKNOWN},
+            availability_note="SP98 à la station voisine, à emporter en bidon.",
+            curated_fuels=(model.SUPER_PLUS,),
+        )
+        onfield = aerodrome("LFDA", {model.UL91}, availability={model.UL91: SELF})
+        rendered = markdown.render_markdown([onfield, figeac], AIRAC, today=TODAY)
+        assert "**1 aérodromes**" in rendered
+        assert "1 dont le sans plomb vient d'une source voisine" in rendered
 
     def test_separates_off_aip_fields_from_the_published_count(self, aerodromes):
         """A hand-entered strip must not inflate the count of VAC-sourced fields."""
@@ -160,7 +175,8 @@ class TestMarkdown:
             [*aerodromes, _off_aip()], AIRAC, today=TODAY
         )
         assert f"**{len(aerodromes)} aérodromes**" in rendered
-        assert "**1 terrain hors AIP**" in rendered
+        assert "**1 terrain renseigné à la main**" in rendered
+        assert "1 absent de l'AIP" in rendered
         row = next(
             line for line in rendered.splitlines() if line.startswith("| LF4724")
         )

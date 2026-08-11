@@ -119,27 +119,29 @@ def _write_outputs(
     unleaded = pipeline.unleaded_only(aerodromes)
 
     # The CSVs record the charts as they are; the reader-facing outputs get the
-    # curated access conditions on top.
+    # curated data on top.
     csv_export.write_csv(args.all_csv, aerodromes)
     csv_export.write_csv(
         args.unleaded_csv, unleaded, columns=csv_export.SUBSET_COLUMNS
     )
 
-    curated = overrides.apply_all(unleaded)
+    # Overrides run before the unleaded filter, not after: an entry may add a
+    # fuel, which is the whole reason a field selling only 100LL can qualify.
+    curated = pipeline.unleaded_only(overrides.apply_all(aerodromes))
     args.markdown.write_text(
         markdown.render_markdown(curated, airac, today=extracted_on), encoding="utf-8"
     )
     plotted = web.write_map_data(args.map_data, curated, airac, today=extracted_on)
 
     print(f"\nTous les terrains  : {args.all_csv} ({len(aerodromes)})")
-    print(f"Sans plomb         : {args.unleaded_csv} ({len(unleaded)})")
-    print(f"Markdown           : {args.markdown} (AIRAC {airac})")
+    print(f"Sans plomb (VAC)   : {args.unleaded_csv} ({len(unleaded)})")
+    print(f"Markdown           : {args.markdown} ({len(curated)} terrains)")
     print(f"Données carte      : {args.map_data} ({plotted} points)")
 
-    unplottable = [a.icao for a in unleaded if not a.has_position]
+    unplottable = [a.icao for a in curated if not a.has_position]
     if unplottable:
         print(f"  ⚠ sans coordonnées, absents de la carte : {unplottable}")
-    return unleaded
+    return curated
 
 
 def main(argv: list[str] | None = None) -> int:

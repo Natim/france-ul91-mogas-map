@@ -40,7 +40,11 @@ class Override:
     """Curated fuels and access conditions for one aerodrome."""
 
     availability: dict[str, str] = field(default_factory=dict)
-    """Fuel to access level. A fuel the chart omits is added to the field."""
+    """Fuel to access level. A fuel the chart omits is added to the field.
+
+    ``AVAILABILITY_UNKNOWN`` is meaningful here: it adds the fuel without
+    claiming hours we have not checked.
+    """
 
     reason: str = ""
     """Shown next to the marker, so the reader knows it is not from the chart."""
@@ -52,6 +56,20 @@ OVERRIDES: dict[str, Override] = {
     "LFRS": Override(
         availability={UL91: AVAILABILITY_SELF_SERVICE},
         reason="Automate accessible H24. La VAC ne donne aucune condition.",
+    ),
+    "LFCF": Override(
+        availability={SUPER_PLUS: AVAILABILITY_SELF_SERVICE},
+        reason=(
+            "Pas de sans plomb sur le terrain : SP98 H24 à la station-service "
+            "voisine, à emporter en bidon."
+        ),
+    ),
+    "LFCY": Override(
+        availability={SUPER_PLUS: AVAILABILITY_SELF_SERVICE},
+        reason=(
+            "Pas de sans plomb sur le terrain : SP98 H24 à la station-service "
+            "voisine, à emporter en bidon."
+        ),
     ),
     "LFOF": Override(
         availability={
@@ -148,11 +166,17 @@ def apply(aerodrome: Aerodrome) -> Aerodrome:
         return aerodrome
 
     availability = dict(aerodrome.availability) | override.availability
+    # Keep any earlier marking: after the first pass the fuel is present, so
+    # recomputing the difference alone would forget that we added it.
+    added = (frozenset(override.availability) - aerodrome.fuels) | frozenset(
+        aerodrome.curated_fuels
+    )
     return replace(
         aerodrome,
         fuels=aerodrome.fuels | frozenset(override.availability),
         availability=tuple(sorted(availability.items())),
         availability_note=override.reason,
+        curated_fuels=tuple(sorted(added)),
     )
 
 

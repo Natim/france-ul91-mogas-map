@@ -194,6 +194,13 @@ indexée par code OACI puis par carburant :
 ),
 ```
 
+Nommer un carburant que la VAC ignore l'ajoute au terrain. C'est ce qui fait
+entrer dans la carte un terrain qui ne vend aucun sans plomb, mais jouxte une
+station-service : LFCF Figeac et LFCY Royan n'y figurent qu'à ce titre, et le
+résumé d'[`AERODROMES.md`](./AERODROMES.md) les compte à part. Faute d'horaires
+vérifiés, `AVAILABILITY_UNKNOWN` reste un choix légitime : il déclare le
+carburant sans rien affirmer de sa disponibilité.
+
 **Ajouter un terrain absent de l'AIP** — typiquement une plateforme ULM privée,
 sans carte VAC. Ajoutez une entrée à `ADDITIONS` : tout est manuel, position
 comprise. Les fiches [BASULM](https://basulm.ffplum.fr/) de la FFPLUM sont une

@@ -1,6 +1,6 @@
 # Aérodromes français — UL91 / Mogas
 
-**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle. S'y ajoute **1 terrain hors AIP** renseigné à la main, marqué ‡.
+**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle. S'y ajoutent **3 terrains renseignés à la main** : 2 dont le sans plomb vient d'une source voisine (†), 1 absent de l'AIP (‡).
 
 - **Cycle AIRAC** : 2026-08-06
 - **Date d'extraction** : 2026-08-11
@@ -12,9 +12,9 @@
 |-----------|-------------|
 | UL91 | 30 |
 | UL AERO SUPER+ | 7 |
-| Super Plus | 9 |
-| 100LL | 30 |
-| Jet A1 | 12 |
+| Super Plus | 11 |
+| 100LL | 32 |
+| Jet A1 | 13 |
 
 > Malgré son préfixe, `UL AERO SUPER+` n'est **pas** du `UL91` : c'est un SP98 sans éthanol de qualité aviation distribué par TotalEnergies, réservé aux moteurs ROTAX 912/914 homologués pour le SP98 EN 228. Il est donc rangé avec `Super Plus` / `SP95` / `SP98`. Le `UL91`, lui, est une essence aviation à la norme ASTM D7547.
 
@@ -22,7 +22,7 @@
 
 | Accès | Nb terrains |
 |-------|-------------|
-| Automate / H24 | 15 |
+| Automate / H24 | 17 |
 | HX, PPR, sur demande | 27 |
 | Non précisé | 2 |
 
@@ -35,11 +35,13 @@
 | LF4724 ‡ | MONTPEZAT D'AGENAIS | UL91 | HX, PPR, sur demande |
 | LFAE | EU MERS LE TREPORT | UL91 | HX, PPR, sur demande |
 | LFBY | DAX SEYRESSE | UL91, 100LL | HX, PPR, sur demande |
+| LFCF | FIGEAC LIVERNON | Super Plus, 100LL | Automate / H24 † |
 | LFCH | ARCACHON LA TESTE DE BUCH | UL AERO SUPER+, 100LL, Jet A1 | Automate / H24 |
 | LFCL | TOULOUSE LASBORDES | UL91, 100LL | Automate / H24 |
 | LFCS | BORDEAUX LEOGNAN SAUCATS | UL91, 100LL | HX, PPR, sur demande |
 | LFCU | USSEL THALAMY | Super Plus, 100LL | HX, PPR, sur demande |
 | LFCV | VILLEFRANCHE DE ROUERGUE | Super Plus, 100LL | HX, PPR, sur demande |
+| LFCY | ROYAN MEDIS | Super Plus, 100LL, Jet A1 | Automate / H24 † |
 | LFDA | AIRE SUR L'ADOUR | UL91 | HX, PPR, sur demande |
 | LFDC | MONTENDRE MARCILLAC | UL91 | HX, PPR, sur demande |
 | LFDE | EGLETONS | UL91 | HX, PPR, sur demande |
@@ -79,6 +81,8 @@
 
 † Condition d'accès **non publiée par la VAC**, renseignée manuellement :
 
+- **LFCF** FIGEAC LIVERNON — Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, à emporter en bidon.
+- **LFCY** ROYAN MEDIS — Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, à emporter en bidon.
 - **LFOF** ALENCON VALFRAMBERT — Pompe UL91 en HX. SP98 H24 à la station Total en face, nécessite un bidon.
 - **LFRS** NANTES ATLANTIQUE — Automate accessible H24. La VAC ne donne aucune condition.
 

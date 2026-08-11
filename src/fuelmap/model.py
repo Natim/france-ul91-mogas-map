@@ -127,6 +127,13 @@ class Aerodrome:
     the VAC text below", which is what the map popup says.
     """
 
+    curated_fuels: tuple[str, ...] = ()
+    """Fuels added by hand because the chart omits them, sorted.
+
+    A field whose *only* unleaded fuel is in here does not sell unleaded at
+    all: it qualifies through something nearby, such as a road station.
+    """
+
     curated_source: str = ""
     """Provenance when the whole record is hand-entered. Empty for the eAIP.
 
@@ -137,6 +144,13 @@ class Aerodrome:
     @property
     def is_off_aip(self) -> bool:
         return bool(self.curated_source)
+
+    @property
+    def sells_unleaded_itself(self) -> bool:
+        """Whether the chart itself puts unleaded fuel on this field."""
+        if self.is_off_aip:
+            return False
+        return bool((self.fuels - frozenset(self.curated_fuels)) & UNLEADED_FUELS)
 
     error: str = ""
     """Non-empty when the chart could not be read at all."""
