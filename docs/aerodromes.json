@@ -2,7 +2,7 @@
   "schema": 5,
   "airac": "2026-08-06",
   "generated": "2026-08-12",
-  "aerodromeCount": 52,
+  "aerodromeCount": 54,
   "families": [
     {
       "key": "ul91",
@@ -533,6 +533,24 @@
       "source": ""
     },
     {
+      "icao": "LFLM",
+      "name": "MACON CHARNAY",
+      "lat": 46.295833,
+      "lon": 4.795833,
+      "family": "mogas",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
+      "fuels": [
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus",
+      "availability": "restricted",
+      "availabilityLabel": "HX, PPR, sur demande",
+      "allFuelsLabel": "Super Plus, 100LL",
+      "section": "10 - AVT : Carburants / Fuel : MAR-SAM : 0800-1100, 1230-1600 sauf jours feriés : - SANS PLOMB 98 et 100LL : paiement liquide, carte bancaire ou chèque - 100LL : tous les jours avec carte total. TUE-SAT: 0800-1100, 1230-1600 Except bank holidays. - UNLEADED 98 and 100LL : cash payment, credit card or cheque - 100LL : every day with total card.",
+      "note": "",
+      "source": ""
+    },
+    {
       "icao": "LFLO",
       "name": "ROANNE",
       "lat": 46.052778,
@@ -889,6 +907,24 @@
       "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL AERO SUPER+, 100LL",
       "section": "← 10 - AVT : Carburants / Fuel : 100LL - UL AEROSUPER + . Pompe automatique. Paiement comptant - CB / Cash payment - credit card. ← Avitaillement 100LL et UL AEROSUPER + limité aux aéronefs d'envergure inférieure ou égale à 12 m. / 100LL and UL AEROSUPER + refuelling limited to ACFT with wingspan smaller than or equal to 12 m. Autres envergures après accord de l'exploitant. / Other wingspans after prior agreement of AD operator. Tel : 06 95 62 61 66. Lubrifiant / Lubricant : NIL.",
+      "note": "",
+      "source": ""
+    },
+    {
+      "icao": "LFQY",
+      "name": "SAVERNE STEINBOURG",
+      "lat": 48.753333,
+      "lon": 7.425833,
+      "family": "mogas",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
+      "fuels": [
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus",
+      "availability": "restricted",
+      "availabilityLabel": "HX, PPR, sur demande",
+      "allFuelsLabel": "Super Plus",
+      "section": "10 - AVT : Carburant / Fuel : 98 SP / 98 unleaded - HX – Paiement comptant / Cash payment.",
       "note": "",
       "source": ""
     },

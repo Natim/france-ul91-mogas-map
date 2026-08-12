@@ -77,6 +77,14 @@ class TestDetectFuels:
             ("AERO SUPER+ uniquement", {model.UL_AERO}),
             ("UL AERO SUPER + par automate", {model.UL_AERO}),
             ("SP98 UL 91", {model.SUPER_PLUS, model.UL91}),
+            # Mâcon and Saverne write the grade out, and Saverne reverses it.
+            ("SANS PLOMB 98 et 100LL", {model.SUPER_PLUS, model.AVGAS_100LL}),
+            ("UNLEADED 98 and 100LL", {model.SUPER_PLUS, model.AVGAS_100LL}),
+            ("Carburant : 98 SP / 98 unleaded - HX", {model.SUPER_PLUS}),
+            ("Carburant : 95 SP", {model.SUPER_PLUS}),
+            # Bellegarde abbreviates Warter's AKI93 to its first three letters.
+            ("Carburant : AKI93", {model.AKI93}),
+            ("100 LL / AKI (compatible Rotax)", {model.AKI93, model.AVGAS_100LL}),
         ],
     )
     def test_spelling_variants(self, text, expected):
@@ -84,7 +92,15 @@ class TestDetectFuels:
 
     @pytest.mark.parametrize(
         "text",
-        ["ULM interdit", "Piste 91 fermée", "SP 100 non disponible", "Parking JET"],
+        [
+            "ULM interdit",
+            "Piste 91 fermée",
+            "SP 100 non disponible",
+            "Parking JET",
+            # The phrase alone describes a category, not a pump on the field.
+            "Les moteurs à essence sans plomb sont admis",
+            "RWY 98 m de large",
+        ],
     )
     def test_does_not_match_unrelated_text(self, text):
         assert parsing.detect_fuels(text) == frozenset()

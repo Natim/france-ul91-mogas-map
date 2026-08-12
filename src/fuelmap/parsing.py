@@ -28,8 +28,16 @@ FUEL_PATTERNS: dict[str, re.Pattern[str]] = {
     # Charts abbreviate it to a bare "AKI", as at LFHN: "100 LL / AKI
     # (compatible Rotax)". No other French VAC uses the letters.
     model.AKI93: re.compile(r"\bAKI\s*(?:93)?\b", re.IGNORECASE),
+    # Charts spell the grade out as often as they abbreviate it, and put the
+    # octane on either side: "SP 98", "98 SP", "SANS PLOMB 98", "98 unleaded".
+    # The number is required, so the bare phrase "essence sans plomb" in a
+    # sentence about something else is not read as a pump.
     model.SUPER_PLUS: re.compile(
-        r"\bSUPER\s*\+|\bSUPER\s*PLUS\b|\bSP\s*95\b|\bSP\s*98\b", re.IGNORECASE
+        r"\bSUPER\s*\+"
+        r"|\bSUPER\s*PLUS\b"
+        r"|\b(?:SP|SANS\s+PLOMB|UNLEADED)\s*9[58]\b"
+        r"|\b9[58]\s*(?:SP|UNLEADED)\b",
+        re.IGNORECASE,
     ),
     model.MOGAS: re.compile(r"\bMOGAS\b", re.IGNORECASE),
     model.AVGAS_100LL: re.compile(r"\b100\s*LL\b", re.IGNORECASE),

@@ -1,6 +1,6 @@
 # Aérodromes français — UL91 / Mogas
 
-**46 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus, UL AERO SUPER+ ou AKI93) dans leur carte VAC officielle. S'y ajoutent **6 terrains renseignés à la main** : 5 dont le sans plomb vient d'une source hors VAC (†), 1 absent de l'AIP (‡).
+**48 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus, UL AERO SUPER+ ou AKI93) dans leur carte VAC officielle. S'y ajoutent **6 terrains renseignés à la main** : 5 dont le sans plomb vient d'une source hors VAC (†), 1 absent de l'AIP (‡).
 
 - **Cycle AIRAC** : 2026-08-06
 - **Date d'extraction** : 2026-08-12
@@ -13,8 +13,8 @@
 | UL91 | 30 |
 | UL AERO SUPER+ | 7 |
 | AKI93 | 3 |
-| Super Plus | 14 |
-| 100LL | 38 |
+| Super Plus | 16 |
+| 100LL | 39 |
 | Jet A1 | 16 |
 
 > Deux carburants se lisent comme du `UL91` sans en être. `UL AERO SUPER+` est un SP98 sans éthanol de qualité aviation distribué par TotalEnergies ; `AKI93` en est l'équivalent chez Warter Aviation, dont le nom désigne l'indice antidétonation (RON 98 + MON 88) / 2. Tous deux répondent à la norme automobile EN 228 et sont donc rangés avec `Super Plus` / `SP95` / `SP98`. Le `UL91`, lui, est une essence aviation à la norme ASTM D7547 : un avion homologué pour l'un ne l'est pas d'office pour l'autre.
@@ -24,7 +24,7 @@
 | Accès | Nb terrains |
 |-------|-------------|
 | Automate / H24 | 22 |
-| HX, PPR, sur demande | 29 |
+| HX, PPR, sur demande | 31 |
 | Non précisé | 1 |
 
 > Déduit automatiquement du texte de la section « 10 - AVT », sauf mention †. `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
@@ -61,6 +61,7 @@
 | LFIT | TOULOUSE BOURG SAINT BERNARD | UL91 | HX, PPR, sur demande |
 | LFJY | CHAMBLEY | UL91, 100LL, Jet A1 | Automate / H24 † |
 | LFLG | GRENOBLE LE VERSOUD | UL91, 100LL, Jet A1 | Automate / H24 |
+| LFLM | MACON CHARNAY | Super Plus, 100LL | HX, PPR, sur demande |
 | LFLO | ROANNE | UL91, 100LL, Jet A1 | Automate / H24 |
 | LFLP | ANNECY MEYTHET | UL AERO SUPER+, 100LL, Jet A1 | Automate / H24 |
 | LFLQ | MONTELIMAR ANCONE | UL91 | HX, PPR, sur demande |
@@ -79,6 +80,7 @@
 | LFPL | LOGNES EMERAINVILLE | UL AERO SUPER+, 100LL, Jet A1 | Automate / H24 |
 | LFQD | ARRAS ROCLINCOURT | Super Plus, 100LL | HX, PPR, sur demande |
 | LFQJ | MAUBEUGE ELESMES | UL AERO SUPER+, 100LL | Automate / H24 |
+| LFQY | SAVERNE STEINBOURG | Super Plus | HX, PPR, sur demande |
 | LFRM | LE MANS ARNAGE | Super Plus, 100LL, Jet A1 | Automate / H24 † |
 | LFRS | NANTES ATLANTIQUE | UL91, Jet A1 | Automate / H24 † |
 | LFSA | BESANCON THISE | Super Plus | HX, PPR, sur demande |
