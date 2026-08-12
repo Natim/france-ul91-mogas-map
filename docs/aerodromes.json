@@ -2,7 +2,7 @@
   "schema": 4,
   "airac": "2026-08-06",
   "generated": "2026-08-11",
-  "aerodromeCount": 47,
+  "aerodromeCount": 48,
   "markers": [
     {
       "icao": "LF4724",
@@ -812,6 +812,24 @@
       "allFuelsLabel": "UL AERO SUPER+, 100LL",
       "section": "← 10 - AVT : Carburants / Fuel : 100LL - UL AEROSUPER + . Pompe automatique. Paiement comptant - CB / Cash payment - credit card. ← Avitaillement 100LL et UL AEROSUPER + limité aux aéronefs d'envergure inférieure ou égale à 12 m. / 100LL and UL AEROSUPER + refuelling limited to ACFT with wingspan smaller than or equal to 12 m. Autres envergures après accord de l'exploitant. / Other wingspans after prior agreement of AD operator. Tel : 06 95 62 61 66. Lubrifiant / Lubricant : NIL.",
       "note": "",
+      "source": ""
+    },
+    {
+      "icao": "LFRM",
+      "name": "LE MANS ARNAGE",
+      "lat": 47.948611,
+      "lon": 0.201667,
+      "family": "mogas",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "fuels": [
+        "SUPER_PLUS"
+      ],
+      "fuelsLabel": "Super Plus",
+      "availability": "self_service",
+      "availabilityLabel": "Automate / H24",
+      "allFuelsLabel": "Super Plus, 100LL, Jet A1",
+      "section": "← 10 - AVT : Carburants / Fuel : 100LL - JET A1. LUN-DIM : - 01/10 au 31/03 : 0800-1130 et 1230-1600 - 01/04 au 30/09 : 0800-1130 et 1230-1700 Automate H24 avec carte bancaire ou badge EDEIS uniquement. Paiement comptant pendant les horaires AVT, cartes acceptées : AEG, AVCARD, COLT INTL, WFS. Extension sur demande avec PPR 48 HR sur https://cy.myhandlingsoftware.com MON-SUN : - 01/10 to 31/03 : 0800-1130 and 1230-1600 - 01/04 to 30/09 : 0800-1130 and 1230-1700 Dispenser H24 with credit card or EDEIS badge only. Cash payment during AVT SKED, credit card accepted : AEG, AVCARD, COLT INTL, WFS. Extension with PPR 48 HR on https://cy.myhandlingsoftware.com",
+      "note": "Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, accès côté ULM, à emporter en bidon.",
       "source": ""
     },
     {

@@ -89,6 +89,13 @@ OVERRIDES: dict[str, Override] = {
         availability={UL91: AVAILABILITY_SELF_SERVICE},
         reason="Automate accessible H24 par CB. La VAC ne donne aucune condition.",
     ),
+    "LFRM": Override(
+        availability={SUPER_PLUS: AVAILABILITY_SELF_SERVICE},
+        reason=(
+            "Pas de sans plomb sur le terrain : SP98 H24 à la station-service "
+            "voisine, accès côté ULM, à emporter en bidon."
+        ),
+    ),
     "LFOF": Override(
         availability={
             UL91: AVAILABILITY_RESTRICTED,
