@@ -1,6 +1,6 @@
 # Aérodromes français — UL91 / Mogas
 
-**48 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus, UL AERO SUPER+ ou AKI93) dans leur carte VAC officielle. S'y ajoutent **6 terrains renseignés à la main** : 5 dont le sans plomb vient d'une source hors VAC (†), 1 absent de l'AIP (‡).
+**49 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus, UL AERO SUPER+ ou AKI93) dans leur carte VAC officielle. S'y ajoutent **6 terrains renseignés à la main** : 5 dont le sans plomb vient d'une source hors VAC (†), 1 absent de l'AIP (‡).
 
 - **Cycle AIRAC** : 2026-08-06
 - **Date d'extraction** : 2026-08-12
@@ -10,7 +10,7 @@
 
 | Carburant | Nb terrains |
 |-----------|-------------|
-| UL91 | 30 |
+| UL91 | 31 |
 | UL AERO SUPER+ | 7 |
 | AKI93 | 3 |
 | Super Plus | 16 |
@@ -24,7 +24,7 @@
 | Accès | Nb terrains |
 |-------|-------------|
 | Automate / H24 | 22 |
-| HX, PPR, sur demande | 31 |
+| HX, PPR, sur demande | 32 |
 | Non précisé | 1 |
 
 > Déduit automatiquement du texte de la section « 10 - AVT », sauf mention †. `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
@@ -58,6 +58,7 @@
 | LFHQ | SAINT FLOUR COLTINES | AKI93, 100LL | Automate / H24 |
 | LFHS | BOURG CEYZERIAT | UL91, 100LL | Automate / H24 |
 | LFHY | MOULINS MONTBEUGNY | Super Plus, 100LL, Jet A1 | HX, PPR, sur demande † |
+| LFIR | REVEL MONTGEY | UL91 | HX, PPR, sur demande |
 | LFIT | TOULOUSE BOURG SAINT BERNARD | UL91 | HX, PPR, sur demande |
 | LFJY | CHAMBLEY | UL91, 100LL, Jet A1 | Automate / H24 † |
 | LFLG | GRENOBLE LE VERSOUD | UL91, 100LL, Jet A1 | Automate / H24 |

@@ -2,7 +2,7 @@
   "schema": 5,
   "airac": "2026-08-06",
   "generated": "2026-08-12",
-  "aerodromeCount": 54,
+  "aerodromeCount": 55,
   "families": [
     {
       "key": "ul91",
@@ -476,6 +476,24 @@
       "allFuelsLabel": "Super Plus, 100LL, Jet A1",
       "section": "10 - AVT : Carburant / Fuel : 100LL, JET A1. Possibilité d'avitaillement sous pression / Coupling available. Automate avec carte TOTAL H24 / Automatic fuel dispenser with TOTAL card : H24. Lubrifiant / Lubricant : NIL. ← HOR AFIS : Paiement comptant, carte VISA / AFIS SKED : cash payment, VISA card.",
       "note": "SP98 non publié à la VAC : disponible auprès du club ULM, sur demande.",
+      "source": ""
+    },
+    {
+      "icao": "LFIR",
+      "name": "REVEL MONTGEY",
+      "lat": 43.480278,
+      "lon": 1.978889,
+      "family": "ul91",
+      "familyLabel": "UL91 (AVGAS sans plomb)",
+      "fuels": [
+        "UL91"
+      ],
+      "fuelsLabel": "UL91",
+      "availability": "restricted",
+      "availabilityLabel": "HX, PPR, sur demande",
+      "allFuelsLabel": "UL91",
+      "section": "10 - AVT : Carburant / Fuel : 91 UL, O/R. TEL : 05 61 83 53 73. Paiement comptant / Cash Payment.",
+      "note": "",
       "source": ""
     },
     {

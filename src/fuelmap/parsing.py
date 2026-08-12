@@ -23,7 +23,8 @@ FUEL_SECTION_RE = re.compile(
 
 # Spelling variants observed across the French VAC set.
 FUEL_PATTERNS: dict[str, re.Pattern[str]] = {
-    model.UL91: re.compile(r"\bUL\s*91\b", re.IGNORECASE),
+    # Revel-Montgey reverses it to "91 UL", as Saverne does for the mogas grade.
+    model.UL91: re.compile(r"\bUL\s*91\b|\b91\s*UL\b", re.IGNORECASE),
     model.UL_AERO: re.compile(r"\bUL\s*A[EÉ]RO\b", re.IGNORECASE),
     # Charts abbreviate it to a bare "AKI", as at LFHN: "100 LL / AKI
     # (compatible Rotax)". No other French VAC uses the letters.

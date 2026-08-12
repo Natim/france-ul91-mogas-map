@@ -82,6 +82,7 @@ class TestDetectFuels:
             ("UNLEADED 98 and 100LL", {model.SUPER_PLUS, model.AVGAS_100LL}),
             ("Carburant : 98 SP / 98 unleaded - HX", {model.SUPER_PLUS}),
             ("Carburant : 95 SP", {model.SUPER_PLUS}),
+            ("Carburant / Fuel : 91 UL, O/R", {model.UL91}),
             # Bellegarde abbreviates Warter's AKI93 to its first three letters.
             ("Carburant : AKI93", {model.AKI93}),
             ("100 LL / AKI (compatible Rotax)", {model.AKI93, model.AVGAS_100LL}),
@@ -95,6 +96,7 @@ class TestDetectFuels:
         [
             "ULM interdit",
             "Piste 91 fermée",
+            "Plateforme ULM 91 réservée",
             "SP 100 non disponible",
             "Parking JET",
             # The phrase alone describes a category, not a pump on the field.
