@@ -85,6 +85,10 @@ OVERRIDES: dict[str, Override] = {
             "à la VAC."
         ),
     ),
+    "LFNH": Override(
+        availability={UL91: AVAILABILITY_SELF_SERVICE},
+        reason="Automate accessible H24 par CB. La VAC ne donne aucune condition.",
+    ),
     "LFOF": Override(
         availability={
             UL91: AVAILABILITY_RESTRICTED,

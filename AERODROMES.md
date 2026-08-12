@@ -22,9 +22,9 @@
 
 | Accès | Nb terrains |
 |-------|-------------|
-| Automate / H24 | 18 |
+| Automate / H24 | 19 |
 | HX, PPR, sur demande | 27 |
-| Non précisé | 2 |
+| Non précisé | 1 |
 
 > Déduit automatiquement du texte de la section « 10 - AVT », sauf mention †. `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
 
@@ -66,7 +66,7 @@
 | LFMW | CASTELNAUDARY VILLENEUVE | UL91, Super Plus | HX, PPR, sur demande |
 | LFNA | GAP TALLARD | UL91, 100LL, Jet A1 | Automate / H24 |
 | LFNE | SALON EYGUIERES | Super Plus, 100LL | HX, PPR, sur demande |
-| LFNH | CARPENTRAS | UL91, 100LL | Non précisé |
+| LFNH | CARPENTRAS | UL91, 100LL | Automate / H24 † |
 | LFNJ | ASPRES SUR BUECH | UL91 | Automate / H24 |
 | LFOF | ALENCON VALFRAMBERT | UL91, Super Plus | Automate / H24 † |
 | LFOI | ABBEVILLE | UL91, 100LL | HX, PPR, sur demande |
@@ -86,6 +86,7 @@
 - **LFCY** ROYAN MEDIS — Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, à emporter en bidon.
 - **LFHY** MOULINS MONTBEUGNY — SP98 non publié à la VAC : disponible auprès du club ULM, sur demande.
 - **LFJY** CHAMBLEY — Automate UL91 accessible H24 par CB, malgré le O/R publié à la VAC.
+- **LFNH** CARPENTRAS — Automate accessible H24 par CB. La VAC ne donne aucune condition.
 - **LFOF** ALENCON VALFRAMBERT — Pompe UL91 en HX. SP98 H24 à la station Total en face, nécessite un bidon.
 - **LFRS** NANTES ATLANTIQUE — Automate accessible H24. La VAC ne donne aucune condition.
 

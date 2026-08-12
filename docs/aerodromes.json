@@ -645,11 +645,11 @@
         "UL91"
       ],
       "fuelsLabel": "UL91",
-      "availability": "unknown",
-      "availabilityLabel": "Non précisé",
+      "availability": "self_service",
+      "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, 100LL",
       "section": "10 - AVT : Carburants / Fuel : AVGAS 100 LL, UL 91. Lubrifiants / Lubricants : NIL.",
-      "note": "",
+      "note": "Automate accessible H24 par CB. La VAC ne donne aucune condition.",
       "source": ""
     },
     {
