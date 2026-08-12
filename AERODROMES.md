@@ -1,6 +1,6 @@
 # Aérodromes français — UL91 / Mogas
 
-**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle. S'y ajoutent **5 terrains renseignés à la main** : 4 dont le sans plomb vient d'une source hors VAC (†), 1 absent de l'AIP (‡).
+**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle. S'y ajoutent **6 terrains renseignés à la main** : 5 dont le sans plomb vient d'une source hors VAC (†), 1 absent de l'AIP (‡).
 
 - **Cycle AIRAC** : 2026-08-06
 - **Date d'extraction** : 2026-08-11
@@ -12,8 +12,8 @@
 |-----------|-------------|
 | UL91 | 30 |
 | UL AERO SUPER+ | 7 |
-| Super Plus | 13 |
-| 100LL | 34 |
+| Super Plus | 14 |
+| 100LL | 35 |
 | Jet A1 | 15 |
 
 > Malgré son préfixe, `UL AERO SUPER+` n'est **pas** du `UL91` : c'est un SP98 sans éthanol de qualité aviation distribué par TotalEnergies, réservé aux moteurs ROTAX 912/914 homologués pour le SP98 EN 228. Il est donc rangé avec `Super Plus` / `SP95` / `SP98`. Le `UL91`, lui, est une essence aviation à la norme ASTM D7547.
@@ -22,7 +22,7 @@
 
 | Accès | Nb terrains |
 |-------|-------------|
-| Automate / H24 | 20 |
+| Automate / H24 | 21 |
 | HX, PPR, sur demande | 27 |
 | Non précisé | 1 |
 
@@ -48,6 +48,7 @@
 | LFDT | TARBES LALOUBERE | UL91, 100LL | Automate / H24 |
 | LFDV | COUHE VERAC | Super Plus, 100LL | HX, PPR, sur demande |
 | LFFL | BAILLEAU ARMENONVILLE | UL91, 100LL | HX, PPR, sur demande |
+| LFFY | ETREPAGNY | Super Plus, 100LL | Automate / H24 † |
 | LFFZ | SEZANNE SAINT REMY | UL91, 100LL | HX, PPR, sur demande |
 | LFGI | DIJON DAROIS | Super Plus, 100LL, Jet A1 | HX, PPR, sur demande |
 | LFGM | MONTCEAU LES MINES POUILLOUX | UL91, 100LL | HX, PPR, sur demande |
@@ -85,6 +86,7 @@
 
 - **LFCF** FIGEAC LIVERNON — Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, à emporter en bidon.
 - **LFCY** ROYAN MEDIS — Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, à emporter en bidon.
+- **LFFY** ETREPAGNY — Le 100LL du terrain est réservé aux avions basés. SP98 H24 à la station-service à 500 m, à emporter en bidon.
 - **LFHY** MOULINS MONTBEUGNY — SP98 non publié à la VAC : disponible auprès du club ULM, sur demande.
 - **LFJY** CHAMBLEY — Automate UL91 accessible H24 par CB, malgré le O/R publié à la VAC.
 - **LFNH** CARPENTRAS — Automate accessible H24 par CB. La VAC ne donne aucune condition.

@@ -96,6 +96,13 @@ OVERRIDES: dict[str, Override] = {
             "voisine, accès côté ULM, à emporter en bidon."
         ),
     ),
+    "LFFY": Override(
+        availability={SUPER_PLUS: AVAILABILITY_SELF_SERVICE},
+        reason=(
+            "Le 100LL du terrain est réservé aux avions basés. SP98 H24 à la "
+            "station-service à 500 m, à emporter en bidon."
+        ),
+    ),
     "LFOF": Override(
         availability={
             UL91: AVAILABILITY_RESTRICTED,
