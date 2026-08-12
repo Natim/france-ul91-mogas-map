@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Carte des aérodromes UL91 / Mogas en France</title>
-<meta name="description" content="Carte des aérodromes français distribuant de l'AVGAS UL91 ou de l'essence SP95/SP98 (Super Plus, UL AERO SUPER+), avec les conditions d'accès, extraite de l'eAIP officiel du SIA." />
+<meta name="description" content="Carte des aérodromes français distribuant de l'AVGAS UL91 ou de l'essence SP95/SP98 (Super Plus, UL AERO SUPER+, AKI93), avec les conditions d'accès, extraite de l'eAIP officiel du SIA." />
 <link rel="stylesheet"
   href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -124,21 +124,9 @@
   crossorigin=""></script>
 <script>
 const DATA_URL = "aerodromes.json";
-const SUPPORTED_SCHEMA = 4;
+const SUPPORTED_SCHEMA = 5;
 const SOURCE_URL = "https://www.sia.aviation-civile.gouv.fr/";
 const REPO_URL = "https://github.com/Natim/france-ul91-mogas-map";
-
-// Keys must match fuelmap.model: FUEL_FAMILIES and AVAILABILITY_ORDER.
-const FAMILIES = [
-  { key: "ul91", label: "UL91 (AVGAS sans plomb)" },
-  { key: "mogas", label: "SP95 / SP98 (dont UL AERO SUPER+)" },
-];
-
-const AVAILABILITY = [
-  { key: "self_service", label: "Automate / H24" },
-  { key: "restricted", label: "HX, PPR, sur demande" },
-  { key: "unknown", label: "Non précisé" },
-];
 
 const FRANCE_CENTER = [46.7, 2.3];
 const FRANCE_ZOOM = 6;
@@ -319,11 +307,11 @@ async function load() {
     `<a href="${REPO_URL}" target="_blank" rel="noopener">Code et données</a>`;
 
   renderFilters(
-    document.getElementById("family-filters"), FAMILIES, familyCounts, "family"
+    document.getElementById("family-filters"), data.families, familyCounts, "family"
   );
   renderFilters(
     document.getElementById("availability-filters"),
-    AVAILABILITY, availabilityCounts, "availability"
+    data.availability, availabilityCounts, "availability"
   );
   document.getElementById("search").addEventListener("input", applyFilters);
   applyFilters();

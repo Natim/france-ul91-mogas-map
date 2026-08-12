@@ -25,6 +25,9 @@ FUEL_SECTION_RE = re.compile(
 FUEL_PATTERNS: dict[str, re.Pattern[str]] = {
     model.UL91: re.compile(r"\bUL\s*91\b", re.IGNORECASE),
     model.UL_AERO: re.compile(r"\bUL\s*A[EÉ]RO\b", re.IGNORECASE),
+    # Charts abbreviate it to a bare "AKI", as at LFHN: "100 LL / AKI
+    # (compatible Rotax)". No other French VAC uses the letters.
+    model.AKI93: re.compile(r"\bAKI\s*(?:93)?\b", re.IGNORECASE),
     model.SUPER_PLUS: re.compile(
         r"\bSUPER\s*\+|\bSUPER\s*PLUS\b|\bSP\s*95\b|\bSP\s*98\b", re.IGNORECASE
     ),

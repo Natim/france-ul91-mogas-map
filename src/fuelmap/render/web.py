@@ -17,7 +17,9 @@ from pathlib import Path
 
 from ..model import (
     AVAILABILITY_LABELS,
+    AVAILABILITY_ORDER,
     FAMILY_LABELS,
+    FUEL_FAMILIES,
     Aerodrome,
     format_fuels,
 )
@@ -26,7 +28,13 @@ from ..model import (
 #: 2 — markers are per fuel family and carry an availability level.
 #: 3 — markers carry ``note``, set when the level is curated rather than read.
 #: 4 — markers carry ``source``, set when the field is absent from the AIP.
-SCHEMA_VERSION = 4
+#: 5 — the payload carries the legend, which the page used to hard-code.
+SCHEMA_VERSION = 5
+
+
+def _legend(keys, labels: dict[str, str]) -> list[dict]:
+    """Legend entries in taxonomy order, for the page to render as filters."""
+    return [{"key": key, "label": labels[key]} for key in keys]
 
 
 def _marker(aerodrome: Aerodrome, family: str) -> dict:
@@ -81,6 +89,10 @@ def build_payload(
         "airac": airac,
         "generated": (today or date.today()).isoformat(),
         "aerodromeCount": len(mappable),
+        # The legend travels with the data: a fuel added to the taxonomy would
+        # otherwise have to be spelled out a second time in the page.
+        "families": _legend(FUEL_FAMILIES, FAMILY_LABELS),
+        "availability": _legend(AVAILABILITY_ORDER, AVAILABILITY_LABELS),
         "markers": markers,
     }
 

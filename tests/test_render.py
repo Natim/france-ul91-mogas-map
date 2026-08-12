@@ -1,5 +1,6 @@
 import json
 from datetime import date
+from pathlib import Path
 
 import pytest
 
@@ -270,6 +271,26 @@ class TestMapData:
         assert payload["schema"] == web.SCHEMA_VERSION
         assert payload["airac"] == AIRAC
         assert payload["generated"] == "2026-08-11"
+
+    def test_ships_the_legend_so_the_page_need_not_repeat_it(self, aerodromes):
+        """A fuel added to a family must reach the map legend on its own."""
+        payload = web.build_payload(aerodromes, AIRAC, today=TODAY)
+        assert payload["families"] == [
+            {"key": key, "label": model.FAMILY_LABELS[key]}
+            for key in model.FUEL_FAMILIES
+        ]
+        assert payload["availability"] == [
+            {"key": key, "label": model.AVAILABILITY_LABELS[key]}
+            for key in model.AVAILABILITY_ORDER
+        ]
+
+    def test_the_page_reads_the_legend_it_is_sent(self):
+        """Hard-coded labels in the page would silently drift from the model."""
+        page = Path("docs/index.html").read_text(encoding="utf-8")
+        assert f"const SUPPORTED_SCHEMA = {web.SCHEMA_VERSION};" in page
+        assert "data.families" in page
+        for label in model.FAMILY_LABELS.values():
+            assert label not in page
 
     def test_writes_valid_utf8_json(self, tmp_path, aerodromes):
         path = tmp_path / "docs" / "aerodromes.json"

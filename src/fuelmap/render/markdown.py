@@ -62,8 +62,8 @@ def render_markdown(
 
     summary = (
         f"**{published} aérodromes** publient une pompe d'essence sans plomb "
-        "(UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC "
-        "officielle."
+        "(UL91, SP95/SP98, Super Plus, UL AERO SUPER+ ou AKI93) dans leur "
+        "carte VAC officielle."
     )
     extras = []
     if off_chart:
@@ -105,11 +105,14 @@ def render_markdown(
     availability = count_availability(aerodromes)
     lines += [
         "",
-        "> Malgré son préfixe, `UL AERO SUPER+` n'est **pas** du `UL91` : c'est "
-        "un SP98 sans éthanol de qualité aviation distribué par TotalEnergies, "
-        "réservé aux moteurs ROTAX 912/914 homologués pour le SP98 EN 228. Il "
-        "est donc rangé avec `Super Plus` / `SP95` / `SP98`. Le `UL91`, lui, est "
-        "une essence aviation à la norme ASTM D7547.",
+        "> Deux carburants se lisent comme du `UL91` sans en être. "
+        "`UL AERO SUPER+` est un SP98 sans éthanol de qualité aviation "
+        "distribué par TotalEnergies ; `AKI93` en est l'équivalent chez Warter "
+        "Aviation, dont le nom désigne l'indice antidétonation (RON 98 + "
+        "MON 88) / 2. Tous deux répondent à la norme automobile EN 228 et sont "
+        "donc rangés avec `Super Plus` / `SP95` / `SP98`. Le `UL91`, lui, est "
+        "une essence aviation à la norme ASTM D7547 : un avion homologué pour "
+        "l'un ne l'est pas d'office pour l'autre.",
         "",
         "## Conditions d'accès",
         "",

@@ -15,6 +15,11 @@ engine approval a pilot needs, not how the name is spelled:
   TotalEnergies sells the two side by side — so it belongs with the mogas
   family. Grouping it under UL91 would tell a ROTAX pilot to skip a field they
   can use, and send a UL91-only aircraft to a pump it is not approved for.
+* ``AKI93`` is Warter Aviation's ethanol-free petrol for ultralights, sold to
+  the same EN 228 / ASTM D4814 standards. Its name is the anti-knock index,
+  (RON 98 + MON 88) / 2 = 93, an *automotive* way of rating fuel; UL91 is named
+  for its motor octane number instead. Warter sells it alongside its own WA
+  91UL, so like UL AERO SUPER+ it reads as UL91 and is not.
 * ``100LL`` is the leaded avgas that this project exists to help pilots avoid,
   and ``JET A1`` is turbine fuel. Both are recorded for context only.
 """
@@ -26,16 +31,26 @@ from dataclasses import dataclass
 UL91 = "UL91"
 UL_AERO = "UL_AERO"
 SUPER_PLUS = "SUPER_PLUS"
+AKI93 = "AKI93"
 MOGAS = "MOGAS"
 AVGAS_100LL = "100LL"
 JET_A1 = "JET_A1"
 
 #: Display order for tables and legends, grouped by family.
-FUEL_DISPLAY_ORDER = (UL91, UL_AERO, SUPER_PLUS, MOGAS, AVGAS_100LL, JET_A1)
+FUEL_DISPLAY_ORDER = (
+    UL91,
+    UL_AERO,
+    AKI93,
+    SUPER_PLUS,
+    MOGAS,
+    AVGAS_100LL,
+    JET_A1,
+)
 
 FUEL_LABELS = {
     UL91: "UL91",
     UL_AERO: "UL AERO SUPER+",
+    AKI93: "AKI93",
     SUPER_PLUS: "Super Plus",
     MOGAS: "MOGAS",
     AVGAS_100LL: "100LL",
@@ -52,12 +67,12 @@ FAMILY_MOGAS = "mogas"
 #: is the legend order.
 FUEL_FAMILIES = {
     FAMILY_UL91: frozenset({UL91}),
-    FAMILY_MOGAS: frozenset({SUPER_PLUS, MOGAS, UL_AERO}),
+    FAMILY_MOGAS: frozenset({SUPER_PLUS, MOGAS, UL_AERO, AKI93}),
 }
 
 FAMILY_LABELS = {
     FAMILY_UL91: "UL91 (AVGAS sans plomb)",
-    FAMILY_MOGAS: "SP95 / SP98 (dont UL AERO SUPER+)",
+    FAMILY_MOGAS: "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
 }
 
 #: Everything an unleaded-certified piston engine can burn. Membership is what

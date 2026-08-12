@@ -1,9 +1,9 @@
 # Aérodromes français — UL91 / Mogas
 
-**43 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus ou UL AERO SUPER+) dans leur carte VAC officielle. S'y ajoutent **6 terrains renseignés à la main** : 5 dont le sans plomb vient d'une source hors VAC (†), 1 absent de l'AIP (‡).
+**46 aérodromes** publient une pompe d'essence sans plomb (UL91, SP95/SP98, Super Plus, UL AERO SUPER+ ou AKI93) dans leur carte VAC officielle. S'y ajoutent **6 terrains renseignés à la main** : 5 dont le sans plomb vient d'une source hors VAC (†), 1 absent de l'AIP (‡).
 
 - **Cycle AIRAC** : 2026-08-06
-- **Date d'extraction** : 2026-08-11
+- **Date d'extraction** : 2026-08-12
 - **Source** : eAIP du SIA, Atlas-VAC
 
 ## Répartition par carburant
@@ -12,18 +12,19 @@
 |-----------|-------------|
 | UL91 | 30 |
 | UL AERO SUPER+ | 7 |
+| AKI93 | 3 |
 | Super Plus | 14 |
-| 100LL | 35 |
-| Jet A1 | 15 |
+| 100LL | 38 |
+| Jet A1 | 16 |
 
-> Malgré son préfixe, `UL AERO SUPER+` n'est **pas** du `UL91` : c'est un SP98 sans éthanol de qualité aviation distribué par TotalEnergies, réservé aux moteurs ROTAX 912/914 homologués pour le SP98 EN 228. Il est donc rangé avec `Super Plus` / `SP95` / `SP98`. Le `UL91`, lui, est une essence aviation à la norme ASTM D7547.
+> Deux carburants se lisent comme du `UL91` sans en être. `UL AERO SUPER+` est un SP98 sans éthanol de qualité aviation distribué par TotalEnergies ; `AKI93` en est l'équivalent chez Warter Aviation, dont le nom désigne l'indice antidétonation (RON 98 + MON 88) / 2. Tous deux répondent à la norme automobile EN 228 et sont donc rangés avec `Super Plus` / `SP95` / `SP98`. Le `UL91`, lui, est une essence aviation à la norme ASTM D7547 : un avion homologué pour l'un ne l'est pas d'office pour l'autre.
 
 ## Conditions d'accès
 
 | Accès | Nb terrains |
 |-------|-------------|
-| Automate / H24 | 21 |
-| HX, PPR, sur demande | 27 |
+| Automate / H24 | 22 |
+| HX, PPR, sur demande | 29 |
 | Non précisé | 1 |
 
 > Déduit automatiquement du texte de la section « 10 - AVT », sauf mention †. `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
@@ -53,6 +54,8 @@
 | LFGI | DIJON DAROIS | Super Plus, 100LL, Jet A1 | HX, PPR, sur demande |
 | LFGM | MONTCEAU LES MINES POUILLOUX | UL91, 100LL | HX, PPR, sur demande |
 | LFHC | PEROUGES MEXIMIEUX | UL91 | HX, PPR, sur demande |
+| LFHN | BELLEGARDE VOUVRAY | AKI93, 100LL | HX, PPR, sur demande |
+| LFHQ | SAINT FLOUR COLTINES | AKI93, 100LL | Automate / H24 |
 | LFHS | BOURG CEYZERIAT | UL91, 100LL | Automate / H24 |
 | LFHY | MOULINS MONTBEUGNY | Super Plus, 100LL, Jet A1 | HX, PPR, sur demande † |
 | LFIT | TOULOUSE BOURG SAINT BERNARD | UL91 | HX, PPR, sur demande |
@@ -80,6 +83,7 @@
 | LFRS | NANTES ATLANTIQUE | UL91, Jet A1 | Automate / H24 † |
 | LFSA | BESANCON THISE | Super Plus | HX, PPR, sur demande |
 | LFSH | HAGUENAU | UL91, 100LL | HX, PPR, sur demande |
+| LFTF | CUERS PIERREFEU | AKI93, 100LL, Jet A1 | HX, PPR, sur demande |
 | LFXU | LES MUREAUX | UL91, 100LL | HX, PPR, sur demande |
 
 † Condition d'accès **non publiée par la VAC**, renseignée manuellement :

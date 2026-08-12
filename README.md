@@ -2,7 +2,7 @@
 
 Où faire le plein d'essence **sans plomb** en France : liste et carte des
 aérodromes distribuant de l'**AVGAS UL91** ou de l'essence **SP95 / SP98**
-(**Super Plus**, **UL AERO SUPER+**), extraites automatiquement de
+(**Super Plus**, **UL AERO SUPER+**, **AKI93**), extraites automatiquement de
 l'[eAIP du SIA](https://www.sia.aviation-civile.gouv.fr/) (cartes VAC,
 Atlas-VAC).
 
@@ -27,23 +27,37 @@ sont pas interchangeables selon votre certification :
 | Carburant | Nature | Noms rencontrés dans les VAC |
 |---|---|---|
 | **UL91** | Essence *aviation* sans plomb, norme ASTM D7547 | `UL91`, `UL 91` |
-| **SP95 / SP98** | Essence sans plomb norme EN 228 | `SUPER PLUS`, `SP95`, `SP98`, `MOGAS`, `UL AERO SUPER+` |
+| **SP95 / SP98** | Essence sans plomb norme EN 228 | `SUPER PLUS`, `SP95`, `SP98`, `MOGAS`, `UL AERO SUPER+`, `AKI93` |
 | **100LL** | Essence aviation **plombée** | `100LL`, `100 LL`, `AVGAS 100LL` |
 
-Le piège est l'`UL AERO SUPER+`. Malgré son préfixe « UL », ce **n'est pas** du
-UL91 : c'est un [SP98 sans éthanol de qualité
+Deux produits tendent le même piège : ils se lisent comme de l'UL91 sans en
+être.
+
+L'`UL AERO SUPER+` d'abord. Malgré son préfixe « UL », c'est un [SP98 sans
+éthanol de qualité
 aviation](https://aviation.totalenergies.com/fr/carburants-et-services-aviation/carburant-aviation/ul-aero-super-plus)
 distribué par TotalEnergies, réservé aux moteurs ROTAX 912/914 homologués pour
 le SP98 EN 228. TotalEnergies vend d'ailleurs l'UL91 et l'UL AERO SUPER+ comme
-deux produits distincts. Il est donc classé ici avec le SP95/SP98, et pas avec
-l'UL91 : l'inverse enverrait un pilote UL91 vers une pompe qui ne lui convient
-pas, et ferait manquer sept terrains à un pilote de ROTAX.
+deux produits distincts.
+
+L'[`AKI93`](https://warteraviation.com/fuels/aki-93/) de Warter Aviation
+ensuite, écrit `AKI` tout court sur certaines VAC. C'est également une essence
+EN 228 sans éthanol, dédiée à l'aviation légère ; son nom est l'indice
+antidétonation automobile, (RON 98 + MON 88) / 2 = 93, quand l'UL91 tire le
+sien de son indice moteur. Warter le vend à côté de son propre `WA 91UL`, qui
+est l'UL91.
+
+Les deux sont donc classés ici avec le SP95/SP98, et pas avec l'UL91 :
+l'inverse enverrait un pilote UL91 vers une pompe qui ne lui convient pas, et
+ferait manquer dix terrains à un pilote de ROTAX — sept en UL AERO SUPER+ et
+trois en AKI93, aucun ne vendant par ailleurs de SP98 ordinaire.
 
 ## Lire la carte
 
 Deux informations indépendantes sont encodées :
 
-- **La forme donne le carburant** : ● UL91, ■ SP95/SP98 (dont UL AERO SUPER+).
+- **La forme donne le carburant** : ● UL91, ■ SP95/SP98 (dont UL AERO SUPER+
+  et AKI93).
   Un terrain qui vend les deux porte **deux marqueurs**, pour rester visible
   quel que soit le filtre actif.
 - **La couleur donne les conditions d'accès** : 🟢 automate ou H24,

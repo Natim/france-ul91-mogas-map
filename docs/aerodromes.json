@@ -1,8 +1,32 @@
 {
-  "schema": 4,
+  "schema": 5,
   "airac": "2026-08-06",
-  "generated": "2026-08-11",
-  "aerodromeCount": 49,
+  "generated": "2026-08-12",
+  "aerodromeCount": 52,
+  "families": [
+    {
+      "key": "ul91",
+      "label": "UL91 (AVGAS sans plomb)"
+    },
+    {
+      "key": "mogas",
+      "label": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)"
+    }
+  ],
+  "availability": [
+    {
+      "key": "self_service",
+      "label": "Automate / H24"
+    },
+    {
+      "key": "restricted",
+      "label": "HX, PPR, sur demande"
+    },
+    {
+      "key": "unknown",
+      "label": "Non précisé"
+    }
+  ],
   "markers": [
     {
       "icao": "LF4724",
@@ -64,7 +88,7 @@
       "lat": 44.6725,
       "lon": 1.788056,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -82,7 +106,7 @@
       "lat": 44.596944,
       "lon": -1.113889,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "UL_AERO"
       ],
@@ -136,7 +160,7 @@
       "lat": 45.535833,
       "lon": 2.424722,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -154,7 +178,7 @@
       "lat": 44.368889,
       "lon": 2.026944,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -172,7 +196,7 @@
       "lat": 45.631111,
       "lon": -0.975556,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -262,7 +286,7 @@
       "lat": 46.270556,
       "lon": 0.188333,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -298,7 +322,7 @@
       "lat": 49.305278,
       "lon": 1.637778,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -334,7 +358,7 @@
       "lat": 47.385278,
       "lon": 4.946944,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -383,6 +407,42 @@
       "source": ""
     },
     {
+      "icao": "LFHN",
+      "name": "BELLEGARDE VOUVRAY",
+      "lat": 46.123333,
+      "lon": 5.804722,
+      "family": "mogas",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
+      "fuels": [
+        "AKI93"
+      ],
+      "fuelsLabel": "AKI93",
+      "availability": "restricted",
+      "availabilityLabel": "HX, PPR, sur demande",
+      "allFuelsLabel": "AKI93, 100LL",
+      "section": "← 10 - AVT : 100 LL / AKI (compatible Rotax). Paiement comptant cash ou chèque à l'ACB, par CB sur rendez-vous avec l'ACB. Cash payment or cheque to ACB, credit cards by appointment with ACB.",
+      "note": "",
+      "source": ""
+    },
+    {
+      "icao": "LFHQ",
+      "name": "SAINT FLOUR COLTINES",
+      "lat": 45.075,
+      "lon": 2.9925,
+      "family": "mogas",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
+      "fuels": [
+        "AKI93"
+      ],
+      "fuelsLabel": "AKI93",
+      "availability": "self_service",
+      "availabilityLabel": "Automate / H24",
+      "allFuelsLabel": "AKI93, 100LL",
+      "section": "← 10 - AVT : Carburant / Fuel : 100 LL, AKI93 Présence d'un AUTOMATE CB uniquement (carte TOTAL non acceptée) / Automatic credit card machine (TOTAL card not accepted).",
+      "note": "",
+      "source": ""
+    },
+    {
       "icao": "LFHS",
       "name": "BOURG CEYZERIAT",
       "lat": 46.205556,
@@ -406,7 +466,7 @@
       "lat": 46.534444,
       "lon": 3.421667,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -496,7 +556,7 @@
       "lat": 45.930833,
       "lon": 6.106389,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "UL_AERO"
       ],
@@ -532,7 +592,7 @@
       "lat": 45.729444,
       "lon": 4.938889,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "UL_AERO"
       ],
@@ -550,7 +610,7 @@
       "lat": 42.740833,
       "lon": 2.869722,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "UL_AERO"
       ],
@@ -568,7 +628,7 @@
       "lat": 43.906667,
       "lon": 4.901944,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "UL_AERO"
       ],
@@ -604,7 +664,7 @@
       "lat": 43.311111,
       "lon": 1.92,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -640,7 +700,7 @@
       "lat": 43.6575,
       "lon": 5.012778,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -712,7 +772,7 @@
       "lat": 48.446667,
       "lon": 0.108333,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -784,7 +844,7 @@
       "lat": 48.821944,
       "lon": 2.622778,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "UL_AERO"
       ],
@@ -802,7 +862,7 @@
       "lat": 50.323889,
       "lon": 2.802778,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -820,7 +880,7 @@
       "lat": 50.308333,
       "lon": 4.03,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "UL_AERO"
       ],
@@ -838,7 +898,7 @@
       "lat": 47.948611,
       "lon": 0.201667,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -874,7 +934,7 @@
       "lat": 47.273611,
       "lon": 6.083056,
       "family": "mogas",
-      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+)",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
       "fuels": [
         "SUPER_PLUS"
       ],
@@ -901,6 +961,24 @@
       "availabilityLabel": "HX, PPR, sur demande",
       "allFuelsLabel": "UL91, 100LL",
       "section": "10 - AVT : Carburant / Fuel : 100 LL, UL91 O/R TEL : ACB. Lubrifiants / Lubricants : qualité aviation (CIV) HOR ACB paiement comptant / aviation quality (CIV) ACB SKED cash payment.",
+      "note": "",
+      "source": ""
+    },
+    {
+      "icao": "LFTF",
+      "name": "CUERS PIERREFEU",
+      "lat": 43.2475,
+      "lon": 6.127222,
+      "family": "mogas",
+      "familyLabel": "SP95 / SP98 (dont UL AERO SUPER+, AKI93)",
+      "fuels": [
+        "AKI93"
+      ],
+      "fuelsLabel": "AKI93",
+      "availability": "restricted",
+      "availabilityLabel": "HX, PPR, sur demande",
+      "allFuelsLabel": "AKI93, 100LL, Jet A1",
+      "section": "10 - AVT : Carburant / Fuel : F 34 (MIL) - JET A 1, 100 LL, AKI93 (CIV) Lubrifiants / Oil : NIL MIL : O/R 4 H CIV : 0700-1000, 1200-1700 (été / summer) ; 0700-1100, 1300-1700 (hiver / winter) H24 si paiement par CB / H24 if ayment by credit card HEL : accès uniquement tractés / towed access only",
       "note": "",
       "source": ""
     },
