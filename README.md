@@ -263,8 +263,15 @@ Puis `fuelmap rebuild`. Trois règles :
   L'outre-mer Pacifique (NTAA, NWWW…) n'est pas couvert.
 - **Conditions d'accès déduites** : le niveau vert/orange/gris vient d'une
   analyse de texte libre, pas d'un champ structuré de l'AIP. Il est vérifié
-  sur les 43 terrains du cycle courant, mais une tournure inédite peut le
-  tromper. Le texte source est affiché dans la popup pour arbitrer.
+  sur les terrains sans plomb du cycle courant, mais une tournure inédite peut
+  le tromper. Le texte source est affiché dans la popup pour arbitrer.
+- **Clause générale attribuée à tous** : une phrase qui ne nomme aucun
+  carburant est lue comme décrivant le terrain entier. C'est ce qui permet de
+  comprendre le `H24 si paiement par CB` de Cuers, mais cela crédite à tort le
+  Jet A1 d'Albert-Bray (LFAQ), livré par camion, du libre-service dont
+  bénéficie le reste du terrain. Rien dans la formulation ne le distingue du
+  Castellet, où le camion n'est qu'une option en plus de l'automate. Le cas ne
+  touche aucun carburant sans plomb.
 - **Données manuelles** : voir [Ajouter une donnée manuelle](#ajouter-une-donnée-manuelle).
   Ces terrains et conditions ne viennent pas de l'AIP ; ils sont signalés « hors
   VAC » ou « hors AIP » dans la popup, et par un † ou un ‡ dans

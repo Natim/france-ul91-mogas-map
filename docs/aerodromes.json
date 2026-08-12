@@ -1029,8 +1029,8 @@
         "AKI93"
       ],
       "fuelsLabel": "AKI93",
-      "availability": "restricted",
-      "availabilityLabel": "HX, PPR, sur demande",
+      "availability": "self_service",
+      "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "AKI93, 100LL, Jet A1",
       "section": "10 - AVT : Carburant / Fuel : F 34 (MIL) - JET A 1, 100 LL, AKI93 (CIV) Lubrifiants / Oil : NIL MIL : O/R 4 H CIV : 0700-1000, 1200-1700 (été / summer) ; 0700-1100, 1300-1700 (hiver / winter) H24 si paiement par CB / H24 if ayment by credit card HEL : accès uniquement tractés / towed access only",
       "note": "",

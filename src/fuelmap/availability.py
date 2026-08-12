@@ -8,7 +8,14 @@ do I have to arrange something first?*
 
 Attribution is done clause by clause, because a single section routinely gives
 different terms to different fuels — Montceau-les-Mines publishes 100LL on an
-H24 dispenser but UL91 only from 0800 to 1500.
+H24 dispenser but UL91 only from 0800 to 1500. A clause that names no fuel is
+read as describing the field and applies to all of them.
+
+The limit of reading clause by clause is a fuel whose own restriction sits in
+a separate sentence from the field-wide dispenser, as at Albert-Bray where the
+Jet A1 comes by truck: it is credited with the self-service the rest of the
+field enjoys. Nothing in the wording distinguishes that from Le Castellet,
+where the truck is merely a second option alongside the H24 dispenser.
 """
 
 from __future__ import annotations
@@ -88,7 +95,7 @@ def detect_availability(section: str, fuels: frozenset[str]) -> dict[str, str]:
     from .parsing import detect_fuels
 
     per_fuel: dict[str, set[str]] = {fuel: set() for fuel in fuels}
-    unattributed: set[str] = set()
+    general: set[str] = set()
 
     for clause in CLAUSE_BOUNDARY_RE.split(section):
         level = _clause_level(clause)
@@ -99,10 +106,10 @@ def detect_availability(section: str, fuels: frozenset[str]) -> dict[str, str]:
             for fuel in named:
                 per_fuel[fuel].add(level)
         else:
-            unattributed.add(level)
+            general.add(level)
 
-    fallback = _merge(unattributed)
-    return {
-        fuel: _merge(levels) if levels else fallback
-        for fuel, levels in per_fuel.items()
-    }
+    # A clause naming no fuel describes the field, so it bears on every pump on
+    # it: Cuers gives civil hours and then "H24 si paiement par CB", which is
+    # the same pump under another payment. Merging keeps the most permissive
+    # reading, so a general restriction can never demote a named dispenser.
+    return {fuel: _merge(levels | general) for fuel, levels in per_fuel.items()}

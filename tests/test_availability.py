@@ -108,6 +108,28 @@ class TestPerFuelAttribution:
             model.AVGAS_100LL: RESTRICTED,
         }
 
+    def test_a_general_exception_reaches_fuels_that_already_have_hours(self):
+        """Cuers: civil hours, then "H24 si paiement par CB" naming no fuel.
+
+        The exception describes the same pump under another payment, so it
+        must reach fuels the earlier clause already restricted.
+        """
+        section = (
+            "10 - AVT : Carburant / Fuel : JET A 1, 100 LL, AKI93 (CIV) "
+            "MIL : O/R 4 H CIV : 0700-1000, 1200-1700 (été) ; 0700-1100 "
+            "(hiver) H24 si paiement par CB / H24 if payment by credit card"
+        )
+        result = availability(section, model.AKI93, model.AVGAS_100LL)
+        assert result[model.AKI93] == SELF
+        assert result[model.AVGAS_100LL] == SELF
+
+    def test_a_general_restriction_never_demotes_a_named_dispenser(self):
+        section = (
+            "10 - AVT : Automate H24 pour UL 91 : carte bancaire. "
+            "Autres paiements : HOR ATS 0800-1600."
+        )
+        assert availability(section, model.UL91)[model.UL91] == SELF
+
     def test_a_named_fuel_overrides_the_section_default(self):
         """Lyon-Bron: the H24 card applies to 100LL only, not to UL AERO."""
         section = (

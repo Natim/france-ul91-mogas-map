@@ -23,8 +23,8 @@
 
 | Accès | Nb terrains |
 |-------|-------------|
-| Automate / H24 | 22 |
-| HX, PPR, sur demande | 32 |
+| Automate / H24 | 23 |
+| HX, PPR, sur demande | 31 |
 | Non précisé | 1 |
 
 > Déduit automatiquement du texte de la section « 10 - AVT », sauf mention †. `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
@@ -86,7 +86,7 @@
 | LFRS | NANTES ATLANTIQUE | UL91, Jet A1 | Automate / H24 † |
 | LFSA | BESANCON THISE | Super Plus | HX, PPR, sur demande |
 | LFSH | HAGUENAU | UL91, 100LL | HX, PPR, sur demande |
-| LFTF | CUERS PIERREFEU | AKI93, 100LL, Jet A1 | HX, PPR, sur demande |
+| LFTF | CUERS PIERREFEU | AKI93, 100LL, Jet A1 | Automate / H24 |
 | LFXU | LES MUREAUX | UL91, 100LL | HX, PPR, sur demande |
 
 † Condition d'accès **non publiée par la VAC**, renseignée manuellement :
