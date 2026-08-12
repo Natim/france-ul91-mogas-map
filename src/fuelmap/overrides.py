@@ -78,6 +78,13 @@ OVERRIDES: dict[str, Override] = {
             "sur demande."
         ),
     ),
+    "LFJY": Override(
+        availability={UL91: AVAILABILITY_SELF_SERVICE},
+        reason=(
+            "Automate UL91 accessible H24 par CB, malgré le O/R publié "
+            "à la VAC."
+        ),
+    ),
     "LFOF": Override(
         availability={
             UL91: AVAILABILITY_RESTRICTED,

@@ -22,8 +22,8 @@
 
 | Accès | Nb terrains |
 |-------|-------------|
-| Automate / H24 | 17 |
-| HX, PPR, sur demande | 28 |
+| Automate / H24 | 18 |
+| HX, PPR, sur demande | 27 |
 | Non précisé | 2 |
 
 > Déduit automatiquement du texte de la section « 10 - AVT », sauf mention †. `Automate / H24` signifie qu'une pompe en libre-service est annoncée ; les autres terrains demandent un PPR, un appel, ou ne servent que pendant certaines plages. **En cas de doute, la carte VAC fait foi.**
@@ -55,7 +55,7 @@
 | LFHS | BOURG CEYZERIAT | UL91, 100LL | Automate / H24 |
 | LFHY | MOULINS MONTBEUGNY | Super Plus, 100LL, Jet A1 | HX, PPR, sur demande † |
 | LFIT | TOULOUSE BOURG SAINT BERNARD | UL91 | HX, PPR, sur demande |
-| LFJY | CHAMBLEY | UL91, 100LL, Jet A1 | HX, PPR, sur demande |
+| LFJY | CHAMBLEY | UL91, 100LL, Jet A1 | Automate / H24 † |
 | LFLG | GRENOBLE LE VERSOUD | UL91, 100LL, Jet A1 | Automate / H24 |
 | LFLO | ROANNE | UL91, 100LL, Jet A1 | Automate / H24 |
 | LFLP | ANNECY MEYTHET | UL AERO SUPER+, 100LL, Jet A1 | Automate / H24 |
@@ -85,6 +85,7 @@
 - **LFCF** FIGEAC LIVERNON — Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, à emporter en bidon.
 - **LFCY** ROYAN MEDIS — Pas de sans plomb sur le terrain : SP98 H24 à la station-service voisine, à emporter en bidon.
 - **LFHY** MOULINS MONTBEUGNY — SP98 non publié à la VAC : disponible auprès du club ULM, sur demande.
+- **LFJY** CHAMBLEY — Automate UL91 accessible H24 par CB, malgré le O/R publié à la VAC.
 - **LFOF** ALENCON VALFRAMBERT — Pompe UL91 en HX. SP98 H24 à la station Total en face, nécessite un bidon.
 - **LFRS** NANTES ATLANTIQUE — Automate accessible H24. La VAC ne donne aucune condition.
 

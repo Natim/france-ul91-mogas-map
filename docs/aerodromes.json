@@ -429,11 +429,11 @@
         "UL91"
       ],
       "fuelsLabel": "UL91",
-      "availability": "restricted",
-      "availabilityLabel": "HX, PPR, sur demande",
+      "availability": "self_service",
+      "availabilityLabel": "Automate / H24",
       "allFuelsLabel": "UL91, 100LL, Jet A1",
       "section": "← 10 - AVT : 100 LL : Paiements cartes TOTAL H24 / Payment TOTAL card H24. 100 LL, UL91 : O/R paiements par CB, cash, chèque / O/R payments by credit card, cash, cheque. JET A1 : Paiements / payments CB H24. O/R paiements par cash, chèque / O/R payments by cash, cheque. TEL : 03 29 89 30 10 ou / or 06 07 85 15 39.",
-      "note": "",
+      "note": "Automate UL91 accessible H24 par CB, malgré le O/R publié à la VAC.",
       "source": ""
     },
     {
